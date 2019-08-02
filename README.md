@@ -13,13 +13,13 @@ A svelte component to lazyload any content including images.
 <img src="https://github.com/leafOfTree/leafOfTree.github.io/blob/master/svelte-lazy.gif" width="300" height="300" />
 
 ```html
-<Lazy height={300} offset={150}>
-  <img alt="" src="https://picsum.photos/id/412/200/300" />
-</Lazy>
-
 <script>
   import Lazy from 'svelte-lazy';
 </script>
+
+<Lazy height={300} offset={150}>
+  <img alt="" src="https://picsum.photos/id/412/200/300" />
+</Lazy>
 ```
 
 ## Options
