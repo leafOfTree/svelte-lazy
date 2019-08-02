@@ -3,7 +3,9 @@
   "svelte": "src/index.svelte",
   "module": "index.mjs",
   "main": "index.js",
+  "version": "0.1.4",
   "scripts": {
+    "test": "rollup -c ./test/rollup.config.js -w",
     "build": "rollup -c",
     "prepublishOnly": "npm run build"
   },
@@ -11,6 +13,7 @@
     "rollup": "^1.11.0",
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-svelte": "^5.0.0",
+    "rollup-plugin-livereload": "^1.0.1",
     "svelte": "^3.0.0"
   },
   "keywords": [

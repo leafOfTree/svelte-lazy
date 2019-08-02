@@ -1,38 +1,98 @@
 <div use:load>
   {#if loaded}
-    <slot>
-      Lazy load content 
-    </slot>
+    {#if fadeOption}
+      <div transition:fade={fadeOption}>
+        <slot>
+          Lazy load content 
+        </slot>
+      </div>
+    {:else }
+      <div>
+        <slot>
+          Lazy load content 
+        </slot>
+      </div>
+    {/if}
   {/if}
 </div>
 <script>
-  export let loaded = false;
+  import { fade } from 'svelte/transition';
   export let height = 0;
   export let offset = 150;
+  export let fadeOption = {
+    delay: 0,
+    duration: 400, 
+  };
+  export let onload = null;
+
+  let loaded = false;
 
   function load(node) {
     if (height) {
-      node.style.height = height + 'px';
+      node.style.height = (typeof height === 'number') ? height + 'px' : height;
     }
 
-    const loadHandler = () => {
+    const loadHandler = throttle(() => {
       const top = node.getBoundingClientRect().top;
       const expectedTop = window.innerHeight + offset;
 
       if (top <= expectedTop) {
         loaded = true;
-        node.style.height = '';
-        document.removeEventListener('scroll', loadHandler);
+        setTimeout(() => node.style.height = 'auto');
+        onload && onload(node);
+        removeListeners();
       }
+    }, 200)
+    addListeners();
+
+    function addListeners() {
+      document.addEventListener('scroll', loadHandler);
+      window.addEventListener('resize', loadHandler);
     }
 
-    document.addEventListener('scroll', loadHandler);
+    function removeListeners() {
+      document.removeEventListener('scroll', loadHandler);
+      window.removeEventListener('resize', loadHandler);
+    }
 
     return {
       destroy: () => {
-        document.removeEventListener('scroll', loadHandler);
+        removeListeners();
       },
     };
   }
-</script>
 
+  // from underscore souce code
+	function throttle(func, wait, options) {
+		let context, args, result;
+		let timeout = null;
+		let previous = 0;
+		if (!options) options = {};
+		const later = function() {
+			previous = options.leading === false ? 0 : new Date();
+			timeout = null;
+			result = func.apply(context, args);
+			if (!timeout) context = args = null;
+		};
+
+		return function(event) {
+			const now = new Date();
+			if (!previous && options.leading === false) previous = now;
+			const remaining = wait - (now - previous);
+			context = this;
+			args = arguments;
+			if (remaining <= 0 || remaining > wait) {
+				if (timeout) {
+					clearTimeout(timeout);
+					timeout = null;
+				}
+				previous = now;
+				result = func.apply(context, args);
+				if (!timeout) context = args = null;
+			} else if (!timeout && options.trailing !== false) {
+				timeout = setTimeout(later, remaining);
+			}
+			return result;
+		};
+	};
+</script>
