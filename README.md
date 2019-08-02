@@ -20,6 +20,8 @@ A svelte component to lazyload any content including images.
 </script>
 ```
 
+![](https://github.com/leafOfTree/leafOfTree.github.io/blob/master/svelte-lazy.gif)
+
 ## Options
 
 ### Lazy
