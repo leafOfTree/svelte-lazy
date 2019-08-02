@@ -4,13 +4,13 @@
 <img alt="" src="https://picsum.photos/id/412/200/300" />
 <img alt="" src="https://picsum.photos/id/412/200/300" />
 
-{#each [0, 1, 2, 3, 4, 5] as i}
-  <Lazy height={400} offset={150} onload={onload}>
+{#each [0, 1, 2, 3, 4, 5, 6] as i}
+  <Lazy height={300}>
     <img alt="" src="https://picsum.photos/id/547/200/300" />
   </Lazy>
 {/each}
-{#each [0, 1, 2, 3, 4, 5] as i}
-  <Lazy height={400} offset={150} onload={onload}>
+{#each [0, 1, 2] as i}
+  <Lazy height={300} offset={150} onload={onload} fadeOption={{delay: 500, duration: 1000}}>
     <div>Any content can be here.</div>
   </Lazy>
 {/each}
