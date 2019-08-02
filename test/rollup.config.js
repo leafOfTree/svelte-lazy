@@ -12,5 +12,6 @@ export default {
   plugins: [
     svelte(),
     resolve({ browser: true }),
+    !production && livereload('test'),
   ],
 };
