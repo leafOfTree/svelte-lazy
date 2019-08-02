@@ -37,4 +37,4 @@ See [demo](https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1?version=3.6.
 
 ## Refs
 
-[sveltejs/component-template: A base for building shareable Svelte components](https://github.com/sveltejs/component-template)
+Based on [sveltejs/component-template: A base for building shareable Svelte components](https://github.com/sveltejs/component-template)
