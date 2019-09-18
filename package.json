@@ -3,7 +3,7 @@
   "svelte": "src/index.svelte",
   "module": "index.mjs",
   "main": "index.js",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "scripts": {
     "test": "rollup -c ./test/rollup.config.js -w",
     "build": "rollup -c",
