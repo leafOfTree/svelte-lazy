@@ -25,6 +25,8 @@ A svelte component to lazyload any content including images.
 
 - `offset: Number` Default: `150`. Offset to the bottom of viewport that triggers loading when the component is within the scope.
 
+> The Number value use `px` as unit.
+
 - `fadeOption: Object` Default: `{ delay: 0, duration: 400 }`. Option for the fade transition. Set `null` to disable.
 
 - `onload: Function (node) => {}` Default: `null`. Fucntion that is called when the component is loaded.
