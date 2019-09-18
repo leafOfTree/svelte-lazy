@@ -43,6 +43,8 @@
         removeListeners();
       }
     }, 200)
+
+    loadHandler();
     addListeners();
 
     function addListeners() {
