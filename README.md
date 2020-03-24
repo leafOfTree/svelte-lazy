@@ -1,5 +1,9 @@
 # svelte-lazy
 
+<p align="center">
+<img alt="demo image" src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/HEAD/svelte-lazy.gif" width="300" height="300" />
+</p>
+
 A svelte component to lazyload any content including images.
 
 ## Install
@@ -25,7 +29,7 @@ A svelte component to lazyload any content including images.
 
 - `offset: Number` Default: `150`. Offset to the bottom of viewport that triggers loading when the component is within the scope.
 
-> The Number value use `px` as unit.
+    > The Number value use `px` as unit.
 
 - `fadeOption: Object` Default: `{ delay: 0, duration: 400 }`. Option for the fade transition. Set `null` to disable.
 
@@ -33,16 +37,15 @@ A svelte component to lazyload any content including images.
 
 ## Demo
 
-See [demo](https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1?version=3.6.10) here.
+See [demo](https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1?version=3.6.10).
 
-<img alt="demo image" src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/HEAD/svelte-lazy.gif" width="300" height="300" />
 
 ## Development
 
     npm i
     npm run test
 
-    # Open test/index.html or open a local server
+    # Open test/index.html or start a local server
     serve test
 
 ## Refs
