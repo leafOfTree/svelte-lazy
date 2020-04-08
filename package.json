@@ -4,6 +4,7 @@
   "module": "index.mjs",
   "main": "index.js",
   "version": "0.1.8",
+  "repository": "leafOfTree/svelte-lazy",
   "scripts": {
     "test": "rollup -c ./test/rollup.config.js -w",
     "build": "rollup -c",
