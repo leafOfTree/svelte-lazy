@@ -2,20 +2,21 @@
   {#if loaded}
     {#if fadeOption}
       <div transition:fade={fadeOption}>
-        <slot>
-          Lazy load content 
-        </slot>
+        <slot>Lazy load content</slot>
       </div>
     {:else }
       <div>
-        <slot>
-          Lazy load content 
-        </slot>
+        <slot>Lazy load content</slot>
       </div>
     {/if}
+  {:else if typeof placeholder === 'string'}
+    <div>{placeholder}</div>
+  {:else if typeof placeholder === 'function'}
+    <svelte:component this={placeholder} />
   {/if}
 </div>
 <script>
+  import { getContext } from 'svelte';
   import { fade } from 'svelte/transition';
   export let height = 0;
   export let offset = 150;
@@ -24,6 +25,7 @@
     duration: 400, 
   };
   export let onload = null;
+  export let placeholder = null;
 
   let loaded = false;
 
