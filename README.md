@@ -25,11 +25,13 @@ A svelte component to lazyload any content including images.
 
 ### Lazy
 
-- `height: Number/String` Default: `0`. Height of the placeholder before the component is loaded. Set a proper value to avoid scroll bounce.
+- `height: Number|String` Default: `0`. Height of the placeholder before the component is loaded. Set a proper value to avoid scroll bounce.
 
 - `offset: Number` Default: `150`. Offset to the bottom of viewport that triggers loading when the component is within the scope.
 
     > The Number value uses `px` as unit.
+
+- `placeholder: String|Component` Default: `null`. Placeholder before the component is loaded.
 
 - `fadeOption: Object` Default: `{ delay: 0, duration: 400 }`. Option for the fade transition. Set `null` to disable it.
 
