@@ -50,12 +50,12 @@
     addListeners();
 
     function addListeners() {
-      document.addEventListener('scroll', loadHandler);
+      document.addEventListener('scroll', loadHandler, true);
       window.addEventListener('resize', loadHandler);
     }
 
     function removeListeners() {
-      document.removeEventListener('scroll', loadHandler);
+      document.removeEventListener('scroll', loadHandler, true);
       window.removeEventListener('resize', loadHandler);
     }
 
