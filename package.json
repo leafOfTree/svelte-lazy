@@ -14,6 +14,7 @@
     "rollup": "^1.18.0",
     "rollup-plugin-livereload": "^1.0.1",
     "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-svelte": "^5.0.0",
     "svelte": "^3.0.0"
   },
@@ -27,7 +28,5 @@
     "index.mjs",
     "index.js"
   ],
-  "dependencies": {
-    "rollup-plugin-serve": "^1.0.1"
-  }
+  "dependencies": {}
 }
