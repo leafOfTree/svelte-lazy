@@ -1,10 +1,10 @@
 # svelte-lazy
 
+A svelte component to lazyload any content including images.
+
 <p align="center">
 <img alt="demo image" src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/HEAD/svelte-lazy.gif" width="300" height="300" />
 </p>
-
-A svelte component to lazyload any content including images.
 
 ## Install
 
@@ -45,14 +45,12 @@ For sapper server-side rendering and [Using external components](https://github.
 
 See [demo on svelte.dev/repl](https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1?version=3.6.10).
 
-
 ## Development
 
+    git clone https://github.com/leafOfTree/svelte-lazy
+    cd svelte-lazy
     npm i
-    npm run test
-
-    # Open test/index.html or start a local server
-    serve test
+    npm start
 
 ## Refs
 
