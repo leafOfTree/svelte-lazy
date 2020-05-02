@@ -124,5 +124,5 @@
       }
       return result;
     };
-  };
+  }
 </script>
