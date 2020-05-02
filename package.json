@@ -26,5 +26,8 @@
     "src",
     "index.mjs",
     "index.js"
-  ]
+  ],
+  "dependencies": {
+    "rollup-plugin-serve": "^1.0.1"
+  }
 }
