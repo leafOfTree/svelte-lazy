@@ -14,6 +14,9 @@ export default {
     svelte(),
     resolve({ browser: true }),
     !production && livereload('test'),
-    serve('test'),
+    serve({
+      open: true, 
+      contentBase: 'test',
+    }),
   ],
 };

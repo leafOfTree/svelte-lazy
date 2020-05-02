@@ -6,7 +6,8 @@
   "version": "0.1.11",
   "repository": "leafOfTree/svelte-lazy",
   "scripts": {
-    "test": "rollup -c ./test/rollup.config.js -w",
+    "start": "rollup -c ./test/rollup.config.js -w",
+    "test": "npm run start",
     "build": "rollup -c",
     "prepublishOnly": "npm run build"
   },
