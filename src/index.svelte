@@ -4,10 +4,8 @@
       <div transition:fade={fadeOption}>
         <slot>Lazy load content</slot>
       </div>
-    {:else }
-      <div>
-        <slot>Lazy load content</slot>
-      </div>
+    {:else}
+      <slot>Lazy load content</slot>
     {/if}
   {:else if typeof placeholder === 'string'}
     <div>{placeholder}</div>
@@ -16,7 +14,6 @@
   {/if}
 </div>
 <script>
-  import { getContext } from 'svelte';
   import { fade } from 'svelte/transition';
   export let height = 0;
   export let offset = 150;
@@ -30,21 +27,19 @@
   let loaded = false;
 
   function load(node) {
-    if (height) {
-      node.style.height = (typeof height === 'number') ? height + 'px' : height;
-    }
+    setHeight(node);
 
-    const loadHandler = throttle(() => {
+    const loadHandler = throttle(e => {
       const top = node.getBoundingClientRect().top;
-      const expectedTop = window.innerHeight + offset;
+      const expectedTop = getExpectedTop(e, offset);
 
       if (top <= expectedTop) {
         loaded = true;
-        setTimeout(() => node.style.height = 'auto');
+        resetHeight(node);
         onload && onload(node);
         removeListeners();
       }
-    }, 200)
+    }, 200);
 
     loadHandler();
     addListeners();
@@ -64,6 +59,37 @@
         removeListeners();
       },
     };
+  }
+
+  function setHeight(node) {
+    if (height) {
+      node.style.height = (typeof height === 'number') ? height + 'px' : height;
+    }
+  }
+
+  function resetHeight(node) {
+    const wait = fadeOption 
+      ? fadeOption.delay + fadeOption.duration + 500 
+      : 500;
+    setTimeout(() => node.style.height = 'auto', wait);
+  }
+
+  function getExpectedTop(e, offset) {
+    let height;
+    if (!e || e.target === document) {
+      height = window.innerHeight;
+    } else {
+      height = e.target.getBoundingClientRect().bottom;
+    }
+    return height + offset;
+  }
+
+  function getContainerHeight(e) {
+    if (!e || e.target === document) {
+      return window.innerHeight;
+    } else {
+      return e.target.getBoundingClientRect().bottom;
+    }
   }
 
   // from underscore souce code
