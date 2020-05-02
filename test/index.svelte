@@ -9,7 +9,7 @@
   <Lazy height={300} placeholder={'Loading...'}>
     <img alt="" src="https://picsum.photos/id/547/200/300" />
   </Lazy>
-  <!-- {#each [0, 1, 2, 3, 4, 5, 6] as i}
+  {#each [0, 1, 2, 3, 4, 5, 6] as i}
     <Lazy height={300} placeholder={'Loading...'}>
       <img alt="" src="https://picsum.photos/id/547/200/300" />
     </Lazy>
@@ -28,7 +28,7 @@
 
   <Lazy height={300} placeholder={'Loading...'} fadeOption={null}>
     <img alt="" src="https://picsum.photos/id/547/200/300" />
-  </Lazy> -->
+  </Lazy>
 </div>
 
 <script>
