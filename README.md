@@ -39,6 +39,8 @@ For sapper server-side rendering and [Using external components](https://github.
 
 - `fadeOption: Object` Default: `{ delay: 0, duration: 400 }`. Option for the fade transition. Set `null` to disable it.
 
+- `resetHeightDelay: Number` Default: `0` (milliseconds). Delay to reset the component height to `auto` after it is loaded. Might be useful for remote resources like images to load first.
+
 - `onload: Function (node) => {}` Default: `null`. Fucntion that is called when the component is loaded.
 
 ## Demo

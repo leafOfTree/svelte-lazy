@@ -21,6 +21,7 @@
     delay: 0,
     duration: 400, 
   };
+  export let resetHeightDelay = 0;
   export let onload = null;
   export let placeholder = null;
 
@@ -68,20 +69,12 @@
   }
 
   function resetHeight(node) {
-    // Wait for remote resources like images to load
-    const wait = fadeOption 
-      ? fadeOption.delay + fadeOption.duration 
-      : 400;
-    setTimeout(() => node.style.height = 'auto', wait);
+    // Add delay for remote resources like images to load
+    setTimeout(() => node.style.height = 'auto', resetHeightDelay);
   }
 
   function getExpectedTop(e, offset) {
-    let height;
-    if (!e || e.target === document) {
-      height = window.innerHeight;
-    } else {
-      height = e.target.getBoundingClientRect().bottom;
-    }
+    const height = getContainerHeight(e);
     return height + offset;
   }
 
