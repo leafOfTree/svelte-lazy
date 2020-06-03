@@ -6,10 +6,7 @@
     <img alt="" src="https://picsum.photos/id/412/200/300" />
   </div>
 
-  <Lazy height={300} placeholder={'Loading...'}>
-    <img alt="" src="https://picsum.photos/id/547/200/300" />
-  </Lazy>
-  {#each [0, 1, 2, 3, 4, 5, 6] as i}
+  {#each [0, 1, 2] as i}
     <Lazy height={300} placeholder={'Loading...'}>
       <img alt="" src="https://picsum.photos/id/547/200/300" />
     </Lazy>
@@ -46,11 +43,11 @@
     margin-bottom: 12px;
   }
   h1 {
-    width: 50vh;
+    width: 70vh;
     margin: auto;
   }
   .container {
-    width: 50vh;
+    width: 70vh;
     height: 70vh;
     overflow-y: scroll;
     margin: auto;
