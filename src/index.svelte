@@ -70,8 +70,8 @@
   function resetHeight(node) {
     // Wait for remote resources like images to load
     const wait = fadeOption 
-      ? fadeOption.delay + fadeOption.duration + 500 
-      : 500;
+      ? fadeOption.delay + fadeOption.duration 
+      : 400;
     setTimeout(() => node.style.height = 'auto', wait);
   }
 
