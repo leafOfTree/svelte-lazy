@@ -68,6 +68,7 @@
   }
 
   function resetHeight(node) {
+    // Wait for remote resources like images to load
     const wait = fadeOption 
       ? fadeOption.delay + fadeOption.duration + 500 
       : 500;
@@ -92,7 +93,7 @@
     }
   }
 
-  // from underscore souce code
+  // From underscore souce code
   function throttle(func, wait, options) {
     let context, args, result;
     let timeout = null;
