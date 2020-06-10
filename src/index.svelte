@@ -79,10 +79,10 @@
   }
 
   function getContainerHeight(e) {
-    if (!e || e.target === document) {
-      return window.innerHeight;
-    } else {
+    if (e && e.target && e.target.getBoundingClientRect) {
       return e.target.getBoundingClientRect().bottom;
+    } else {
+      return window.innerHeight;
     }
   }
 
