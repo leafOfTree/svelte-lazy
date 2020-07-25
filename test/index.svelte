@@ -1,14 +1,14 @@
 <h1>Hello, Lazy!</h1>
 <div class="container">
   <div class="preload">
-    <img alt="" src="https://picsum.photos/id/412/200/300" />
-    <img alt="" src="https://picsum.photos/id/412/200/300" />
-    <img alt="" src="https://picsum.photos/id/412/200/300" />
+    <img alt="" src="https://picsum.photos/id/412/400/300" />
+    <img alt="" src="https://picsum.photos/id/412/400/300" />
+    <img alt="" src="https://picsum.photos/id/412/400/300" />
   </div>
 
   {#each [0, 1, 2] as i}
     <Lazy height={300} placeholder={'Loading...'}>
-      <img alt="" src="https://picsum.photos/id/547/200/300" />
+      <img alt="" src="https://picsum.photos/id/547/400/300" />
     </Lazy>
   {/each}
   {#each [0, 1, 2] as i}
@@ -24,7 +24,7 @@
   {/each}
 
   <Lazy height={300} placeholder={'Loading...'} fadeOption={null}>
-    <img alt="" src="https://picsum.photos/id/547/200/300" />
+    <img alt="" src="https://picsum.photos/id/547/400/300" />
   </Lazy>
 </div>
 
