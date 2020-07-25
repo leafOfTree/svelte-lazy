@@ -1,7 +1,7 @@
-<div use:load>
+<div use:load class="svelte-lazy">
   {#if loaded}
     {#if fadeOption}
-      <div transition:fade={fadeOption}>
+      <div transition:fade={fadeOption} class="svelte-lazy-transition">
         <slot>Lazy load content</slot>
       </div>
     {:else}
