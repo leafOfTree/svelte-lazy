@@ -3,7 +3,7 @@
   "svelte": "src/index.svelte",
   "module": "index.mjs",
   "main": "index.js",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "repository": "leafOfTree/svelte-lazy",
   "scripts": {
     "start": "rollup -c ./test/rollup.config.js -w",
