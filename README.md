@@ -8,6 +8,10 @@ A svelte component to lazyload any content including images.
 
 ## Install
 
+<a href="https://www.npmjs.com/package/svelte-lazy">
+    <img src="https://img.shields.io/npm/v/svelte-lazy.svg" alt="npm version" >
+</a>
+
     npm i svelte-lazy
 
 For sapper server-side rendering and [Using external components](https://github.com/sveltejs/sapper-template#using-external-components), install it to `devDependencies`:
