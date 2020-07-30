@@ -1,7 +1,10 @@
-<div use:load class="svelte-lazy">
+<div use:load class={rootClassName}>
   {#if loaded}
     {#if fadeOption}
-      <div transition:fade={fadeOption} class="svelte-lazy-transition">
+      <div 
+        transition:fade={fadeOption} 
+        class="svelte-lazy-transition"
+      >
         <slot>Lazy load content</slot>
       </div>
     {:else}
@@ -24,7 +27,11 @@
   export let resetHeightDelay = 0;
   export let onload = null;
   export let placeholder = null;
+  let className = '';
+  export { className as class };
 
+  let rootClassName = 'svelte-lazy' 
+    + (className ? ' ' + className : '');
   let loaded = false;
 
   function load(node) {
@@ -64,7 +71,9 @@
 
   function setHeight(node) {
     if (height) {
-      node.style.height = (typeof height === 'number') ? height + 'px' : height;
+      node.style.height = (typeof height === 'number') 
+        ? height + 'px' 
+        : height;
     }
   }
 

@@ -37,11 +37,13 @@ For sapper server-side rendering and [Using external components](https://github.
 
 > The Number value uses `px` as unit.
 
-- `placeholder: String|Component` Default: `null`. Placeholder before the component is loaded.
+- `class: String` Default: `''`. Additional class for the container div. It will be `svelte-lazy ${class}`.
 
 - `fadeOption: Object` Default: `{ delay: 0, duration: 400 }`. Option for the fade transition. Set `null` to disable it.
 
 - `onload: Function (node) => {}` Default: `null`. Fucntion that is called when the component is loaded.
+
+- `placeholder: String|Component` Default: `null`. Placeholder before the component is loaded.
 
 - `resetHeightDelay: Number` Default: `0` (milliseconds). Delay to reset the component height to `auto` after it is loaded. Might be useful for remote resources like images to load first.
 
