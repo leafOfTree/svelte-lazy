@@ -6,7 +6,7 @@ A svelte component to lazyload any content including images.
 <img alt="demo image" src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/HEAD/svelte-lazy.gif" width="300" height="300" />
 </p>
 
-## Install
+## Installation
 
 <a href="https://www.npmjs.com/package/svelte-lazy">
     <img src="https://img.shields.io/npm/v/svelte-lazy.svg" alt="npm version" >
