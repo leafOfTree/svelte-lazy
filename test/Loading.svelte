@@ -1,4 +1,4 @@
-<div>My Loading Component</div>
+<div>Loading Component</div>
 
 <style>
   div {

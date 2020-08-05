@@ -1,30 +1,31 @@
 <h1>Hello, Lazy!</h1>
 <div class="container">
   <div class="preload">
-    <img alt="" src="https://picsum.photos/id/412/400/300" />
-    <img alt="" src="https://picsum.photos/id/412/400/300" />
-    <img alt="" src="https://picsum.photos/id/412/400/300" />
+    {#each [1, 2, 3] as i}
+      <img alt="" src="https://picsum.photos/id/412/400/300" />
+    {/each}
   </div>
 
-  {#each [0, 1, 2] as i}
-    <Lazy height={300} placeholder={'Loading...'}>
-      <img alt="" src="https://picsum.photos/id/547/400/300" />
-    </Lazy>
-  {/each}
-  {#each [0, 1, 2] as i}
-    <Lazy 
-      height={300} 
-      offset={150} 
-      onload={onload} 
-      fadeOption={{delay: 500, duration: 1000}} 
-      placeholder={Loading}
-    >
-      <div class="any-content">Any content can be here.</div>
-    </Lazy>
-  {/each}
+  <Lazy 
+    class="loading"
+    height={300} 
+    placeholder={'Loading...'} 
+  >
+    <img alt="" src="https://picsum.photos/id/547/400/300" />
+  </Lazy>
+
+  <Lazy 
+    height={300}
+    offset={-300} 
+    onload={onload} 
+    fadeOption={{delay: 1000, duration: 2000}} 
+    placeholder={Loading}
+  >
+    <img alt="" src="https://picsum.photos/id/547/400/300" />
+  </Lazy>
 
   <Lazy height={300} placeholder={'Loading...'} fadeOption={null}>
-    <img alt="" src="https://picsum.photos/id/547/400/300" />
+    <div class="any-content">Any content can be here.</div>
   </Lazy>
 </div>
 
