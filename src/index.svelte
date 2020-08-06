@@ -81,10 +81,10 @@
     // Add delay for remote resources like images to load
     setTimeout(() => {
       const img = node.querySelector('img');
-      if (img) {
-        node.addEventListener('load', function (event) {
+      if (img && !img.complete) {
+        node.addEventListener('load', () => {
           node.style.height = 'auto';
-        }, true);
+        }, { capture: true, once: true });
       } else {
         node.style.height = 'auto';
       }
