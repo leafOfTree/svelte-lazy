@@ -79,7 +79,16 @@
 
   function resetHeight(node) {
     // Add delay for remote resources like images to load
-    setTimeout(() => node.style.height = 'auto', resetHeightDelay);
+    setTimeout(() => {
+      const img = node.querySelector('img');
+      if (img) {
+        node.addEventListener('load', function (event) {
+          node.style.height = 'auto';
+        }, true);
+      } else {
+        node.style.height = 'auto';
+      }
+    }, resetHeightDelay);
   }
 
   function getExpectedTop(e, offset) {
