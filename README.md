@@ -1,4 +1,4 @@
-# svelte-lazy
+# svelte-lazy [![Build Status][1]][2]
 
 A svelte component to lazyload any content including images.
 
@@ -8,9 +8,7 @@ A svelte component to lazyload any content including images.
 
 ## Installation
 
-<a href="https://www.npmjs.com/package/svelte-lazy">
-    <img src="https://img.shields.io/npm/v/svelte-lazy.svg" alt="npm version" >
-</a>
+[![npm version][3]][4]
 
     npm i svelte-lazy
 
@@ -61,3 +59,8 @@ See [demo on svelte.dev/repl](https://svelte.dev/repl/6d7714fa3cce4909af6c6d1872
 ## Refs
 
 Based on [sveltejs/component-template: A base for building shareable Svelte components](https://github.com/sveltejs/component-template)
+
+[1]: https://travis-ci.com/leafOfTree/svelte-lazy.svg?branch=master
+[2]: https://travis-ci.com/leafOfTree/svelte-lazy
+[3]: https://img.shields.io/npm/v/svelte-lazy.svg
+[4]: https://www.npmjs.com/package/svelte-lazy
