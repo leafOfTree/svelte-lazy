@@ -7,11 +7,14 @@
   "repository": "leafOfTree/svelte-lazy",
   "scripts": {
     "start": "rollup -c ./test/rollup.config.js -w",
-    "test": "rollup -c ./test/rollup.config.js",
+    "test": "npm run test-build && node test/scripts/run",
+    "test-build": "rollup -c ./test/rollup.config.js", 
     "build": "rollup -c",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
+    "node-static": "^0.7.11",
+    "puppeteer": "^5.2.1",
     "rollup": "^1.18.0",
     "rollup-plugin-livereload": "^1.0.1",
     "rollup-plugin-node-resolve": "^4.0.0",
