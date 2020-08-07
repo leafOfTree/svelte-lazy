@@ -1,9 +1,9 @@
-<div use:load class={rootClassName}>
+<div use:load class={rootClass}>
   {#if loaded}
     {#if fadeOption}
       <div 
         in:fade={fadeOption} 
-        class="svelte-lazy-transition"
+        class={transitionClass}
       >
         <slot>Lazy load content</slot>
       </div>
@@ -11,7 +11,7 @@
       <slot>Lazy load content</slot>
     {/if}
   {:else if typeof placeholder === 'string'}
-    <div>{placeholder}</div>
+    <div class={placeholderClass}>{placeholder}</div>
   {:else if typeof placeholder === 'function'}
     <svelte:component this={placeholder} />
   {/if}
@@ -30,8 +30,10 @@
   let className = '';
   export { className as class };
 
-  let rootClassName = 'svelte-lazy' 
+  let rootClass = 'svelte-lazy' 
     + (className ? ' ' + className : '');
+  const transitionClass = 'svelte-lazy-transition'
+  const placeholderClass = 'placeholder'
   let loaded = false;
 
   function load(node) {
