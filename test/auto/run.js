@@ -1,7 +1,7 @@
 const static = require('node-static')
 const puppeteer = require('puppeteer')
 
-const filePath = './test'
+const filePath = './test/auto'
 const port = 3000
 const file = new static.Server(filePath)
 
@@ -20,16 +20,8 @@ async function runBrowser() {
 
   page.on('load', async () => {
     console.log('Page fully loaded')
-    const dimensions = await page.evaluate(() => {
-      return {
-        width: document.documentElement.clientWidth, 
-        height: document.documentElement.clientHeight, 
-        deviceScaleFactor: window.devicePixelRatio, 
-      }
-    })
-    // console.log('Dimensions:', dimensions)
 
-    const mainTest = await page.evaluate(() => main())
+    await page.evaluate(() => test())
     const [failed, errors] = await page.evaluate(
       () => [window.failed, window.errors]
     )
@@ -39,7 +31,6 @@ async function runBrowser() {
     } else {
       console.log('✔ Success')
     }
-    // await page.screenshot({path: filePath + '/example.png'});
 
     await browser.close()
     process.exit(hasError ? 1 : 0)

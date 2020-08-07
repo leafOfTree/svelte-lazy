@@ -1,4 +1,4 @@
-# svelte-lazy [![Build Status][1]][2]
+# svelte-lazy [![Build Status][1]][2] [![npm version][3]][4]
 
 A svelte component to lazyload any content including images.
 
@@ -7,8 +7,6 @@ A svelte component to lazyload any content including images.
 </p>
 
 ## Installation
-
-[![npm version][3]][4]
 
     npm i svelte-lazy
 

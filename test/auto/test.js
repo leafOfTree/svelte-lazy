@@ -1,8 +1,8 @@
 const sleep = timeout => new Promise(resolve => setTimeout(resolve, timeout))
 
-// window.addEventListener('load', main)
+// window.addEventListener('load', test)
 
-async function main() {
+async function test() {
   console.log('Start test')
   setup()
 
