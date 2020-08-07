@@ -3,7 +3,7 @@
 A svelte component to lazyload any content including images.
 
 <p align="center">
-<img alt="demo image" src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/HEAD/svelte-lazy.gif" width="300" height="300" />
+<img alt="demo image" src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/master/svelte-lazy.gif" width="300" height="300" />
 </p>
 
 ## Installation
