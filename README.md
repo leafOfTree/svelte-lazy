@@ -29,7 +29,7 @@ For sapper server-side rendering and [Using external components](https://github.
 
 - `height: Number|String` Default: `0`. Height of the placeholder before the component is loaded. Set a proper value to avoid scroll bounce.
 
-- `offset: Number` Default: `150`. Offset to the bottom of viewport that triggers loading when the component is within the scope.
+- `offset: Number` Default: `150`. Offset to the bottom of viewport that triggers loading when the component is in the scope.
 
 > The Number value uses `px` as unit.
 
@@ -49,6 +49,16 @@ v0 -> v1
 
 - Adjust dom structure
 - Optimize image loading
+
+## Life cycle
+
+```
+             in viewport       /                 no image -> loaded
+not loaded ------------------> 
+                               \ with image -> load event -> loaded
+                                                   |
+            show placeholder                       |     show content
+``` 
 
 ## Demo
 
