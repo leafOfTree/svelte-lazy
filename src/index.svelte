@@ -95,13 +95,13 @@
         contentDisplay = 'hide';
 
         node.addEventListener('load', () => {
-          contentDisplay = 'show';
+          contentDisplay = '';
           node.style.height = 'auto';
         }, { capture: true, once: true });
 
         node.addEventListener('error', () => {
           // Keep height if there is error
-          contentDisplay = 'show';
+          contentDisplay = '';
         }, { capture: true, once: true });
 
         return true;
@@ -164,8 +164,5 @@
 <style>
   .hide {
     display: none;
-  }
-  .show {
-    display: block;
   }
 </style>
