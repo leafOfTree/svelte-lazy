@@ -43,6 +43,13 @@ For sapper server-side rendering and [Using external components](https://github.
 
 - `resetHeightDelay: Number` Default: `0` (milliseconds). Delay to reset the component height to `auto` after it is loaded. Might be useful for remote resources like images to load first.
 
+## Changelog
+
+v0 -> v1 
+
+- Adjust dom structure
+- Optimize image loading
+
 ## Demo
 
 See [demo on svelte.dev/repl](https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1?version=3.6.10).

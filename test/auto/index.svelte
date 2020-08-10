@@ -48,6 +48,17 @@
   >
     <div class="text-content">Any content can be here.</div>
   </Lazy>
+
+  <Lazy 
+    class="img404"
+    height={300}
+    offset={300}
+    onload={onload} 
+    fadeOption={null}
+    placeholder={Loading}
+  >
+    <img alt="" src="p3.jpg" />
+  </Lazy>
 </div>
 
 <script>

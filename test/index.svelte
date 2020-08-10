@@ -25,9 +25,9 @@
     class="basic"
     height={300} 
     placeholder={'Loading...'} 
-    fadeOption={{delay: 100, duration: 1000}} 
+    fadeOption={null}
   >
-    <img alt="" src="auto/p2.jpg" />
+    <img alt="p3" src="auto/p4.jpg" />
   </Lazy>
 
   {#each [1, 2, 3] as i}
@@ -42,13 +42,12 @@
     </Lazy>
   {/each}
 
-
   <Lazy 
     class="any-content"
     height={300} 
     offset={300}
     placeholder={'Loading...'} 
-    fadeOption={{delay: 1000, duration: 2000}} 
+    fadeOption={{delay: 100, duration: 2000}} 
   >
     <div class="text-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
   </Lazy>
@@ -59,7 +58,7 @@
   import Loading from './Loading.svelte';
 
   window.extend = { onload: false };
-  const onload = (node) => {
+  const onload = node => {
     window.extend.onload = true;
     console.log('Trigger onload');
   }

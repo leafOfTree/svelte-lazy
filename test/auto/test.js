@@ -14,6 +14,7 @@ async function test() {
   await testBasic()
   await testExtend()
   await testAnyContent()
+  await testImg404()
 
   showResult()
 
@@ -26,7 +27,8 @@ async function test() {
     if (elem) {
       assert(elem.style.height, `${height}px`)
       assert(elem.textContent, 'Loading...')
-      assert(elem.classList.value, 'svelte-lazy basic')
+      assert(elem.classList.contains('svelte-lazy'), true)
+      assert(elem.classList.contains('basic'), true)
 
       // Not in offset
       await scroll(container, elem.offsetTop - container.clientHeight - offset)
@@ -43,25 +45,23 @@ async function test() {
   async function testTop() {
     console.log(`Test top -----------------`)
     const elem = document.querySelector('.top')
-    const height = '300'
-    const offset = '150'
+    const height = 300
+    const offset = 150
     if (elem) {
       assert(elem.style.height, 'auto')
     }  
   }
 
-  // Test height, placeholder, class, transition, onload
+  // Test height, placeholder, class, onload
   async function testExtend() {
     console.log('Test extend -----------------')
     const elem = document.querySelector('.extend')
-    const transitionClass = '.extend .svelte-lazy-transition'
-    const height = '300'
-    const offset = '300'
+    const height = 300
+    const offset = 300
     if (elem) {
       assert(elem.style.height, `${height}px`)
       assert(elem.textContent, 'Loading Component')
-      assert(elem.classList.value, 'svelte-lazy extend')
-      assert(document.querySelector(transitionClass), null)
+      assert(elem.classList.contains('extend'), true)
       assert(window.extend.onload, false)
 
       // Not in offset
@@ -72,7 +72,6 @@ async function test() {
       // In offset
       await scroll(container, elem.offsetTop - container.clientHeight)
       assert(elem.style.height, 'auto')
-      assert(document.querySelector(transitionClass), null)
       assert(window.extend.onload, true)
     } 
   }
@@ -81,14 +80,12 @@ async function test() {
   async function testAnyContent() {
     console.log('Test any content -----------------')
     const elem = document.querySelector('.any-content')
-    const transitionClass = '.any-content .svelte-lazy-transition'
-    const height = '300'
-    const offset = '150'
+    const height = 300
+    const offset = 150
     if (elem) {
       assert(elem.style.height, `${height}px`)
       assert(elem.textContent, 'Loading...')
-      assert(elem.classList.value, 'svelte-lazy any-content')
-      assert(document.querySelector(transitionClass), null)
+      assert(elem.classList.contains('any-content'), true)
 
       // Not in offset
       await scroll(container, elem.offsetTop - container.clientHeight - offset)
@@ -98,9 +95,22 @@ async function test() {
       // In offset
       await scroll(container, elem.offsetTop - container.clientHeight)
       assert(elem.style.height, 'auto')
-      assert(elem.textContent, 'Any content can be here.')
-      assert(!!document.querySelector(transitionClass), true)
+      assert(elem.textContent.trim(), 'Any content can be here.')
     } 
+  }
+
+  // Test img 404 error
+  async function testImg404() {
+    console.log('Test img 404 --------------------')
+    const elem = document.querySelector('.img404')
+    const height = 300
+    const offset = 300
+    if (elem) {
+      assert(elem.style.height, `${height}px`)
+      // In offset
+      await scroll(container, elem.offsetTop - container.clientHeight)
+      assert(elem.style.height, `${height}px`)
+    }
   }
 }
 
@@ -113,7 +123,7 @@ function setup() {
 function assert(result, expected) {
   console.log(`Assert ${result} to be ${expected}`)
   if (result !== expected) {
-    const err = `Expected ${expected}, but got ${result}`
+    const err = `Expected [${expected}], but got [${result}]`
     addError(err)
     console.error('Error', err)
     throw new Error(err)
