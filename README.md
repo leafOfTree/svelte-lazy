@@ -45,7 +45,7 @@ For sapper server-side rendering and [Using external components](https://github.
 
 ## Changelog
 
-v0 -> v1 
+v0 -> v1.0
 
 - Adjust dom structure
 - Optimize image loading
