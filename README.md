@@ -20,14 +20,14 @@ For sapper server-side rendering and [Using external components](https://github.
   import Lazy from 'svelte-lazy';
 </script>
 
-<Lazy height={300} offset={150}>
+<Lazy height={300}>
   <img alt="" src="https://picsum.photos/id/412/200/300" />
 </Lazy>
 ```
 
 ## `<Lazy>` props
 
-- `height: Number|String` Default: `0`. Height of the placeholder before the component is loaded. Set a proper value to avoid scroll bounce.
+- `height: Number|String` Default: `0`. Height of the placeholder before the component is loaded. **Set a proper value** to avoid scroll bounce.
 
 - `offset: Number` Default: `150`. Offset to the bottom of viewport that triggers loading when the component is in the scope.
 
