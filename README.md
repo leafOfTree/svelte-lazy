@@ -53,11 +53,11 @@ v0 -> v1
 ## Life cycle
 
 ```
-             in viewport       /                 no image -> loaded
-not loaded ------------------> 
-                               \ with image -> load event -> loaded
-                                                   |
-            show placeholder                       |     show content
+             in viewport    /                 no image -> loaded
+not loaded --------------->
+                            \ with image -> load event -> loaded
+                                                |
+            show placeholder                    |     show content
 ``` 
 
 ## Demo
