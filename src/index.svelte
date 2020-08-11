@@ -1,20 +1,21 @@
-<div use:load class="svelte-lazy">
+<div use:load class={rootClass}>
   {#if loaded}
-    {#if fadeOption}
-      <div transition:fade={fadeOption} class="svelte-lazy-transition">
-        <slot>Lazy load content</slot>
-      </div>
-    {:else}
+    <div 
+      in:fade={fadeOption || {}} 
+      class={contentClass}
+    >
       <slot>Lazy load content</slot>
+    </div>
+    {#if contentDisplay === 'hide'}
+      <Placeholder {placeholder} />
     {/if}
-  {:else if typeof placeholder === 'string'}
-    <div>{placeholder}</div>
-  {:else if typeof placeholder === 'function'}
-    <svelte:component this={placeholder} />
+  {:else}
+    <Placeholder {placeholder} />
   {/if}
 </div>
 <script>
   import { fade } from 'svelte/transition';
+  import Placeholder from './components/Placeholder.svelte';
   export let height = 0;
   export let offset = 150;
   export let fadeOption = {
@@ -24,7 +25,14 @@
   export let resetHeightDelay = 0;
   export let onload = null;
   export let placeholder = null;
+  let className = '';
+  export { className as class };
 
+  const rootClass = 'svelte-lazy' 
+    + (className ? ' ' + className : '');
+  let contentDisplay = '';
+  $: contentClass = 'svelte-lazy-content' 
+    + (contentDisplay ? ' ' + contentDisplay : '');
   let loaded = false;
 
   function load(node) {
@@ -64,13 +72,46 @@
 
   function setHeight(node) {
     if (height) {
-      node.style.height = (typeof height === 'number') ? height + 'px' : height;
+      node.style.height = (typeof height === 'number') 
+        ? height + 'px' 
+        : height;
     }
   }
 
   function resetHeight(node) {
     // Add delay for remote resources like images to load
-    setTimeout(() => node.style.height = 'auto', resetHeightDelay);
+    setTimeout(() => {
+      const handled = handleImgContent(node);
+      if (!handled) {
+        node.style.height = 'auto';
+      }
+    }, resetHeightDelay);
+  }
+
+  function handleImgContent(node) {
+    const img = node.querySelector('img');
+    if (img) {
+      if (!img.complete) {
+        contentDisplay = 'hide';
+
+        node.addEventListener('load', () => {
+          contentDisplay = '';
+          node.style.height = 'auto';
+        }, { capture: true, once: true });
+
+        node.addEventListener('error', () => {
+          // Keep height if there is error
+          contentDisplay = '';
+        }, { capture: true, once: true });
+
+        return true;
+      } else {
+        if (img.naturalHeight === 0) {
+          // Keep height if img has zero height
+          return true;
+        }
+      }
+    }  
   }
 
   function getContainerHeight(e) {
@@ -115,3 +156,8 @@
     };
   }
 </script>
+<style>
+  .hide {
+    display: none;
+  }
+</style>

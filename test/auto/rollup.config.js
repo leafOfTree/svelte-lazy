@@ -6,9 +6,9 @@ import serve from 'rollup-plugin-serve';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-  input: 'test/main.js',
+  input: 'test/auto/main.js',
   output: [
-    { file: 'test/index.js', format: 'iife', name: 'app' },
+    { file: 'test/auto/index.js', format: 'iife', name: 'app' },
   ],
   plugins: [
     svelte(),
