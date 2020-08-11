@@ -31,10 +31,10 @@
     setHeight(node);
 
     const loadHandler = throttle(e => {
-      const top = node.getBoundingClientRect().top;
-      const expectedTop = getExpectedTop(e, offset);
+      const nodeTop = node.getBoundingClientRect().top;
+      const expectedTop = getContainerHeight(e) + offset;
 
-      if (top <= expectedTop) {
+      if (nodeTop <= expectedTop) {
         loaded = true;
         resetHeight(node);
         onload && onload(node);
@@ -71,11 +71,6 @@
   function resetHeight(node) {
     // Add delay for remote resources like images to load
     setTimeout(() => node.style.height = 'auto', resetHeightDelay);
-  }
-
-  function getExpectedTop(e, offset) {
-    const height = getContainerHeight(e);
-    return height + offset;
   }
 
   function getContainerHeight(e) {
