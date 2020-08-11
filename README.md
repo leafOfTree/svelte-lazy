@@ -53,7 +53,7 @@ v0 -> v1.0
 ## Life cycle
 
 ```
-             in viewport    /                 no image -> loaded
+            enter viewport  /                 no image -> loaded
 not loaded --------------->
                             \ with image -> load event -> loaded
                                                 |
