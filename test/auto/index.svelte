@@ -3,7 +3,7 @@
   <!-- 
   Image credits:
   p1.jpg: https://picsum.photos/id/412/400/300 
-  p2.jpg: https://picsum.photos/id/547/400/300
+  p2.jpg/p4.jpg: https://picsum.photos/id/547/400/300
   -->
 
   <Lazy 
@@ -58,6 +58,15 @@
     placeholder={Loading}
   >
     <img alt="" src="p3.jpg" />
+  </Lazy>
+
+  <Lazy 
+    class="img-delay"
+    height={300}
+    offset={300}
+    placeholder={'Loading...'}
+  >
+    <img alt="" src="delay.jpg" />
   </Lazy>
 </div>
 

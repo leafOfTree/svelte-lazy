@@ -3,11 +3,22 @@ const puppeteer = require('puppeteer')
 
 const filePath = './test/auto'
 const port = 3000
-const file = new static.Server(filePath)
+const fileServer = new static.Server(filePath)
 
 require('http').createServer((req, res) => {
   req.addListener('end', () => {
-    file.serve(req, res)
+    fileServer.serve(req, res, (err, result) => {
+      if (err) {
+        if (req.url === '/delay.jpg') {
+          setTimeout(() => {
+            console.log('Replace delay.jpg with p2.jpg after 2s')
+            fileServer.serveFile('/p2.jpg', 200, {}, req, res)
+          }, 2000)
+        } else {
+          console.error('Error serving ' + req.url + ' - ' + err.message)
+        }
+      }
+    })
   }).resume()
 }).listen(port, () => {
   console.log(`Server listening on ${port}`)
@@ -15,8 +26,14 @@ require('http').createServer((req, res) => {
 })
 
 async function runBrowser() {
-  const browser = await puppeteer.launch({ headless: true })
+  const browser = await puppeteer.launch({ 
+    headless: false,
+  })
   const page = await browser.newPage()
+  await page.setViewport({
+    width: 800, 
+    height: 800, 
+  })
 
   page.on('load', async () => {
     console.log('Page fully loaded')

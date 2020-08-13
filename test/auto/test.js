@@ -15,6 +15,7 @@ async function test() {
   await testExtend()
   await testAnyContent()
   await testImg404()
+  await testImgDelay()
 
   showResult()
 
@@ -107,11 +108,37 @@ async function test() {
     const offset = 300
     if (elem) {
       assert(elem.style.height, `${height}px`)
+
       // In offset
       await scroll(container, elem.offsetTop - container.clientHeight)
       assert(elem.style.height, `${height}px`)
     }
   }
+
+  // Test image delay behavor / load event
+  async function testImgDelay() {
+    console.log('Test img delay --------------------')
+    const elem = document.querySelector('.img-delay')
+    const height = 300
+    const offset = 300
+    if (elem) {
+      assert(elem.style.height, `${height}px`)
+      assert(!!elem.querySelector('.placeholder'), true)
+
+      // In offset
+      // Still show placeholder before image is loaded
+      await scroll(container, elem.offsetTop - container.clientHeight)
+      const contentElem = elem.querySelector('.svelte-lazy-content')
+      assert(contentElem.style.display, 'none')
+      assert(!!elem.querySelector('.placeholder'), true)
+      
+      // Show content after image is loaded
+      await sleep(3000)
+      assert(contentElem.style.display, '')
+      assert(!!elem.querySelector('.placeholder'), false)
+    }
+  }
+
 }
 
 function setup() {
