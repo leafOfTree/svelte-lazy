@@ -99,13 +99,13 @@
         contentDisplay = 'hide';
 
         node.addEventListener('load', () => {
-          // contentDisplay = '';
+          contentDisplay = '';
           node.style.height = 'auto';
         }, { capture: true, once: true });
 
         node.addEventListener('error', () => {
           // Keep passed height if there is error
-          // contentDisplay = '';
+          contentDisplay = '';
         }, { capture: true, once: true });
 
         return true;
