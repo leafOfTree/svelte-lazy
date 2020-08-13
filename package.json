@@ -5,6 +5,7 @@
   "main": "index.js",
   "version": "1.0.3",
   "repository": "leafOfTree/svelte-lazy",
+  "license": "UNLICENSE",
   "scripts": {
     "start": "rollup -c ./test/rollup.config.js -w",
     "test": "npm run test-build && node test/auto/run",
