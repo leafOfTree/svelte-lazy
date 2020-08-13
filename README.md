@@ -60,6 +60,22 @@ not loaded --------------->
             show placeholder                    |     show content
 ``` 
 
+## DOM structure
+
+Before load
+```html
+<div class="svelte-lazy ${class}">
+    <div class="svelte-lazy-placeholder">...</div>
+</div>
+```
+
+After load
+```html
+<div class="svelte-lazy ${class}">
+    <div class="svelte-lazy-content">...</div>
+</div>
+```
+
 ## Demo
 
 See [demo on svelte.dev/repl](https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1?version=3.6.10).
