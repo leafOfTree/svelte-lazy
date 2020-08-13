@@ -3,6 +3,7 @@
     <div 
       in:fade={fadeOption || {}} 
       class={contentClass}
+      style={contentStyle}
     >
       <slot>Lazy load content</slot>
     </div>
@@ -31,9 +32,12 @@
   const rootClass = 'svelte-lazy' 
     + (className ? ' ' + className : '');
   let contentDisplay = '';
-  $: contentClass = 'svelte-lazy-content' 
-    + (contentDisplay ? ' ' + contentDisplay : '');
   let loaded = false;
+
+  const contentClass = 'svelte-lazy-content';
+  $: contentStyle = contentDisplay === 'hide' 
+    ? 'display: none' 
+    : '';
 
   function load(node) {
     setHeight(node);
@@ -95,18 +99,18 @@
         contentDisplay = 'hide';
 
         node.addEventListener('load', () => {
-          contentDisplay = '';
+          // contentDisplay = '';
           node.style.height = 'auto';
         }, { capture: true, once: true });
 
         node.addEventListener('error', () => {
-          // Keep height if there is error
-          contentDisplay = '';
+          // Keep passed height if there is error
+          // contentDisplay = '';
         }, { capture: true, once: true });
 
         return true;
       } else if (img.naturalHeight === 0) {
-        // Keep height if img has zero height
+        // Keep passed height if img has zero height
         return true;
       }
     }  
@@ -154,8 +158,3 @@
     };
   }
 </script>
-<style>
-  .hide {
-    display: none;
-  }
-</style>
