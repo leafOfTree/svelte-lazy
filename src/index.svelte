@@ -105,11 +105,9 @@
         }, { capture: true, once: true });
 
         return true;
-      } else {
-        if (img.naturalHeight === 0) {
-          // Keep height if img has zero height
-          return true;
-        }
+      } else if (img.naturalHeight === 0) {
+        // Keep height if img has zero height
+        return true;
       }
     }  
   }
