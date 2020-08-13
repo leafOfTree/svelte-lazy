@@ -7,5 +7,5 @@
 </div>
 <script>
   export let placeholder = null;
-  const placeholderClass = 'placeholder';
+  const placeholderClass = 'svelte-lazy-placeholder';
 </script>
