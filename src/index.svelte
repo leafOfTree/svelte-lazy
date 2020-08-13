@@ -31,10 +31,10 @@
 
   const rootClass = 'svelte-lazy' 
     + (className ? ' ' + className : '');
-  let contentDisplay = '';
+  const contentClass = 'svelte-lazy-content';
   let loaded = false;
 
-  const contentClass = 'svelte-lazy-content';
+  let contentDisplay = '';
   $: contentStyle = contentDisplay === 'hide' 
     ? 'display: none' 
     : '';
