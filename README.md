@@ -1,20 +1,23 @@
 # svelte-lazy [![Build Status][1]][2] [![npm version][3]][4]
 
-A svelte component to lazyload any content including images.
+A svelte component to lazyload any content including images. 
 
 <p align="center">
-<img alt="demo image" src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/HEAD/svelte-lazy.gif" width="300" height="300" />
+<img alt="demo image" src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/HEAD/svelte-lazy.png" width="300" />
 </p>
 
 ## Installation
 
     npm i svelte-lazy
 
-For sapper server-side rendering and [Using external components](https://github.com/sveltejs/sapper-template#using-external-components), install it to `devDependencies`:
+For sapper server-side rendering and [using external components][6], install it to `devDependencies`:
 
     npm i -D svelte-lazy
 
 ## Usage
+
+[Demo on svelte.dev/repl][5].
+
 ```html
 <script>
   import Lazy from 'svelte-lazy';
@@ -78,10 +81,6 @@ After load
 </div>
 ```
 
-## Demo
-
-See [demo on svelte.dev/repl](https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1?version=3.6.10).
-
 ## Development
 
     git clone https://github.com/leafOfTree/svelte-lazy
@@ -97,3 +96,5 @@ Based on [sveltejs/component-template: A base for building shareable Svelte comp
 [2]: https://travis-ci.com/leafOfTree/svelte-lazy
 [3]: https://img.shields.io/npm/v/svelte-lazy.svg
 [4]: https://www.npmjs.com/package/svelte-lazy
+[5]: https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1?version=3.6.10
+[6]: https://github.com/sveltejs/sapper-template#using-external-components
