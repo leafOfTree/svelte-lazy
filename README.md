@@ -16,8 +16,6 @@ For sapper server-side rendering and [using external components][6], install it 
 
 ## Usage
 
-[Demo on svelte.dev/repl][5].
-
 ```html
 <script>
   import Lazy from 'svelte-lazy';
@@ -27,6 +25,8 @@ For sapper server-side rendering and [using external components][6], install it 
   <img alt="" src="https://picsum.photos/id/412/200/300" />
 </Lazy>
 ```
+
+[Demo on svelte.dev/repl][5].
 
 ## Props
 
