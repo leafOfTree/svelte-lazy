@@ -3,16 +3,17 @@
   <!-- 
   Image credits:
   p1.jpg: https://picsum.photos/id/412/400/300 
-  auto/p2.jpg: https://picsum.photos/id/547/400/300
+  p2.jpg: https://picsum.photos/id/547/400/300
   -->
 
-  <!-- <Lazy 
+  <Lazy 
     class="top"
     height={300} 
     placeholder={'Loading...'} 
+    fadeOption={{delay: 100, duration: 4000}} 
   >
     <img alt="" src="auto/p2.jpg" />
-  </Lazy> -->
+  </Lazy>
 
   <div class="preload">
     {#each [1, 2, 3] as i}
@@ -25,9 +26,8 @@
     class="basic"
     height={300} 
     placeholder={'Loading...'} 
-    fadeOption={null}
   >
-    <img alt="p3" src="auto/p4.jpg" />
+    <img alt="p3" src="auto/p3.jpg" />
   </Lazy>
 
   {#each [1, 2, 3] as i}
