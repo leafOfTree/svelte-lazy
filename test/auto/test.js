@@ -123,19 +123,19 @@ async function test() {
     const offset = 300
     if (elem) {
       assert(elem.style.height, `${height}px`)
-      assert(!!elem.querySelector('.placeholder'), true)
+      assert(!!elem.querySelector('.svelte-lazy-placeholder'), true)
 
       // In offset
       // Still show placeholder before image is loaded
       await scroll(container, elem.offsetTop - container.clientHeight)
       const contentElem = elem.querySelector('.svelte-lazy-content')
       assert(contentElem.style.display, 'none')
-      assert(!!elem.querySelector('.placeholder'), true)
+      assert(!!elem.querySelector('.svelte-lazy-placeholder'), true)
       
       // Show content after image is loaded
       await sleep(3000)
       assert(contentElem.style.display, '')
-      assert(!!elem.querySelector('.placeholder'), false)
+      assert(!!elem.querySelector('.svelte-lazy-placeholder'), false)
     }
   }
 
