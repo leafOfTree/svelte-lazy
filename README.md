@@ -34,7 +34,7 @@ For sapper server-side rendering and [using external components][6], install it 
 
     **Set a proper value** to avoid scroll bounce. One way is to use the content height which can be mensured by the inspector in the devTool after load.
 
-- `offset: Number` Default: `150`. Offset to the bottom of viewport that triggers loading when the component is in the scope.
+- `offset: Number` Default: `150`. Offset to the bottom of the viewport that triggers loading when the component is in the scope.
 
 > The Number value uses `px` as unit.
 
