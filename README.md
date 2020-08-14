@@ -30,7 +30,7 @@ For sapper server-side rendering and [using external components][6], install it 
 
 ## Props
 
-- `height: Number|String` Default: `0`. Height of the placeholder before load. 
+- `height: Number|String` Default: `0`. Height of the component before load. 
 
     **Set a proper value** to avoid scroll bounce. One way is to use the content height which can be mensured by the inspector in the devTool after load.
 
