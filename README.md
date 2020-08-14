@@ -25,21 +25,23 @@ For sapper server-side rendering and [Using external components](https://github.
 </Lazy>
 ```
 
-## `<Lazy>` props
+## Props
 
-- `height: Number|String` Default: `0`. Height of the placeholder before load. **Set a proper value** to avoid scroll bounce. One way is to use the content height which can be mensured by the inspector in the devTool after load.
+- `height: Number|String` Default: `0`. Height of the placeholder before load. 
+
+    **Set a proper value** to avoid scroll bounce. One way is to use the content height which can be mensured by the inspector in the devTool after load.
 
 - `offset: Number` Default: `150`. Offset to the bottom of viewport that triggers loading when the component is in the scope.
 
 > The Number value uses `px` as unit.
+
+- `placeholder: String|Component` Default: `null`. Placeholder before load.
 
 - `class: String` Default: `''`. Additional class for the container div. It will be `svelte-lazy ${class}`.
 
 - `fadeOption: Object` Default: `{ delay: 0, duration: 400 }`. Option for the fade in transition. Set `null` to disable it.
 
 - `onload: Function (node) => {}` Default: `null`. Fucntion that is called when loaded.
-
-- `placeholder: String|Component` Default: `null`. Placeholder before load.
 
 - `resetHeightDelay: Number` Default: `0` (milliseconds). Delay to reset the component height to `auto` after loaded. Might be useful to wait for remote resources like images.
 
