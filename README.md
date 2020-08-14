@@ -27,7 +27,7 @@ For sapper server-side rendering and [Using external components](https://github.
 
 ## `<Lazy>` props
 
-- `height: Number|String` Default: `0`. Height of the placeholder before the component is loaded. **Set a proper value** to avoid scroll bounce.
+- `height: Number|String` Default: `0`. Height of the placeholder before load. **Set a proper value** to avoid scroll bounce. One way is to use the content height which can be mensured by the inspector in the devTool after load.
 
 - `offset: Number` Default: `150`. Offset to the bottom of viewport that triggers loading when the component is in the scope.
 
@@ -37,11 +37,11 @@ For sapper server-side rendering and [Using external components](https://github.
 
 - `fadeOption: Object` Default: `{ delay: 0, duration: 400 }`. Option for the fade in transition. Set `null` to disable it.
 
-- `onload: Function (node) => {}` Default: `null`. Fucntion that is called when the component is loaded.
+- `onload: Function (node) => {}` Default: `null`. Fucntion that is called when loaded.
 
-- `placeholder: String|Component` Default: `null`. Placeholder before the component is loaded.
+- `placeholder: String|Component` Default: `null`. Placeholder before load.
 
-- `resetHeightDelay: Number` Default: `0` (milliseconds). Delay to reset the component height to `auto` after it is loaded. Might be useful for remote resources like images to load first.
+- `resetHeightDelay: Number` Default: `0` (milliseconds). Delay to reset the component height to `auto` after loaded. Might be useful to wait for remote resources like images.
 
 ## Changelog
 
