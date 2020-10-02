@@ -4,6 +4,7 @@
   "module": "index.mjs",
   "main": "index.js",
   "version": "1.0.5",
+  "types": "index.d.ts",
   "repository": "leafOfTree/svelte-lazy",
   "license": "UNLICENSE",
   "scripts": {
@@ -23,6 +24,9 @@
     "rollup-plugin-serve": "^1.0.3",
     "rollup-plugin-svelte": "^5.2.3",
     "svelte": "^3.24.1"
+  },
+  "peerDependencies": {
+    "svelte": "3.x"
   },
   "keywords": [
     "svelte",
