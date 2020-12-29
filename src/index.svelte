@@ -8,10 +8,10 @@
       <slot>Lazy load content</slot>
     </div>
     {#if contentDisplay === 'hide'}
-      <Placeholder {placeholder} />
+      <Placeholder {placeholder} {placeholderProps}/>
     {/if}
   {:else}
-    <Placeholder {placeholder} />
+  <Placeholder {placeholder} {placeholderProps}/>
   {/if}
 </div>
 <script>
@@ -26,6 +26,7 @@
   export let resetHeightDelay = 0;
   export let onload = null;
   export let placeholder = null;
+  export let placeholderProps = null;
   let className = '';
   export { className as class };
 
