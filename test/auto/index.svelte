@@ -41,6 +41,18 @@
   </Lazy>
 
   <Lazy 
+    class="custom-props"
+    height={300}
+    offset={300}
+    onload={onload} 
+    fadeOption={null}
+    placeholder={Loading}
+    placeholderProps={{name: 'Custom'}}
+  >
+    <img alt="" src="p2.jpg" />
+  </Lazy>
+
+  <Lazy 
     class="any-content"
     height={300} 
     placeholder={'Loading...'} 

@@ -13,6 +13,7 @@ async function test() {
   await testTop()
   await testBasic()
   await testExtend()
+  await testCustomProps()
   await testAnyContent()
   await testImg404()
   await testImgDelay()
@@ -75,6 +76,15 @@ async function test() {
       assert(elem.style.height, 'auto')
       assert(window.extend.onload, true)
     } 
+  }
+
+  //test custom props
+  async function testCustomProps() {
+    console.log('Test custom props -----------------')
+    const elem = document.querySelector('.custom-props')
+    if (elem) {
+      assert(elem.textContent, 'Loading Custom')
+    }
   }
 
   // Test any content in Lazy
