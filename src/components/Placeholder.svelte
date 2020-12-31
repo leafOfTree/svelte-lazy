@@ -2,7 +2,7 @@
   {#if typeof placeholder === 'string'}
     <div>{placeholder}</div>
   {:else if ['function', 'object'].includes(typeof placeholder)}
-    <svelte:component this={placeholder} {...(placeholderProps || {})}/>
+    <svelte:component this={placeholder} {...placeholderProps} />
   {/if}
 </div>
 <script>

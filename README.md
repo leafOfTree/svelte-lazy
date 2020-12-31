@@ -40,7 +40,7 @@ For sapper server-side rendering and [using external components][6], install it 
 
 - `placeholder: String|Component` Default: `null`. Placeholder before load.
 
-- `placeholderProps: Object` Default `null`. When using a Component as a placeholder, allows to pass props to the component.
+- `placeholderProps: Object` Default `null`. When using a component as a placeholder, the props will be passed to it.
 
 - `class: String` Default: `''`. Additional class for the container div. It will be `svelte-lazy ${class}`.
 

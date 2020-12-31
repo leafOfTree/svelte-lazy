@@ -78,7 +78,7 @@ async function test() {
     } 
   }
 
-  //test custom props
+  // Test custom props
   async function testCustomProps() {
     console.log('Test custom props -----------------')
     const elem = document.querySelector('.custom-props')

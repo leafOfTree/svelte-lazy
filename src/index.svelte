@@ -8,10 +8,12 @@
       <slot>Lazy load content</slot>
     </div>
     {#if contentDisplay === 'hide'}
-      <Placeholder {placeholder} {placeholderProps}/>
+      <Placeholder {placeholder} {placeholderProps} />
+
     {/if}
   {:else}
-  <Placeholder {placeholder} {placeholderProps}/>
+    <Placeholder {placeholder} {placeholderProps} />
+
   {/if}
 </div>
 <script>
