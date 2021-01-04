@@ -40,6 +40,8 @@ For sapper server-side rendering and [using external components][6], install it 
 
 - `placeholder: String|Component` Default: `null`. Placeholder before load.
 
+- `placeholderProps: Object` Default `null`. When using a component as a placeholder, the props will be passed to it.
+
 - `class: String` Default: `''`. Additional class for the container div. It will be `svelte-lazy ${class}`.
 
 - `fadeOption: Object` Default: `{ delay: 0, duration: 400 }`. Option for the fade in transition. Set `null` to disable it.
