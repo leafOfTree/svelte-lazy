@@ -90,6 +90,14 @@ After load
     npm i
     npm start
 
+## Test
+
+    npm test
+
+## Publish
+
+For the maintainer, bump the version in `package.json` then run `npm publish`.
+
 ## Refs
 
 Based on [sveltejs/component-template: A base for building shareable Svelte components](https://github.com/sveltejs/component-template)
