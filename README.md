@@ -10,7 +10,7 @@ A svelte component to lazyload any content including images.
 
     npm i svelte-lazy
 
-For sapper server-side rendering and [using external components][6], install it to `devDependencies`:
+For sapper server-side rendering which requires [using external components][6], install it to `devDependencies`:
 
     npm i -D svelte-lazy
 
@@ -60,9 +60,10 @@ v0 -> v1.0
 ## Life cycle
 
 ```
-            enter viewport  /                 no image -> loaded
-not loaded --------------->
+            enter viewport  / no image                 -> loaded
+not loaded  -------------->
                             \ with image -> load event -> loaded
+                                                |
                                                 |
             show placeholder                    |     show content
 ``` 
