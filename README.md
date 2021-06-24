@@ -1,6 +1,6 @@
 # svelte-lazy [![Build Status][1]][2] [![npm version][3]][4]
 
-A svelte component to lazyload any content including images. 
+A svelte component to lazyload any content including images. [Demo on svelte.dev/repl][5]. 
 
 <p align="center">
 <img alt="demo image" src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/HEAD/svelte-lazy.png" width="120" />
@@ -26,17 +26,15 @@ For sapper server-side rendering which requires [using external components][6], 
 </Lazy>
 ```
 
-[Demo on svelte.dev/repl][5].
-
 ## Props
 
 - `height: Number|String` Default: `0`. Height of the component before load. 
 
     **Set a proper value** to avoid scroll bounce. One way is to use the content height which can be mensured by the inspector in the devTool after load.
 
-- `offset: Number` Default: `150`. Offset to the bottom of the viewport that triggers loading when the component is in the scope.
+- `offset: Number` Default: `150`. Offset from the top of the component to the bottom of the viewport that triggers loading when in it.
 
-> The Number value uses `px` as unit.
+    > Number values use `px` as unit.
 
 - `placeholder: String|Component` Default: `null`. Placeholder before load.
 
