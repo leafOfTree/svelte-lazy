@@ -7,15 +7,14 @@
     >
       <slot>Lazy load content</slot>
     </div>
-    {#if contentDisplay === 'hide'}
+    {#if contentDisplay === 'hide' && placeholder}
       <Placeholder {placeholder} {placeholderProps} />
-
     {/if}
-  {:else}
+  {:else if placeholder}
     <Placeholder {placeholder} {placeholderProps} />
-
   {/if}
 </div>
+
 <script>
   import { fade } from 'svelte/transition';
   import Placeholder from './components/Placeholder.svelte';
