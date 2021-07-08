@@ -80,6 +80,14 @@
   >
     <img alt="" src="delay.jpg" />
   </Lazy>
+
+  <Lazy 
+    class="empty-placeholder"
+    height={300}
+    offset={300}
+  >
+    <img alt="" src="p3.jpg" />
+  </Lazy>
 </div>
 
 <script>

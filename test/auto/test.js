@@ -3,7 +3,6 @@ const sleep = timeout => new Promise(resolve => setTimeout(resolve, timeout))
 // window.addEventListener('load', test)
 
 async function test() {
-  console.log('Start test')
   setup()
 
   const container = document.querySelector('.container')
@@ -17,6 +16,7 @@ async function test() {
   await testAnyContent()
   await testImg404()
   await testImgDelay()
+  await testEmptyPlaceholder()
 
   showResult()
 
@@ -149,10 +149,15 @@ async function test() {
     }
   }
 
+  // Test empty placeholder, it should not appear in DOM
+  async function testEmptyPlaceholder() {
+    console.log('Test empty placeholder --------------------')
+    const elem = document.querySelector('.empty-placeholder')
+    assert(!!elem.querySelector('.svelte-lazy-placeholder'), false)
+  }
 }
 
 function setup() {
-  console.log('Setup test')
   window.failed = false
   window.errors = []
 }

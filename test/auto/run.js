@@ -36,8 +36,6 @@ async function runBrowser() {
   })
 
   page.on('load', async () => {
-    console.log('Page fully loaded')
-
     await page.evaluate(() => test())
     const [failed, errors] = await page.evaluate(
       () => [window.failed, window.errors]
