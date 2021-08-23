@@ -28,14 +28,12 @@ For sapper server-side rendering which requires [using external components][6], 
 
 ## Props
 
-- `height: Number|String` Default: `0`.
+- `height: Number|String` Default: `0` (px for Number).
     - Height of the component before load. 
     - **Set a proper value** to avoid scroll bounce. One way is to use the content height which can be mensured by the inspector in the devTool after load.
-    - Number values use `px` as unit.
 
-- `offset: Number` Default: `150`. 
+- `offset: Number` Default: `150` (px). 
     - Offset from the top of the component to the bottom of the viewport that triggers loading when in it.
-    - Use `px` as unit.
 
 - `placeholder: String|Component` Default: `null`. 
     - Placeholder before load.
