@@ -30,29 +30,29 @@ For sapper server-side rendering which requires [using external components][6], 
 
 ## Props
 
-- `height: Number|String` Default: `0` (px for Number).
+- **height**: *Number|String*. Default: `0` (px for Number).
     - Height of the component before load. 
     - **Set a proper value** to avoid scroll bounce. One way is to use the content height which can be measured by the inspector in the devTool after load.
 
-- `offset: Number` Default: `150` (px). 
+- **offset**: *Number*. Default: `150` (px). 
     - Offset from the top of the component to the bottom of the viewport that triggers loading when in it.
 
-- `placeholder: String|Component` Default: `null`. 
+- **placeholder**: *String|Component*. Default: `null`. 
     - Placeholder before load.
 
-- `placeholderProps: Object` Default `null`. 
+- **placeholderProps**: *Object*. Default `null`. 
     - Props for when using a component as a placeholder.
 
-- `class: String` Default: `''`. 
+- **class**: *String*. Default: `''`. 
     - Additional class for the container div. It will be `svelte-lazy ${class}`.
 
-- `fadeOption: Object` Default: `{ delay: 0, duration: 400 }`. 
+- **fadeOption**: *Object*. Default: `{ delay: 0, duration: 400 }`. 
     - Option for the fade in transition. Set `null` to disable it.
 
-- `onload: Function (node) => {}` Default: `null`. 
+- **onload**: *Function (node) => {}*. Default: `null`. 
     - Fucntion that is called when loaded.
 
-- `resetHeightDelay: Number` Default: `0` (milliseconds). 
+- **resetHeightDelay**: *Number*. Default: `0` (milliseconds). 
     - Delay to reset the component height to `auto` after loaded. Might be useful to wait for remote resources like images.
 
 ## Changelog
