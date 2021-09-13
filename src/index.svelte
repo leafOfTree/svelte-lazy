@@ -1,4 +1,4 @@
-<div use:load class={rootClass}>
+<div use:load class={rootClass} style="height: {rootInitialHeight}">
   {#if loaded}
     <div 
       in:fade={fadeOption || {}} 
@@ -34,6 +34,7 @@
   const rootClass = 'svelte-lazy' 
     + (className ? ' ' + className : '');
   const contentClass = 'svelte-lazy-content';
+  const rootInitialHeight = getStyleHeight();
   let loaded = false;
 
   let contentDisplay = '';
@@ -76,11 +77,15 @@
     };
   }
 
+  function getStyleHeight() {
+    return (typeof height === 'number') 
+      ? height + 'px' 
+      : height;
+  }
+
   function setHeight(node) {
     if (height) {
-      node.style.height = (typeof height === 'number') 
-        ? height + 'px' 
-        : height;
+      node.style.height = getStyleHeight();
     }
   }
 
