@@ -21,6 +21,12 @@
     {/each}
   </div>
 
+  <Lazy height={300}>
+    <video controls height={300}>
+      <source src="auto/flower.mp4" />
+    </video>
+  </Lazy>
+
   <!-- test -->
   <Lazy 
     class="basic"
