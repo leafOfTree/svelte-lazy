@@ -1,9 +1,10 @@
 <h1>Hello, Lazy!</h1>
 <div class="container">
   <!-- 
-  Image credits:
+  Image/video credits:
   p1.jpg: https://picsum.photos/id/412/400/300 
   p2.jpg: https://picsum.photos/id/547/400/300
+  flower.mp4: https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4
   -->
 
   <Lazy 
@@ -21,7 +22,7 @@
     {/each}
   </div>
 
-  <Lazy height={300}>
+  <Lazy>
     <video controls height={300}>
       <source src="auto/flower.mp4" />
     </video>
@@ -71,14 +72,14 @@
 </script>
 
 <style>
-  img {
+  img, video {
     display: block;
     margin: 12px;
     border-radius: 6px;
     box-shadow: 0 0 0 1px rgba(0,0,0,.05), 0 2px 3px 0 rgba(0,0,0,.1);
   }
   h1 {
-    width: 70vh;
+    width: 80vh;
     margin: auto;
     margin-bottom: 6vh;
   }
@@ -86,7 +87,7 @@
     min-height: 900px;
   }
   .container {
-    width: 70vh;
+    width: 80vh;
     height: 70vh;
     overflow-y: scroll;
     margin: auto;
