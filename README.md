@@ -50,10 +50,10 @@ For sapper server-side rendering which requires [using external components][6], 
     - Option for the fade in transition. Set `null` to disable it.
 
 - **onload**: *Function (node) => {}*. Default: `null`. 
-    - Fucntion that is called when loaded.
+    - Function that is called when loaded.
 
 - **resetHeightDelay**: *Number*. Default: `0` (milliseconds). 
-    - Delay to reset the component height to `auto` after loaded. Might be useful to wait for remote resources like images.
+    - The delay to reset the component height to `auto` after loaded. Might be useful to wait for remote resources like images.
 
 ## Changelog
 

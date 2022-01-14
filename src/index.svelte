@@ -88,12 +88,12 @@
   }
 
   function resetHeight(node) {
-    // Add delay for remote resources like images to load
     setTimeout(() => {
       const isLoading = checkImgLoadingStatus(node);
       if (!isLoading) {
         node.style.height = 'auto';
       }
+    // Add a delay to wait for remote resources like images to load
     }, resetHeightDelay);
   }
 
