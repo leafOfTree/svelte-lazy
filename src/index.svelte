@@ -51,28 +51,28 @@
         loaded = true;
         resetHeight(node);
         onload && onload(node);
-        removeListeners();
+        removeListeners(loadHandler);
       }
     }, 200);
 
+    addListeners(loadHandler);
     loadHandler();
-    addListeners();
-
-    function addListeners() {
-      document.addEventListener('scroll', loadHandler, true);
-      window.addEventListener('resize', loadHandler);
-    }
-
-    function removeListeners() {
-      document.removeEventListener('scroll', loadHandler, true);
-      window.removeEventListener('resize', loadHandler);
-    }
 
     return {
       destroy: () => {
-        removeListeners();
+        removeListeners(loadHandler);
       },
     };
+  }
+
+  function addListeners(handler) {
+    document.addEventListener('scroll', handler, true);
+    window.addEventListener('resize', handler);
+  }
+
+  function removeListeners(handler) {
+    document.removeEventListener('scroll', handler, true);
+    window.removeEventListener('resize', handler);
   }
 
   function getStyleHeight() {
@@ -90,14 +90,14 @@
   function resetHeight(node) {
     // Add delay for remote resources like images to load
     setTimeout(() => {
-      const handled = handleImgContent(node);
-      if (!handled) {
+      const isLoading = checkImgLoadingStatus(node);
+      if (!isLoading) {
         node.style.height = 'auto';
       }
     }, resetHeightDelay);
   }
 
-  function handleImgContent(node) {
+  function checkImgLoadingStatus(node) {
     const img = node.querySelector('img');
     if (!img) {
       return false
@@ -107,13 +107,13 @@
       contentHide = true;
 
       node.addEventListener('load', () => {
-        // Use auto height if loaded successfully
+        // Use auto height if loading successfully
         contentHide = false;
         node.style.height = 'auto';
       }, { capture: true, once: true });
 
       node.addEventListener('error', () => {
-        // Use passed height if there is error
+        // Show content with fixed height if there is error
         contentHide = false;
       }, { capture: true, once: true });
 
@@ -121,7 +121,7 @@
     } 
 
     if (img.naturalHeight === 0) {
-      // Use passed height if img has zero height
+      // Use fixed height if img has zero height
       return true;
     }
 
