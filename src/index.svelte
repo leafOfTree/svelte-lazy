@@ -7,7 +7,7 @@
     >
       <slot>Lazy load content</slot>
     </div>
-    {#if contentHide && placeholder}
+    {#if !contentShow && placeholder}
       <Placeholder {placeholder} {placeholderProps} />
     {/if}
   {:else if placeholder}
@@ -37,8 +37,8 @@
   const rootInitialHeight = getStyleHeight();
   let loaded = false;
 
-  let contentHide = false;
-  $: contentStyle = contentHide ? 'display: none' : '';
+  let contentShow = true;
+  $: contentStyle = !contentShow ? 'display: none' : '';
 
   function load(node) {
     setHeight(node);
@@ -104,17 +104,17 @@
     }
 
     if (!img.complete) {
-      contentHide = true;
+      contentShow = false;
 
       node.addEventListener('load', () => {
         // Use auto height if loading successfully
-        contentHide = false;
+        contentShow = true;
         node.style.height = 'auto';
       }, { capture: true, once: true });
 
       node.addEventListener('error', () => {
         // Show content with fixed height if there is error
-        contentHide = false;
+        contentShow = true;
       }, { capture: true, once: true });
 
       return true;
