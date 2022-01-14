@@ -56,7 +56,9 @@
     }, 200);
 
     addListeners(loadHandler);
-    loadHandler();
+    setTimeout(() => {
+      loadHandler();
+    });
 
     return {
       destroy: () => {
