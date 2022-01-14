@@ -7,7 +7,7 @@
     >
       <slot>Lazy load content</slot>
     </div>
-    {#if contentDisplay === 'hide' && placeholder}
+    {#if contentHide && placeholder}
       <Placeholder {placeholder} {placeholderProps} />
     {/if}
   {:else if placeholder}
@@ -37,10 +37,8 @@
   const rootInitialHeight = getStyleHeight();
   let loaded = false;
 
-  let contentDisplay = '';
-  $: contentStyle = contentDisplay === 'hide' 
-    ? 'display: none' 
-    : '';
+  let contentHide = false;
+  $: contentStyle = contentHide ? 'display: none' : '';
 
   function load(node) {
     setHeight(node);
@@ -101,26 +99,33 @@
 
   function handleImgContent(node) {
     const img = node.querySelector('img');
-    if (img) {
-      if (!img.complete) {
-        contentDisplay = 'hide';
+    if (!img) {
+      return false
+    }
 
-        node.addEventListener('load', () => {
-          contentDisplay = '';
-          node.style.height = 'auto';
-        }, { capture: true, once: true });
+    if (!img.complete) {
+      contentHide = true;
 
-        node.addEventListener('error', () => {
-          // Keep passed height if there is error
-          contentDisplay = '';
-        }, { capture: true, once: true });
+      node.addEventListener('load', () => {
+        // Use auto height if loaded successfully
+        contentHide = false;
+        node.style.height = 'auto';
+      }, { capture: true, once: true });
 
-        return true;
-      } else if (img.naturalHeight === 0) {
-        // Keep passed height if img has zero height
-        return true;
-      }
-    }  
+      node.addEventListener('error', () => {
+        // Use passed height if there is error
+        contentHide = false;
+      }, { capture: true, once: true });
+
+      return true;
+    } 
+
+    if (img.naturalHeight === 0) {
+      // Use passed height if img has zero height
+      return true;
+    }
+
+    return false;
   }
 
   function getContainerHeight(e) {
