@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/master/svelte-lazy.svg" width="60" height="60" alt="icon" align="left"/>
 
-# svelte-lazy [![Build Status][1]][2] [![npm version][3]][4]
+# svelte-lazy [![npm version][3]][4]
 
 A svelte component to lazyload any content including images. [Demo on svelte.dev/repl][5]. 
 
