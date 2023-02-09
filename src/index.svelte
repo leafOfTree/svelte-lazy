@@ -42,46 +42,49 @@
 
   function load(node) {
     setHeight(node);
-
-    const loadHandler = throttle(e => {
-      const nodeTop = node.getBoundingClientRect().top;
-      const expectedTop = getContainerHeight(e) + offset;
-
-      if (nodeTop <= expectedTop) {
-        loadNode(node, loadHandler);
-      }
-    }, 200);
-
-    addListeners(loadHandler);
+    const handler = createHandler(node);
+    addListeners(handler);
     setTimeout(() => {
-      loadHandler();
-      observeNode(node, loadHandler);
+      handler();
+      observeNode(node, handler);
     });
 
     return {
       destroy: () => {
-        removeListeners(loadHandler);
+        removeListeners(handler);
       },
     };
   }
 
-  function observeNode(node, loadHandler) {
+  function createHandler(node) {
+    const handler = throttle(e => {
+      const nodeTop = node.getBoundingClientRect().top;
+      const expectedTop = getContainerHeight(e) + offset;
+
+      if (nodeTop <= expectedTop) {
+        loadNode(node, handler);
+      }
+    }, 200);
+    return handler;
+  }
+
+  function observeNode(node, handler) {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].intersectionRatio > 0) {
-        loadNode(node, loadHandler);
+        loadNode(node, handler);
         observer.unobserve(entries[0].target);
       }
     })
     observer.observe(node);
   }
 
-  function loadNode(node, loadHandler) {
+  function loadNode(node, handler) {
     loaded = true;
     resetHeight(node);
     if (onload) {
       onload(node);
     }
-    removeListeners(loadHandler);
+    removeListeners(handler);
   }
 
   function addListeners(handler) {
@@ -148,7 +151,7 @@
   }
 
   function getContainerHeight(e) {
-    if (e && e.target && e.target.getBoundingClientRect) {
+    if (e?.target?.getBoundingClientRect) {
       return e.target.getBoundingClientRect().bottom;
     } else {
       return window.innerHeight;
