@@ -48,16 +48,14 @@
       const expectedTop = getContainerHeight(e) + offset;
 
       if (nodeTop <= expectedTop) {
-        loaded = true;
-        resetHeight(node);
-        onload && onload(node);
-        removeListeners(loadHandler);
+        loadNode(node, loadHandler);
       }
     }, 200);
 
     addListeners(loadHandler);
     setTimeout(() => {
       loadHandler();
+      observeNode(node, loadHandler);
     });
 
     return {
@@ -65,6 +63,25 @@
         removeListeners(loadHandler);
       },
     };
+  }
+
+  function observeNode(node, loadHandler) {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].intersectionRatio > 0) {
+        loadNode(node, loadHandler);
+        observer.unobserve(entries[0].target);
+      }
+    })
+    observer.observe(node);
+  }
+
+  function loadNode(node, loadHandler) {
+    loaded = true;
+    resetHeight(node);
+    if (onload) {
+      onload(node);
+    }
+    removeListeners(loadHandler);
   }
 
   function addListeners(handler) {
