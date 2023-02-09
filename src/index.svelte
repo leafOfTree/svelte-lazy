@@ -46,12 +46,13 @@
     addListeners(handler);
     setTimeout(() => {
       handler();
-      observeNode(node, handler);
     });
+    const observer = observeNode(node, handler);
 
     return {
       destroy: () => {
         removeListeners(handler);
+        observer.unobserve(node);
       },
     };
   }
@@ -76,9 +77,14 @@
       }
     })
     observer.observe(node);
+    return observer;
   }
 
   function loadNode(node, handler) {
+    if (loaded) {
+      return;
+    }
+
     loaded = true;
     resetHeight(node);
     if (onload) {
