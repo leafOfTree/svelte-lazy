@@ -3,7 +3,7 @@
   "svelte": "src/index.svelte",
   "module": "index.mjs",
   "main": "index.js",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "types": "index.d.ts",
   "repository": "leafOfTree/svelte-lazy",
   "license": "UNLICENSE",
