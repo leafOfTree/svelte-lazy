@@ -27,7 +27,7 @@ require('http').createServer((req, res) => {
 
 async function runBrowser() {
   const browser = await puppeteer.launch({ 
-    headless: true,
+    headless: 'new',
   })
   const page = await browser.newPage()
   await page.setViewport({

@@ -38,6 +38,7 @@ async function test() {
       assert(elem.textContent, 'Loading...')
 
       // In offset
+      await sleep(500)
       await scroll(container, elem.offsetTop - container.clientHeight)
       assert(elem.style.height, 'auto')
     }  
