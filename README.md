@@ -112,5 +112,5 @@ Based on [sveltejs/component-template: A base for building shareable Svelte comp
 [2]: https://travis-ci.com/leafOfTree/svelte-lazy
 [3]: https://img.shields.io/npm/v/svelte-lazy.svg
 [4]: https://www.npmjs.com/package/svelte-lazy
-[5]: https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1?version=3.6.10
+[5]: https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1
 [6]: https://github.com/sveltejs/sapper-template#using-external-components
