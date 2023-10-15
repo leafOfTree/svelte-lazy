@@ -1,6 +1,7 @@
 <script>
   import Tabs from './Tabs.svelte';
   import ScrollList from './ScrollList.svelte';
+  import LongScrollList from './LongScrollList.svelte';
   import FilterList from './FilterList.svelte';
 
   const items = [
@@ -10,8 +11,13 @@
       component: ScrollList,
     },
     {
-      label: 'Filter',
+      label: 'Long Scroll',
       value: 2,
+      component: LongScrollList,
+    },
+    {
+      label: 'Filter',
+      value: 3,
       component: FilterList,
     },
   ]

@@ -28,12 +28,15 @@
     </video>
   </Lazy>
 
-  <Lazy height={300}>
-    <video controls height={300}>
-      <track kind="captions" />
-      <source src="auto/flower.mp4" />
-    </video>
-  </Lazy>
+  <!-- a long list -->
+  {#each Array.from({ length: 1000 }, (v, k) => k + 1) as i}
+    <Lazy height={300}>
+      <video controls height={300}>
+        <track kind="captions" />
+        <source src="auto/flower.mp4" />
+      </video>
+    </Lazy>
+  {/each}
 
   <!-- test 404 resource -->
   <Lazy 

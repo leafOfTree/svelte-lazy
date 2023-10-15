@@ -60,10 +60,13 @@
   function createHandler(node) {
     const handler = throttle(e => {
       const nodeTop = node.getBoundingClientRect().top;
+      const nodeBottom = node.getBoundingClientRect().bottom;
       const expectedTop = getContainerHeight(e) + offset;
 
-      if (nodeTop <= expectedTop) {
-        loadNode(node, handler);
+      if (nodeTop <= expectedTop && nodeBottom > 0) {
+        loadNode(node);
+      } else {
+        unload(node)
       }
     }, 200);
     return handler;
@@ -71,13 +74,18 @@
 
   function observeNode(node, handler) {
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].intersectionRatio > 0) {
-        loadNode(node, handler);
-        observer.unobserve(entries[0].target);
+      if (entries[0].isIntersecting) {
+        loadNode(node);
+        observer.unobserve(entries[0].target)
       }
     })
     observer.observe(node);
     return observer;
+  }
+
+  function unload(node) {
+    setHeight(node);
+    loaded = false
   }
 
   function loadNode(node, handler) {
@@ -90,7 +98,6 @@
     if (onload) {
       onload(node);
     }
-    removeListeners(handler);
   }
 
   function addListeners(handler) {
