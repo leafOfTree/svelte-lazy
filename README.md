@@ -57,6 +57,10 @@ For sapper server-side rendering which requires [using external components][6], 
 
 ## Changelog
 
+v1.2.2
+- Support svelte 3 & 4
+- Load/unload when enters/leaves view
+
 v0 -> v1.0
 
 - Adjust dom structure
