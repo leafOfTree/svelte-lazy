@@ -76,7 +76,6 @@
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         loadNode(node);
-        observer.unobserve(entries[0].target)
       }
     })
     observer.observe(node);
