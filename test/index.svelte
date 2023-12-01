@@ -3,6 +3,7 @@
   import ScrollList from './ScrollList.svelte';
   import LongScrollList from './LongScrollList.svelte';
   import FilterList from './FilterList.svelte';
+  import ScrollListKeep from "./ScrollListKeep.svelte";
 
   const items = [
     {
@@ -19,6 +20,11 @@
       label: 'Filter',
       value: 3,
       component: FilterList,
+    },
+    {
+        label: 'Scroll Keep',
+        value: 4,
+        component: ScrollListKeep,
     },
   ]
 </script>
