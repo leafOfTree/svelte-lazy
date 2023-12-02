@@ -30,12 +30,12 @@ For sapper server-side rendering which requires [using external components][6], 
 
 ## Props
 
-- **keep**: *Boolean*. Default: `false`.
-  - By default elements get unloaded after leaving view, set to `true` to keep all loaded ones after first appearance.
-
 - **height**: *Number|String*. Default: `0` (px for Number).
     - Height of the component before load. 
     - **Set a proper value** to avoid scroll bounce. One way is to use the content height which can be measured by the inspector in the devTool after load.
+
+- **keep**: *Boolean*. Default: `false`.
+  - By default elements get unloaded after leaving view, set to `true` to keep all loaded ones after first appearance.
 
 - **offset**: *Number*. Default: `150` (px). 
     - Offset from the top of the component to the bottom of the viewport that triggers loading when in it.
