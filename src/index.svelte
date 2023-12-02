@@ -1,7 +1,7 @@
 <div use:load class={rootClass} style="height: {rootInitialHeight}">
   {#if loaded}
-    <div 
-      in:fade={fadeOption || {}} 
+    <div
+      in:fade={fadeOption || {}}
       class={contentClass}
       style={contentStyle}
     >
@@ -18,11 +18,12 @@
 <script>
   import { fade } from 'svelte/transition';
   import Placeholder from './components/Placeholder.svelte';
+  export let keep = false;
   export let height = 0;
   export let offset = 150;
   export let fadeOption = {
     delay: 0,
-    duration: 400, 
+    duration: 400,
   };
   export let resetHeightDelay = 0;
   export let onload = null;
@@ -31,7 +32,7 @@
   let className = '';
   export { className as class };
 
-  const rootClass = 'svelte-lazy' 
+  const rootClass = 'svelte-lazy'
     + (className ? ' ' + className : '');
   const contentClass = 'svelte-lazy-content';
   const rootInitialHeight = getStyleHeight();
@@ -65,7 +66,7 @@
 
       if (nodeTop <= expectedTop && nodeBottom > 0) {
         loadNode(node);
-      } else {
+      } else if (!keep) {
         unload(node)
       }
     }, 200);
@@ -110,8 +111,8 @@
   }
 
   function getStyleHeight() {
-    return (typeof height === 'number') 
-      ? height + 'px' 
+    return (typeof height === 'number')
+      ? height + 'px'
       : height;
   }
 
@@ -152,7 +153,7 @@
       }, { capture: true, once: true });
 
       return true;
-    } 
+    }
 
     if (img.naturalHeight === 0) {
       // Use fixed height if img has zero height
