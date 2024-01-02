@@ -1,6 +1,11 @@
 {
   "name": "svelte-lazy",
   "svelte": "src/index.svelte",
+  "exports": {
+    ".": {
+      "svelte": "./index.js"
+    }
+  }, 
   "module": "index.mjs",
   "main": "index.js",
   "version": "1.2.5",
