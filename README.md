@@ -30,9 +30,9 @@ For sapper server-side rendering which requires [using external components][6], 
 
 ## Props
 
-- **height**: *Number|String*. Default: `0` (px for Number).
+- **height**: *Number|String*. Default: `0` (px).
     - Height of the component before load. 
-    - **Set a proper value** to avoid scroll bounce. One way is to use the content height which can be measured by the inspector in the devTool after load.
+    - **Set a proper value** to avoid scroll bounce. You can use the content height shown by the DevTools Inspector after loading.
 
 - **keep**: *Boolean*. Default: `false`.
   - By default elements get unloaded after leaving view, set to `true` to keep all loaded ones after first appearance.
