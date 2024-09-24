@@ -1,22 +1,23 @@
-import svelte from 'rollup-plugin-svelte';
-import resolve from 'rollup-plugin-node-resolve';
-import livereload from 'rollup-plugin-livereload';
-import serve from 'rollup-plugin-serve';
+const svelte = require('rollup-plugin-svelte');
+const { nodeResolve } = require('@rollup/plugin-node-resolve');
+const livereload = require('rollup-plugin-livereload');
+const serve = require('rollup-plugin-serve');
+const css = require('rollup-plugin-css-only')
 
 const production = !process.env.ROLLUP_WATCH;
 
-export default {
+module.exports = {
   input: 'test/auto/main.js',
-  output: [
-    { file: 'test/auto/index.js', format: 'iife', name: 'app' },
-  ],
+  output: [{ file: 'test/auto/index.js', format: 'iife', name: 'app' }],
   plugins: [
     svelte(),
-    resolve({ browser: true }),
+    nodeResolve({ browser: true }),
+    css({ output: 'index.css' }), 
     !production && livereload('test'),
-    !production && serve({
-      open: true, 
-      contentBase: 'test',
-    }),
+    !production &&
+      serve({
+        open: true,
+        contentBase: 'test',
+      }),
   ],
 };

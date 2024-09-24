@@ -5,7 +5,7 @@
     ".": {
       "svelte": "./src/index.svelte"
     }
-  }, 
+  },
   "module": "index.mjs",
   "main": "index.js",
   "version": "1.2.7",
@@ -22,13 +22,13 @@
   },
   "devDependencies": {
     "node-static": "^0.7.11",
-    "puppeteer": "^23.2.1",
-    "rollup": "^1.32.1",
+    "puppeteer": "^23.4.0",
+    "rollup": "^4.22.4",
     "rollup-plugin-livereload": "^1.3.0",
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-serve": "^1.0.3",
-    "rollup-plugin-svelte": "^6.1.1",
-    "svelte": "^3.59.1"
+    "rollup-plugin-svelte": "^7.2.2",
+    "svelte": "^4.2.19"
   },
   "peerDependencies": {
     "svelte": "^3.0.0 || ^4.0.0"
@@ -43,8 +43,12 @@
     "index.mjs",
     "index.js",
     "index.d.ts"
-  ], 
-  "publishConfig":  {
+  ],
+  "publishConfig": {
     "registry": "https://registry.npmjs.org"
+  },
+  "dependencies": {
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "rollup-plugin-css-only": "^4.5.2"
   }
 }

@@ -1,13 +1,13 @@
-import svelte from 'rollup-plugin-svelte';
-import resolve from 'rollup-plugin-node-resolve';
-import pkg from './package.json';
+const svelte = require('rollup-plugin-svelte');
+const { nodeResolve } = require('@rollup/plugin-node-resolve');
+const pkg = require('./package.json');
 
 const name = pkg.name
 	.replace(/^(@\S+\/)?(svelte-)?(\S+)/, '$3')
 	.replace(/^\w/, m => m.toUpperCase())
 	.replace(/-\w/g, m => m[1].toUpperCase());
 
-export default {
+module.exports = {
 	input: 'src/index.svelte',
 	output: [
 		{ file: pkg.module, 'format': 'es' },
@@ -15,6 +15,6 @@ export default {
 	],
 	plugins: [
 		svelte(),
-		resolve()
+		nodeResolve()
 	]
 };
