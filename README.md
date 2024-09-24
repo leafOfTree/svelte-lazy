@@ -2,7 +2,7 @@
 
 # svelte-lazy [![npm version][3]][4]
 
-A svelte component to lazyload any content including images. [Demo on svelte.dev/repl][5]. 
+A svelte component to lazyload any content. [Demo on svelte.dev/repl][5]. 
 
 <p align="center">
 <img alt="demo image" src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/HEAD/svelte-lazy.png" width="120" />
