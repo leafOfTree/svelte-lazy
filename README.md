@@ -109,7 +109,7 @@ After load
 
 ## Publish
 
-For maintenance, bump the version in `package.json` then run `npm publish`.
+For maintenance, bump the version in `package.json` then run `npm build` and `npm publish`.
 
 ## Refs
 
