@@ -2,7 +2,10 @@
 
 # svelte-lazy [![npm version][3]][4]
 
-A svelte component to lazyload any content. [Demo on svelte.dev/repl][5]. 
+A svelte component to lazyload any content.
+
+- [Demo on svelte.dev/repl][5]
+- [Examples][7] and [their code][8]
 
 <p align="center">
 <img alt="demo image" src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/HEAD/svelte-lazy.png" width="120" />
@@ -121,3 +124,5 @@ Based on [sveltejs/component-template: A base for building shareable Svelte comp
 [4]: https://www.npmjs.com/package/svelte-lazy
 [5]: https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1
 [6]: https://github.com/sveltejs/sapper-template#using-external-components
+[7]: https://leafoftree.github.io/svelte-lazy/
+[8]: https://github.com/leafOfTree/svelte-lazy/blob/master/test/index.svelte
