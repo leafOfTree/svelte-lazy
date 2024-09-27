@@ -7,7 +7,7 @@
 
   const items = [
     {
-      label: 'Scroll',
+      label: 'Basic',
       value: 1,
       component: ScrollList,
     },
@@ -17,14 +17,14 @@
       component: LongScrollList,
     },
     {
-      label: 'Filter',
+      label: 'Scroll (Keep After Show)',
       value: 3,
-      component: FilterList,
+      component: ScrollListKeep,
     },
     {
-        label: 'Scroll Keep',
-        value: 4,
-        component: ScrollListKeep,
+      label: 'Filter',
+      value: 4,
+      component: FilterList,
     },
   ]
 </script>
