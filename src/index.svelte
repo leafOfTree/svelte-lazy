@@ -5,7 +5,11 @@
       class={contentClass}
       style={contentStyle}
     >
-      <slot>Lazy load content</slot>
+      {#if children}
+        {@render children()}
+      {:else}
+        Lazy load content
+      {/if}
     </div>
     {#if !contentShow && placeholder}
       <Placeholder {placeholder} {placeholderProps} />
@@ -18,28 +22,46 @@
 <script>
   import { fade } from 'svelte/transition';
   import Placeholder from './components/Placeholder.svelte';
-  export let keep = false;
-  export let height = 0;
-  export let offset = 150;
-  export let fadeOption = {
+  /**
+   * @typedef {Object} Props
+   * @property {boolean} [keep]
+   * @property {number} [height]
+   * @property {number} [offset]
+   * @property {any} [fadeOption]
+   * @property {number} [resetHeightDelay]
+   * @property {any} [onload]
+   * @property {any} [placeholder]
+   * @property {any} [placeholderProps]
+   * @property {string} [class]
+   * @property {import('svelte').Snippet} [children]
+   */
+
+  /** @type {Props} */
+  let {
+    keep = false,
+    height = 0,
+    offset = 150,
+    fadeOption = {
     delay: 0,
     duration: 400,
-  };
-  export let resetHeightDelay = 0;
-  export let onload = null;
-  export let placeholder = null;
-  export let placeholderProps = null;
-  let className = '';
-  export { className as class };
+  },
+    resetHeightDelay = 0,
+    onload = null,
+    placeholder = null,
+    placeholderProps = null,
+    class: className = '',
+    children
+  } = $props();
+  
 
   const rootClass = 'svelte-lazy'
     + (className ? ' ' + className : '');
   const contentClass = 'svelte-lazy-content';
   const rootInitialHeight = getStyleHeight();
-  let loaded = false;
+  let loaded = $state(false);
 
-  let contentShow = true;
-  $: contentStyle = !contentShow ? 'display: none' : '';
+  let contentShow = $state(true);
+  let contentStyle = $derived(!contentShow ? 'display: none' : '');
 
   function load(node) {
     setHeight(node);

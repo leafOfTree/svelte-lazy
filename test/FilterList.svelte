@@ -1,7 +1,7 @@
 <script>
 import Lazy from '../src/index.svelte';
 
-let search = '';
+let search = $state('');
 let data = [
   {id: 1, text: "one"},
   {id: 2, text: "two"},
@@ -50,7 +50,7 @@ const filterData = (() => {
   else 
     return [...data.filter(x => x.text.toLowerCase().includes(search.toLowerCase()))]
 })
-$: filteredData = filterData(search);
+let filteredData = $derived(filterData(search));
 
 </script>
 

@@ -3,13 +3,20 @@
     {#if typeof placeholder === 'string'}
       <div>{placeholder}</div>
     {:else if ['function', 'object'].includes(typeof placeholder)}
-      <svelte:component this={placeholder} {...placeholderProps} />
+      {@const SvelteComponent = placeholder}
+      <SvelteComponent {...placeholderProps} />
     {/if}
   </div>
 {/if}
 
 <script>
-  export let placeholder = null;
-  export let placeholderProps = null;
+  /**
+   * @typedef {Object} Props
+   * @property {any} [placeholder]
+   * @property {any} [placeholderProps]
+   */
+
+  /** @type {Props} */
+  let { placeholder = null, placeholderProps = null } = $props();
   const placeholderClass = 'svelte-lazy-placeholder';
 </script>
