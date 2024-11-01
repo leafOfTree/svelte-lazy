@@ -25,7 +25,7 @@
   /**
    * @typedef {Object} Props
    * @property {boolean} [keep]
-   * @property {number} [height]
+   * @property {number|string} [height]
    * @property {number} [offset]
    * @property {any} [fadeOption]
    * @property {number} [resetHeightDelay]
@@ -42,9 +42,9 @@
     height = 0,
     offset = 150,
     fadeOption = {
-    delay: 0,
-    duration: 400,
-  },
+      delay: 0,
+      duration: 400,
+    },
     resetHeightDelay = 0,
     onload = null,
     placeholder = null,
