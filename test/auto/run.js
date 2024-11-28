@@ -1,28 +1,32 @@
-const static = require('node-static')
+const express = require('express')
+const path = require('path')
 const puppeteer = require('puppeteer')
 
-const filePath = './test/auto'
+const app = express()
 const port = 3000
-const fileServer = new static.Server(filePath)
+const filePath = './test/auto'
 
-require('http').createServer((req, res) => {
-  req.addListener('end', () => {
-    fileServer.serve(req, res, (err, result) => {
-      if (err) {
-        if (req.url === '/delay.jpg') {
-          setTimeout(() => {
-            console.log('Replace delay.jpg with p2.jpg after 2s')
-            fileServer.serveFile('/p2.jpg', 200, {}, req, res)
-          }, 2000)
-        } else {
-          console.error('Error serving ' + req.url + ' - ' + err.message)
-        }
-      }
-    })
-  }).resume()
-}).listen(port, () => {
-  console.log(`Server listening on ${port}`)
-  runBrowser()
+// Serve static files
+app.use(express.static(filePath))
+
+// Special handling for delay.jpg
+app.get('/delay.jpg', (req, res) => {
+    setTimeout(() => {
+        console.log('Replace delay.jpg with p2.jpg after 2s')
+        res.sendFile(path.join(__dirname,'p2.jpg'))
+    }, 2000)
+})
+
+// Error handling
+app.use((err, req, res, next) => {
+    console.error('Error serving ' + req.url + ' - ' + err.message)
+    next(err)
+})
+
+// Start server
+app.listen(port, () => {
+    console.log(`Server listening on ${port}`)
+    runBrowser()
 })
 
 async function runBrowser() {
