@@ -1,12 +1,6 @@
 <script>
-  /**
-   * @typedef {Object} Props
-   * @property {any} [items]
-   * @property {number} [activeTabValue]
-   */
-
-  /** @type {Props} */
-  let { items = [], activeTabValue = $bindable(1) } = $props();
+  export let items = [];
+  export let activeTabValue = 1;
 
   const handleClick = tabValue => () => (activeTabValue = tabValue);
 </script>
@@ -14,14 +8,14 @@
 <ul>
 {#each items as item}
 	<li class={activeTabValue === item.value ? 'active' : ''}>
-		<button onclick={handleClick(item.value)}>{item.label}</button>
+		<button on:click={handleClick(item.value)}>{item.label}</button>
 	</li>
 {/each}
 </ul>
 {#each items as item}
 	{#if activeTabValue == item.value}
 	<div class="box">
-		<item.component/>
+		<svelte:component this={item.component}/>
 	</div>
 	{/if}
 {/each}

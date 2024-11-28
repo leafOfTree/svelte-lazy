@@ -7,11 +7,5 @@
 </style>
 
 <script>
-  /**
-   * @typedef {Object} Props
-   * @property {string} [name]
-   */
-
-  /** @type {Props} */
-  let { name = "Component" } = $props();
+  export let name = "Component";
 </script>
