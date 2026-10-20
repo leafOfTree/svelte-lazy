@@ -10,12 +10,7 @@
 </script>
 
 <div class="container">
-  <!-- 
-  Image/video credits:
-  p1.jpg: https://picsum.photos/id/412/400/300 
-  p2.jpg: https://picsum.photos/id/547/400/300
-  flower.mp4: https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4
-  -->
+  <!-- Image and video credits: public/media/CREDITS.md -->
 
   <Lazy
     class="top"
@@ -23,35 +18,35 @@
     placeholder="Loading..."
     fadeOption={{ delay: 100, duration: 4000 }}
   >
-    <img alt="" src="auto/p2.jpg" />
+    <img alt="" src="media/fjord.jpg" />
   </Lazy>
 
   <div class="preload">
-    {#each [1, 2, 3] as i (i)}
-      <img alt="" src="auto/p1.jpg" />
+    {#each ['strawberries', 'tea', 'vegetables'] as name (name)}
+      <img alt="" src="media/{name}.jpg" />
     {/each}
   </div>
 
   <Lazy>
     <video controls height={300}>
       <track kind="captions" />
-      <source src="auto/flower.mp4" />
+      <source src="media/flower.mp4" />
     </video>
   </Lazy>
 
   <Lazy height={300}>
     <video controls height={300}>
       <track kind="captions" />
-      <source src="auto/flower.mp4" />
+      <source src="media/flower.mp4" />
     </video>
   </Lazy>
 
   <!-- test 404 resource -->
   <Lazy class="basic" height={300} placeholder="Loading...">
-    <img alt="p3" src="auto/p3.jpg" />
+    <img alt="missing" src="media/missing.jpg" />
   </Lazy>
 
-  {#each [1, 2, 3] as i (i)}
+  {#each ['jellyfish', 'lioness', 'walrus'] as name (name)}
     <Lazy
       class="extend"
       height={300}
@@ -59,7 +54,7 @@
       placeholder={Loading}
       fadeOption={{ delay: 100, duration: 2000 }}
     >
-      <img alt="" src="auto/p2.jpg" />
+      <img alt="" src="media/{name}.jpg" />
     </Lazy>
   {/each}
 

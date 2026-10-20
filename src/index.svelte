@@ -42,12 +42,11 @@
   }
 
   function createHandler(node) {
-    const handler = throttle((e) => {
-      const nodeTop = node.getBoundingClientRect().top;
-      const nodeBottom = node.getBoundingClientRect().bottom;
-      const expectedTop = getContainerHeight(e) + offset;
+    const handler = throttle(() => {
+      const { top, bottom } = node.getBoundingClientRect();
+      const visible = getVisibleArea(node);
 
-      if (nodeTop <= expectedTop && nodeBottom > 0) {
+      if (top <= visible.bottom + offset && bottom > visible.top) {
         loadNode(node);
       } else if (!keep) {
         unload(node);
@@ -152,12 +151,18 @@
     return false;
   }
 
-  function getContainerHeight(e) {
-    if (e?.target?.getBoundingClientRect) {
-      return e.target.getBoundingClientRect().bottom;
-    } else {
-      return window.innerHeight;
+  // The part of the window not clipped by scroll containers of the node
+  function getVisibleArea(node) {
+    let top = 0;
+    let bottom = window.innerHeight;
+    for (let el = node.parentElement; el && el !== document.body; el = el.parentElement) {
+      if (/auto|scroll|overlay/.test(getComputedStyle(el).overflowY)) {
+        const rect = el.getBoundingClientRect();
+        top = Math.max(top, rect.top);
+        bottom = Math.min(bottom, rect.bottom);
+      }
     }
+    return { top, bottom };
   }
 
   // From underscore souce code
