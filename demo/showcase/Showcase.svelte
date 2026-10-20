@@ -89,7 +89,7 @@
     display: flex;
     gap: 36px;
     padding: 24px;
-    height: 480px;
+    height: 440px;
     box-sizing: border-box;
   }
   .feed {

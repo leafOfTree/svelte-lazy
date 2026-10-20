@@ -10,7 +10,7 @@ import { createServer } from 'vite';
 import { chromium } from 'playwright';
 
 const WIDTH = 640;
-const HEIGHT = 480;
+const HEIGHT = 440;
 const RADIUS = 16;
 const OUTPUT = 'docs/demo.gif';
 
