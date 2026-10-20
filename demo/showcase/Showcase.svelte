@@ -47,7 +47,7 @@
     {#each groups as group (group.title)}
       <h2>{group.title}</h2>
       {#each group.items as item (item.name)}
-        <Lazy height={226} offset={0} placeholder={Skeleton} onload={onload(item.name)}>
+        <Lazy height={198} offset={0} placeholder={Skeleton} onload={onload(item.name)}>
           <article>
             {#if item.photo}
               <!-- Delayed by the recording server, so the placeholder shows -->
@@ -93,7 +93,7 @@
     box-sizing: border-box;
   }
   .feed {
-    width: 420px;
+    width: 300px;
     flex: none;
     overflow-y: auto;
     border: 1px solid #d0d7de;
@@ -121,7 +121,7 @@
   img {
     display: block;
     width: 100%;
-    height: 160px;
+    height: 132px;
     object-fit: cover;
     border-radius: 8px;
   }

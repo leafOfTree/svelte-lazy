@@ -9,7 +9,7 @@ import { join } from 'node:path';
 import { createServer } from 'vite';
 import { chromium } from 'playwright';
 
-const WIDTH = 720;
+const WIDTH = 640;
 const HEIGHT = 480;
 const RADIUS = 16;
 const OUTPUT = 'docs/demo.gif';
@@ -69,10 +69,10 @@ await page.evaluate(async () => {
     const from = feed.scrollTop;
     const start = performance.now();
     for (let t = 0; t < 1; t = (performance.now() - start) / 500) {
-      feed.scrollTop = from + 244 * ease(t);
+      feed.scrollTop = from + 216 * ease(t);
       await new Promise(requestAnimationFrame);
     }
-    feed.scrollTop = from + 244;
+    feed.scrollTop = from + 216;
     await wait(1000);
   }
 });

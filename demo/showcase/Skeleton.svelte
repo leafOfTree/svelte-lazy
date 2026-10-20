@@ -17,7 +17,7 @@
     animation: shimmer 1.2s infinite linear;
   }
   .block {
-    height: 160px;
+    height: 132px;
   }
   .line {
     height: 14px;

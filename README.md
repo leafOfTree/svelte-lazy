@@ -10,7 +10,7 @@ A Svelte component to lazy load any content: images, videos, components or anyth
 Native `loading="lazy"` covers images and iframes. svelte-lazy also defers rendering any markup or component, keeps the layout stable while images load, and works in scroll containers.
 
 <p align="center">
-  <img alt="Demo: cards show a placeholder, then load as they scroll into view" src="https://raw.githubusercontent.com/leafOfTree/svelte-lazy/master/docs/demo.gif" width="720" />
+  <img alt="Demo: cards show a placeholder, then load as they scroll into view" src="https://raw.githubusercontent.com/leafOfTree/svelte-lazy/master/docs/demo.gif" width="640" />
 </p>
 
 [Examples](https://leafoftree.github.io/svelte-lazy/) ([code](demo/index.svelte)) · [Playground](https://svelte.dev/playground/6d7714fa3cce4909af6c6d187271e0a1)
