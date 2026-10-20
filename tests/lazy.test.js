@@ -14,6 +14,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 async function setup(props) {
   const { container, unmount } = await render(Scroller, props);
   const scroller = container.querySelector('.scroller');
+  /** @type {HTMLElement} */
   const lazy = container.querySelector('.svelte-lazy');
   // Scroll so that the top of <Lazy> is `distance` px below the scroller top
   const scrollTo = distance => {
@@ -22,6 +23,7 @@ async function setup(props) {
   return { lazy, scrollTo, unmount };
 }
 
+/** @type {(lazy: HTMLElement) => HTMLElement | null} */
 const content = lazy => lazy.querySelector('.svelte-lazy-content');
 const placeholder = lazy => lazy.querySelector('.svelte-lazy-placeholder');
 

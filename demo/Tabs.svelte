@@ -6,13 +6,13 @@
 </script>
 
 <ul>
-{#each items as item}
+{#each items as item (item.value)}
 	<li class={activeTabValue === item.value ? 'active' : ''}>
 		<button on:click={handleClick(item.value)}>{item.label}</button>
 	</li>
 {/each}
 </ul>
-{#each items as item}
+{#each items as item (item.value)}
 	{#if activeTabValue == item.value}
 	<div class="box">
 		<svelte:component this={item.component}/>

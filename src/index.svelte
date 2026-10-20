@@ -49,7 +49,7 @@
     setTimeout(() => {
       handler();
     });
-    const observer = observeNode(node, handler);
+    const observer = observeNode(node);
 
     return {
       destroy: () => {
@@ -74,7 +74,7 @@
     return handler;
   }
 
-  function observeNode(node, handler) {
+  function observeNode(node) {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         loadNode(node);
@@ -89,7 +89,7 @@
     loaded = false
   }
 
-  function loadNode(node, handler) {
+  function loadNode(node) {
     if (loaded) {
       return;
     }
@@ -179,14 +179,14 @@
     let previous = 0;
     if (!options) options = {};
     const later = function() {
-      previous = options.leading === false ? 0 : new Date();
+      previous = options.leading === false ? 0 : Date.now();
       timeout = null;
       result = func.apply(context, args);
       if (!timeout) context = args = null;
     };
 
-    return function(event) {
-      const now = new Date();
+    return function() {
+      const now = Date.now();
       if (!previous && options.leading === false) previous = now;
       const remaining = wait - (now - previous);
       context = this;
