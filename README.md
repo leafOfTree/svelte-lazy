@@ -13,7 +13,7 @@ Native `loading="lazy"` covers images and iframes. svelte-lazy also defers rende
   <img alt="Demo: cards show a placeholder, then load as they scroll into view" src="https://raw.githubusercontent.com/leafOfTree/svelte-lazy/master/docs/demo.gif" width="640" />
 </p>
 
-[Examples](https://leafoftree.github.io/svelte-lazy/) ([code](demo/index.svelte)) · [Playground](https://svelte.dev/playground/6d7714fa3cce4909af6c6d187271e0a1)
+[Live examples](https://leafoftree.github.io/svelte-lazy/) ([source](https://github.com/leafOfTree/svelte-lazy/tree/master/demo)) · [Try it in the Svelte Playground][playground]
 
 ## Install
 
@@ -129,3 +129,5 @@ See [CHANGELOG.md](CHANGELOG.md).
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development, tests and releases.
+
+[playground]: https://svelte.dev/playground/untitled#H4sIAAAAAAAAA51U246bOhT9lX08PeqMCgGitE09EKnvfTuPpQ-OvQnWGNuyndsg_v3IQGaSnksvQjKwr2utvaEnmnVIKPEHVAFTxZ7PJCGNVOgJ_dqTcLbRHQ0kuQR_tnYxJZCEbJnHf7NzowPq4AklpedO2rCpNYDsrHEBvrDnMzTOdPD2qvXbx1rHIG60D2BbE4yHCr4W-YdPCRT5Oo9n8T6eH1cJLJfj43r17TGmKQygDBMooII3PrCA9_nDY63L7AVBrcsWmUC3-TJGUuinlKHMZscUVGyugJVZW2xqXdrNX9wZpUCYo6aAjLfAmRNjWw_HFjXIANx06EHqYOAg8ZgA0wL2-jZIITugX5SZHTv2d2O1mTTzIAXcS_EwRGblqFeLcteGql-u8gGsYhxbowS6qiaRjNS7xWJREzBjp6q_f4BqMyvy7t0w6g9Qym4HTIWqJjUB73hVkzYE62mWWcn9vltMIDIpsl6KIVvlebZc5TWBbKxRZhHOptZ9FjEPo2B_pCk8IVo6NowYzmA0R0jTqNw_CcTg32VRCnkArpj3VU3iAGqy-azPMC9dAk9oA7AmoBuljsKXmZCHCOWCvtalD2eFY8Vp9tBPGlnjZZBGU2jkCcXjZA3GUiiW9jS_u8jmxvKcSi3wRKGYDZaJyIjCB3u6DtwaJ9Cljgm59xTWrw7Gn3bO7LWgcPeRv-dNM3u4UcZROLYy4GxqjA7pEScYW6MmoOPG2AuVjrmd1OnWhGC6CDY_tK9hdKfMlqn7xdWyP9ymUigi-Pz_k9KrSb4UaGdoRZ7_OUMW0lvFzhR2Tl50HVNTGbDzFDjqgO6XZGryeN3KdLder18Ry26XxPti_Fj776BsleFPc_pRitBSWOX5S68Li-Uq_9H8hv9u8nN8b2itmuL76V-vxDD-2OYNJgkJeAqEBrfH4VtCApPqKLUgtGHK4_A3BBDj2usFAAA

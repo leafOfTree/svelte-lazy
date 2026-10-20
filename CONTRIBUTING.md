@@ -45,6 +45,14 @@ npm run check:svelte
 npm run record:demo
 ```
 
+## Playground link
+
+The Playground link in the README has the code of `demo/playground/App.svelte` in it. After changing the file, print a new link and replace the one in the README:
+
+```sh
+npm run playground-link
+```
+
 ## Publish
 
 1. Bump the version in `package.json` and add the changes to `CHANGELOG.md`
