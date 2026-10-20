@@ -83,9 +83,6 @@ describe('loading', () => {
   test('loads when scrolled within offset', async () => {
     const onload = vi.fn();
     const { lazy, scrollTo } = await setup({ before: FAR, height: 200, offset: 150, onload });
-    // Let the check on mount run first. Throttled after a scroll, it would
-    // run without the scroll event and compare with the window height
-    await sleep(SETTLE);
 
     // 300px scroller + 150px offset: 500px below is outside
     scrollTo(500);
@@ -121,6 +118,43 @@ describe('loading', () => {
     await expect.poll(() => content(lazy)).not.toBeNull();
     expect(lazy.style.height).toBe('200px');
     await expect.poll(() => lazy.style.height).toBe('auto');
+  });
+});
+
+describe('scroll containers', () => {
+  test('does not load below the scroll container on mount', async () => {
+    // Below the 300px scroller and the offset, but within the window
+    const { lazy } = await setup({ before: 400, offset: 50 });
+    await sleep(SETTLE);
+    expect(content(lazy)).toBeNull();
+  });
+
+  test('unloads after scrolling above the scroll container', async () => {
+    const { lazy, scrollTo } = await setup({ before: FAR, height: 200, marginTop: 500 });
+    scrollTo(100);
+    await expect.poll(() => content(lazy)).not.toBeNull();
+
+    // 300px above the scroller top, which is 500px down the window: out of
+    // the scroller but still in the window
+    scrollTo(-300);
+    await expect.poll(() => content(lazy)).toBeNull();
+  });
+
+  test('ignores scrolling in another container', async () => {
+    const { lazy } = await setup({ before: FAR });
+    const other = document.createElement('div');
+    other.style.cssText = 'height: 5000px; overflow-y: auto';
+    other.innerHTML = '<div style="height: 10000px"></div>';
+    document.body.append(other);
+    // Past the check on mount and the throttle
+    await sleep(SETTLE);
+    try {
+      other.scrollTop = 100;
+      await sleep(SETTLE);
+      expect(content(lazy)).toBeNull();
+    } finally {
+      other.remove();
+    }
   });
 });
 
