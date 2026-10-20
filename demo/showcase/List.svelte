@@ -19,7 +19,7 @@
 
 <style>
   ul {
-    height: 160px;
+    height: 132px;
     margin: 0;
     padding: 0;
     list-style: none;
