@@ -32,6 +32,8 @@ app.listen(port, () => {
 async function runBrowser() {
   const browser = await puppeteer.launch({ 
     headless: 'new',
+    // Chromium can't run as root with sandbox, e.g. in containers
+    args: process.getuid?.() === 0 ? ['--no-sandbox'] : [],
   })
   const page = await browser.newPage()
   await page.setViewport({
@@ -40,13 +42,18 @@ async function runBrowser() {
   })
 
   page.on('load', async () => {
-    await page.evaluate(() => test())
+    let exception = null
+    try {
+      await page.evaluate(() => test())
+    } catch (err) {
+      exception = err.message
+    }
     const [failed, errors] = await page.evaluate(
       () => [window.failed, window.errors]
     )
-    const hasError = failed || errors && errors.length
+    const hasError = exception || failed || errors && errors.length
     if (hasError) {
-      console.log('✘ Failed', errors)
+      console.log('✘ Failed', exception || errors)
     } else {
       console.log('✔ Success')
     }
