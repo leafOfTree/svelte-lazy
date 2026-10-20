@@ -5,6 +5,7 @@
 - Remove the prebuilt `index.js` and `index.mjs`. The package exports `src/index.svelte` by the `svelte` condition, so bundlers compile it with your Svelte version
 - Add the `types` condition to `exports`
 - Test in the browser with Vitest, and compile with Svelte 3 and 4 in CI
+- Publish from GitHub Actions with npm provenance
 
 ## 1.3.0
 

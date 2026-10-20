@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/master/svelte-lazy.svg" width="60" height="60" alt="icon" align="left"/>
+<img src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/master/svelte-lazy.svg" width="60" alt="icon" align="left"/>
 
 # svelte-lazy [![npm version][3]][4]
 
@@ -15,9 +15,7 @@ A svelte component to lazyload any content.
 
     npm i svelte-lazy
 
-For sapper server-side rendering which requires [using external components][6], install it to `devDependencies`:
-
-    npm i -D svelte-lazy
+It works with Svelte 3, 4 and 5.
 
 ## Usage
 
@@ -106,6 +104,11 @@ After load
 
 `npm run dev` serves the examples in `demo/` by Vite. `npm run build:demo` builds them to `demo/dist`, which is deployed to GitHub Pages.
 
+Before committing:
+
+    npm run lint      # ESLint and Prettier, `npm run format` to fix formatting
+    npm run check     # type check by svelte-check
+
 ## Test
 
     npm test
@@ -121,15 +124,16 @@ Browser tests run with Svelte 5. To check that the component still compiles with
 
 ## Publish
 
-For maintenance, bump the version in `package.json`, add the changes to `CHANGELOG.md`, then run `npm publish`.
+1. Bump the version in `package.json` and add the changes to `CHANGELOG.md`
+2. Commit, then push a tag of the version:
 
-## Refs
+       git tag v1.3.0
+       git push origin v1.3.0
 
-Based on [sveltejs/component-template: A base for building shareable Svelte components](https://github.com/sveltejs/component-template)
+The [release workflow](.github/workflows/release.yml) checks, tests and publishes it to npm by [trusted publishing](https://docs.npmjs.com/trusted-publishers), with provenance.
 
 [3]: https://img.shields.io/npm/v/svelte-lazy.svg
 [4]: https://www.npmjs.com/package/svelte-lazy
 [5]: https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1
-[6]: https://github.com/sveltejs/sapper-template#using-external-components
 [7]: https://leafoftree.github.io/svelte-lazy/
 [8]: https://github.com/leafOfTree/svelte-lazy/blob/master/demo/index.svelte

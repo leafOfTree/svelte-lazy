@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    name: Browser tests
+    name: Lint and test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -17,6 +17,8 @@ jobs:
           node-version: 22.x
           cache: 'npm'
       - run: npm ci
+      - run: npm run lint
+      - run: npm run check
       # Uses the Chrome installed on the runner
       - run: npm test
       - run: npm run build:demo

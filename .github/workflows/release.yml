@@ -1,0 +1,30 @@
+# Publish to npm when a version tag like v1.3.0 is pushed, by npm trusted
+# publishing: no npm token is stored, and npm adds provenance
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      # Node 24 comes with npm 11, which trusted publishing needs
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24.x
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+      - name: Check the tag matches the version in package.json
+        run: test "${GITHUB_REF_NAME}" = "v$(node -p "require('./package.json').version")"
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run check
+      - run: npm test
+      - run: npm publish
