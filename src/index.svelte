@@ -207,7 +207,7 @@
     return { top, bottom };
   }
 
-  // From underscore souce code
+  // From the underscore source code
   function throttle(func, wait, options) {
     let context, args, result;
     let timeout = null;
