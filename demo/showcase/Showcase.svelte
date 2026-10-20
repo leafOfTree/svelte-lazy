@@ -47,7 +47,7 @@
     {#each groups as group (group.title)}
       <h2>{group.title}</h2>
       {#each group.items as item (item.name)}
-        <Lazy height={190} offset={0} placeholder={Skeleton} onload={onload(item.name)}>
+        <Lazy height={226} offset={0} placeholder={Skeleton} onload={onload(item.name)}>
           <article>
             {#if item.photo}
               <!-- Delayed by the recording server, so the placeholder shows -->
@@ -87,28 +87,28 @@
   }
   main {
     display: flex;
-    gap: 24px;
-    padding: 20px;
-    height: 440px;
+    gap: 36px;
+    padding: 24px;
+    height: 480px;
     box-sizing: border-box;
   }
   .feed {
-    width: 300px;
+    width: 420px;
     flex: none;
     overflow-y: auto;
     border: 1px solid #d0d7de;
-    border-radius: 12px;
-    padding: 0 12px;
+    border-radius: 14px;
+    padding: 0 18px;
     scrollbar-width: none;
   }
   .feed :global(.svelte-lazy) {
-    margin: 12px 0;
-    border-radius: 10px;
+    margin: 18px 0;
+    border-radius: 12px;
     background: #fff;
     box-shadow: 0 0 0 1px #e6e8eb;
   }
   h2 {
-    margin: 16px 2px 0;
+    margin: 24px 2px 0;
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.04em;
@@ -116,17 +116,17 @@
     color: #59636e;
   }
   article {
-    padding: 12px;
+    padding: 16px;
   }
   img {
     display: block;
     width: 100%;
-    height: 132px;
+    height: 160px;
     object-fit: cover;
     border-radius: 8px;
   }
   article p {
-    margin: 10px 0 0;
+    margin: 12px 0 0;
     font-size: 14px;
     font-weight: 600;
   }

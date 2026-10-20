@@ -39,7 +39,7 @@ npm run check:svelte
 
 ## Demo GIF
 
-`docs/demo.gif` in the README is recorded from `demo/showcase.html`. To record it again, with [ffmpeg](https://ffmpeg.org/) installed:
+`docs/demo.gif` in the README is recorded from `demo/showcase.html`. To record it again, with [ffmpeg](https://ffmpeg.org/) and [ImageMagick](https://imagemagick.org/) installed:
 
 ```sh
 npm run record:demo

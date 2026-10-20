@@ -27,7 +27,7 @@
 <style>
   table {
     width: 100%;
-    height: 132px;
+    height: 160px;
     border-collapse: collapse;
     font-size: 12px;
   }
