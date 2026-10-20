@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Remove the prebuilt `index.js` and `index.mjs`. The package exports `src/index.svelte` by the `svelte` condition, so bundlers compile it with your Svelte version
+- Add the `types` condition to `exports`
+- Test in the browser with Vitest, and compile with Svelte 3 and 4 in CI
+
 ## 1.3.0
 
 - Add `id` prop for the container div, so links like `#id` can scroll to it before the content is loaded ([#18](https://github.com/leafOfTree/svelte-lazy/issues/18))
