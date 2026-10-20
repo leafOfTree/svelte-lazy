@@ -1,3 +1,11 @@
+<script>
+  /** @type {any} A string or a component */
+  export let placeholder = null;
+  /** @type {Record<string, any> | null} */
+  export let placeholderProps = null;
+  const placeholderClass = 'svelte-lazy-placeholder';
+</script>
+
 {#if placeholder}
   <div class={placeholderClass}>
     {#if typeof placeholder === 'string'}
@@ -7,9 +15,3 @@
     {/if}
   </div>
 {/if}
-
-<script>
-  export let placeholder = null;
-  export let placeholderProps = null;
-  const placeholderClass = 'svelte-lazy-placeholder';
-</script>

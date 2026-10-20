@@ -1,20 +1,3 @@
-<div use:load {id} class={rootClass} style="height: {rootInitialHeight}">
-  {#if loaded}
-    <div
-      in:fade={fadeOption || {}}
-      class={contentClass}
-      style={contentStyle}
-    >
-      <slot>Lazy load content</slot>
-    </div>
-    {#if !contentShow && placeholder}
-      <Placeholder {placeholder} {placeholderProps} />
-    {/if}
-  {:else if placeholder}
-    <Placeholder {placeholder} {placeholderProps} />
-  {/if}
-</div>
-
 <script>
   import { fade } from 'svelte/transition';
   import Placeholder from './components/Placeholder.svelte';
@@ -33,8 +16,7 @@
   let className = '';
   export { className as class };
 
-  const rootClass = 'svelte-lazy'
-    + (className ? ' ' + className : '');
+  const rootClass = 'svelte-lazy' + (className ? ' ' + className : '');
   const contentClass = 'svelte-lazy-content';
   const rootInitialHeight = getStyleHeight();
   let loaded = false;
@@ -49,7 +31,7 @@
     setTimeout(() => {
       handler();
     });
-    const observer = observeNode(node, handler);
+    const observer = observeNode(node);
 
     return {
       destroy: () => {
@@ -60,7 +42,7 @@
   }
 
   function createHandler(node) {
-    const handler = throttle(e => {
+    const handler = throttle((e) => {
       const nodeTop = node.getBoundingClientRect().top;
       const nodeBottom = node.getBoundingClientRect().bottom;
       const expectedTop = getContainerHeight(e) + offset;
@@ -68,28 +50,28 @@
       if (nodeTop <= expectedTop && nodeBottom > 0) {
         loadNode(node);
       } else if (!keep) {
-        unload(node)
+        unload(node);
       }
     }, 200);
     return handler;
   }
 
-  function observeNode(node, handler) {
+  function observeNode(node) {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         loadNode(node);
       }
-    })
+    });
     observer.observe(node);
     return observer;
   }
 
   function unload(node) {
     setHeight(node);
-    loaded = false
+    loaded = false;
   }
 
-  function loadNode(node, handler) {
+  function loadNode(node) {
     if (loaded) {
       return;
     }
@@ -112,9 +94,7 @@
   }
 
   function getStyleHeight() {
-    return (typeof height === 'number')
-      ? height + 'px'
-      : height;
+    return typeof height === 'number' ? height + 'px' : height;
   }
 
   function setHeight(node) {
@@ -129,29 +109,37 @@
       if (!isLoading) {
         node.style.height = 'auto';
       }
-    // Add a delay to wait for remote resources like images to load
+      // Add a delay to wait for remote resources like images to load
     }, resetHeightDelay);
   }
 
   function checkImgLoadingStatus(node) {
     const img = node.querySelector('img');
     if (!img) {
-      return false
+      return false;
     }
 
     if (!img.complete) {
       contentShow = false;
 
-      node.addEventListener('load', () => {
-        // Use auto height if loading successfully
-        contentShow = true;
-        node.style.height = 'auto';
-      }, { capture: true, once: true });
+      node.addEventListener(
+        'load',
+        () => {
+          // Use auto height if loading successfully
+          contentShow = true;
+          node.style.height = 'auto';
+        },
+        { capture: true, once: true },
+      );
 
-      node.addEventListener('error', () => {
-        // Show content with fixed height if there is error
-        contentShow = true;
-      }, { capture: true, once: true });
+      node.addEventListener(
+        'error',
+        () => {
+          // Show content with fixed height if there is error
+          contentShow = true;
+        },
+        { capture: true, once: true },
+      );
 
       return true;
     }
@@ -178,15 +166,15 @@
     let timeout = null;
     let previous = 0;
     if (!options) options = {};
-    const later = function() {
-      previous = options.leading === false ? 0 : new Date();
+    const later = function () {
+      previous = options.leading === false ? 0 : Date.now();
       timeout = null;
       result = func.apply(context, args);
       if (!timeout) context = args = null;
     };
 
-    return function(event) {
-      const now = new Date();
+    return function () {
+      const now = Date.now();
       if (!previous && options.leading === false) previous = now;
       const remaining = wait - (now - previous);
       context = this;
@@ -206,3 +194,16 @@
     };
   }
 </script>
+
+<div use:load {id} class={rootClass} style="height: {rootInitialHeight}">
+  {#if loaded}
+    <div in:fade={fadeOption || {}} class={contentClass} style={contentStyle}>
+      <slot>Lazy load content</slot>
+    </div>
+    {#if !contentShow && placeholder}
+      <Placeholder {placeholder} {placeholderProps} />
+    {/if}
+  {:else if placeholder}
+    <Placeholder {placeholder} {placeholderProps} />
+  {/if}
+</div>

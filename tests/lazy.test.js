@@ -9,21 +9,23 @@ const FAR = 2000;
 // Longer than the 200ms throttle of the scroll handler
 const SETTLE = 400;
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function setup(props) {
   const { container, unmount } = await render(Scroller, props);
   const scroller = container.querySelector('.scroller');
+  /** @type {HTMLElement} */
   const lazy = container.querySelector('.svelte-lazy');
   // Scroll so that the top of <Lazy> is `distance` px below the scroller top
-  const scrollTo = distance => {
+  const scrollTo = (distance) => {
     scroller.scrollTop = (props.before ?? 0) - distance;
   };
   return { lazy, scrollTo, unmount };
 }
 
-const content = lazy => lazy.querySelector('.svelte-lazy-content');
-const placeholder = lazy => lazy.querySelector('.svelte-lazy-placeholder');
+/** @type {(lazy: HTMLElement) => HTMLElement | null} */
+const content = (lazy) => lazy.querySelector('.svelte-lazy-content');
+const placeholder = (lazy) => lazy.querySelector('.svelte-lazy-placeholder');
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -32,7 +34,11 @@ afterEach(() => {
 describe('before load', () => {
   test('renders the container with height, class, id and placeholder', async () => {
     const { lazy } = await setup({
-      before: FAR, height: 200, class: 'extra', id: 'anchor', placeholder: 'Loading...',
+      before: FAR,
+      height: 200,
+      class: 'extra',
+      id: 'anchor',
+      placeholder: 'Loading...',
     });
     expect(lazy.className).toBe('svelte-lazy extra');
     expect(lazy.id).toBe('anchor');
@@ -53,7 +59,9 @@ describe('before load', () => {
 
   test('renders a component placeholder with placeholderProps', async () => {
     const { lazy } = await setup({
-      before: FAR, placeholder: Placeholder, placeholderProps: { name: 'images' },
+      before: FAR,
+      placeholder: Placeholder,
+      placeholderProps: { name: 'images' },
     });
     expect(lazy.querySelector('.custom-placeholder').textContent).toBe('Loading images');
   });
@@ -119,7 +127,9 @@ describe('loading', () => {
 describe('unloading', () => {
   test('unloads after leaving the viewport', async () => {
     const { lazy, scrollTo } = await setup({
-      before: FAR, height: 200, placeholder: 'Loading...',
+      before: FAR,
+      height: 200,
+      placeholder: 'Loading...',
     });
     scrollTo(100);
     await expect.poll(() => lazy.style.height).toBe('auto');
@@ -160,7 +170,9 @@ describe('images', () => {
 
   test('shows the placeholder until the image loads', async () => {
     const { lazy } = await setup({
-      height: 200, placeholder: 'Loading...', src: '/img/slow.png',
+      height: 200,
+      placeholder: 'Loading...',
+      src: '/img/slow.png',
     });
     await expect.poll(() => content(lazy)?.style.display).toBe('none');
     expect(placeholder(lazy)).not.toBeNull();

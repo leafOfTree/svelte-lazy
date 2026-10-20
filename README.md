@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/master/svelte-lazy.svg" width="60" height="60" alt="icon" align="left"/>
+<img src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/master/svelte-lazy.svg" width="60" alt="icon" align="left"/>
 
 # svelte-lazy [![npm version][3]][4]
 
@@ -15,13 +15,11 @@ A svelte component to lazyload any content.
 
     npm i svelte-lazy
 
-For sapper server-side rendering which requires [using external components][6], install it to `devDependencies`:
-
-    npm i -D svelte-lazy
+It works with Svelte 3, 4 and 5.
 
 ## Usage
 
-```html
+```svelte
 <script>
   import Lazy from 'svelte-lazy';
 </script>
@@ -33,36 +31,36 @@ For sapper server-side rendering which requires [using external components][6], 
 
 ## Props
 
-- **height**: *Number|String*. Default: `0` (px).
-    - Height of the component before load. 
-    - **Set a proper value** to avoid scroll bounce. You can use the content height shown by the DevTools Inspector after loading.
+- **height**: _Number|String_. Default: `0` (px).
+  - Height of the component before load.
+  - **Set a proper value** to avoid scroll bounce. You can use the content height shown by the DevTools Inspector after loading.
 
-- **keep**: *Boolean*. Default: `false`.
+- **keep**: _Boolean_. Default: `false`.
   - By default elements get unloaded after leaving view, set to `true` to keep all loaded ones after first appearance.
 
-- **offset**: *Number*. Default: `150` (px). 
-    - Offset from the top of the component to the bottom of the viewport that triggers loading when in it.
+- **offset**: _Number_. Default: `150` (px).
+  - Offset from the top of the component to the bottom of the viewport that triggers loading when in it.
 
-- **placeholder**: *String|Component*. Default: `null`. 
-    - Placeholder before load.
+- **placeholder**: _String|Component_. Default: `null`.
+  - Placeholder before load.
 
-- **placeholderProps**: *Object*. Default `null`. 
-    - Props for when using a component as a placeholder.
+- **placeholderProps**: _Object_. Default `null`.
+  - Props for when using a component as a placeholder.
 
-- **id**: *String*. Default: `undefined`.
-    - Id for the container div. As the container div exists before load, links like `#id` can scroll to it and then load the content.
+- **id**: _String_. Default: `undefined`.
+  - Id for the container div. As the container div exists before load, links like `#id` can scroll to it and then load the content.
 
-- **class**: *String*. Default: `''`. 
-    - Additional class for the container div. It will be `svelte-lazy ${class}`.
+- **class**: _String_. Default: `''`.
+  - Additional class for the container div. It will be `svelte-lazy ${class}`.
 
-- **fadeOption**: *Object*. Default: `{ delay: 0, duration: 400 }`. 
-    - Option for the fade in transition. Set `null` to disable it.
+- **fadeOption**: _Object_. Default: `{ delay: 0, duration: 400 }`.
+  - Option for the fade in transition. Set `null` to disable it.
 
-- **onload**: *Function (node) => {}*. Default: `null`. 
-    - Function that is called when loaded.
+- **onload**: _Function (node) => {}_. Default: `null`.
+  - Function that is called when loaded.
 
-- **resetHeightDelay**: *Number*. Default: `0` (milliseconds). 
-    - The delay to reset the component height to `auto` after loaded. Might be useful to wait for remote resources like images.
+- **resetHeightDelay**: _Number_. Default: `0` (milliseconds).
+  - The delay to reset the component height to `auto` after loaded. Might be useful to wait for remote resources like images.
 
 ## Changelog
 
@@ -77,21 +75,23 @@ not loaded  -------------->
                                                 |
                                                 |
             show placeholder                    |     show content
-``` 
+```
 
 ## DOM structure
 
 Before load
+
 ```html
 <div id="${id}" class="svelte-lazy ${class}">
-    <div class="svelte-lazy-placeholder">...</div>
+  <div class="svelte-lazy-placeholder">...</div>
 </div>
 ```
 
 After load
+
 ```html
 <div id="${id}" class="svelte-lazy ${class}">
-    <div class="svelte-lazy-content">...</div>
+  <div class="svelte-lazy-content">...</div>
 </div>
 ```
 
@@ -103,6 +103,11 @@ After load
     npm run dev
 
 `npm run dev` serves the examples in `demo/` by Vite. `npm run build:demo` builds them to `demo/dist`, which is deployed to GitHub Pages.
+
+Before committing:
+
+    npm run lint      # ESLint and Prettier, `npm run format` to fix formatting
+    npm run check     # type check by svelte-check
 
 ## Test
 
@@ -119,15 +124,16 @@ Browser tests run with Svelte 5. To check that the component still compiles with
 
 ## Publish
 
-For maintenance, bump the version in `package.json`, add the changes to `CHANGELOG.md`, then run `npm publish`.
+1. Bump the version in `package.json` and add the changes to `CHANGELOG.md`
+2. Commit, then push a tag of the version:
 
-## Refs
+       git tag v1.3.0
+       git push origin v1.3.0
 
-Based on [sveltejs/component-template: A base for building shareable Svelte components](https://github.com/sveltejs/component-template)
+The [release workflow](.github/workflows/release.yml) checks, tests and publishes it to npm by [trusted publishing](https://docs.npmjs.com/trusted-publishers), with provenance.
 
 [3]: https://img.shields.io/npm/v/svelte-lazy.svg
 [4]: https://www.npmjs.com/package/svelte-lazy
 [5]: https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1
-[6]: https://github.com/sveltejs/sapper-template#using-external-components
 [7]: https://leafoftree.github.io/svelte-lazy/
 [8]: https://github.com/leafOfTree/svelte-lazy/blob/master/demo/index.svelte
