@@ -87,7 +87,7 @@
 
 <style>
   .chart {
-    height: 160px;
+    height: 132px;
     border-radius: 8px;
     background: #f6f5ff;
     overflow: hidden;
