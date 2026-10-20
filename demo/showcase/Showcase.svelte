@@ -4,12 +4,22 @@
   import Skeleton from './Skeleton.svelte';
   import Chart from './Chart.svelte';
 
-  const items = Array.from({ length: 9 }, (_, i) => ({
+  const names = [
+    'Jellyfish',
+    'Strawberries',
+    'Pug',
+    'Chart',
+    'Fjord',
+    'Lioness',
+    'Tea',
+    'Chart',
+    'Walrus',
+  ];
+  const items = names.map((name, i) => ({
     id: i + 1,
-    type: i === 3 || i === 7 ? 'chart' : 'photo',
+    name,
     // Images are delayed by the recording server, so the placeholder shows
-    src: `slow/p${(i % 2) + 1}.jpg?${i}`,
-    hue: [0, 0, 20, 0, -20, 10, 0, 0, -10][i],
+    src: `slow/${name.toLowerCase()}.jpg`,
   }));
 
   let events = $state([]);
@@ -23,12 +33,12 @@
     {#each items as item (item.id)}
       <Lazy height={190} offset={0} placeholder={Skeleton} onload={onload(item.id)}>
         <article>
-          {#if item.type === 'photo'}
-            <img alt="" src={item.src} style="filter: hue-rotate({item.hue}deg)" />
-          {:else}
+          {#if item.name === 'Chart'}
             <Chart />
+          {:else}
+            <img alt={item.name} src={item.src} />
           {/if}
-          <p>{item.type === 'photo' ? 'Photo' : 'Chart'} #{item.id}</p>
+          <p>{item.name} #{item.id}</p>
         </article>
       </Lazy>
     {/each}
@@ -60,9 +70,7 @@
   main {
     display: flex;
     gap: 24px;
-    /* The feed ends at the window bottom: on mount, <Lazy> checks the
-       window height, not the feed */
-    padding: 20px 20px 0;
+    padding: 20px;
     height: 440px;
     box-sizing: border-box;
   }
@@ -71,8 +79,7 @@
     flex: none;
     overflow-y: auto;
     border: 1px solid #d0d7de;
-    border-bottom: 0;
-    border-radius: 12px 12px 0 0;
+    border-radius: 12px;
     padding: 0 12px;
     scrollbar-width: none;
   }

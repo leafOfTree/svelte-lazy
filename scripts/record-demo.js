@@ -14,7 +14,7 @@ const OUTPUT = 'docs/demo.gif';
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// /slow/p1.jpg is demo/public/auto/p1.jpg after a delay, like a slow network
+// /slow/tea.jpg is demo/public/media/tea.jpg after a delay, like a slow network
 function slowImages() {
   return {
     name: 'slow-images',
@@ -23,7 +23,7 @@ function slowImages() {
         const name = req.url.replace(/^\//, '').replace(/\?.*/, '');
         setTimeout(() => {
           res.setHeader('Content-Type', 'image/jpeg');
-          res.end(readFileSync(join('demo/public/auto', name)));
+          res.end(readFileSync(join('demo/public/media', name)));
         }, 700);
       });
     },
