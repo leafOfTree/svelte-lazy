@@ -1,7 +1,6 @@
 .DS_Store
 node_modules
-index.js
-index.mjs
-!/test/index.js
 README.html
 .idea
+demo/dist
+.vitest

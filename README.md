@@ -100,16 +100,22 @@ After load
     git clone https://github.com/leafOfTree/svelte-lazy
     cd svelte-lazy
     npm i
-    npm start
+    npm run dev
+
+`npm run dev` serves the examples in `demo/` by Vite. `npm run build:demo` builds them to `demo/dist`, which is deployed to GitHub Pages.
 
 ## Test
 
     npm test
 
-It builds `test/auto` and runs the tests in Chromium by puppeteer. To test with another Svelte version, e.g. Svelte 5:
+Tests in `tests/` run in Chrome by [Vitest browser mode](https://vitest.dev/guide/browser/). They use the installed Chrome, so no browser is downloaded. To use another Chromium based browser, set its path:
 
-    npm i --no-save svelte@5
-    npm test
+    CHROME_PATH=/path/to/chromium npm test
+
+Browser tests run with Svelte 5. To check that the component still compiles with Svelte 3 or 4:
+
+    npm i --no-save svelte@4
+    npm run check:svelte
 
 ## Publish
 
@@ -124,4 +130,4 @@ Based on [sveltejs/component-template: A base for building shareable Svelte comp
 [5]: https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1
 [6]: https://github.com/sveltejs/sapper-template#using-external-components
 [7]: https://leafoftree.github.io/svelte-lazy/
-[8]: https://github.com/leafOfTree/svelte-lazy/blob/master/test/index.svelte
+[8]: https://github.com/leafOfTree/svelte-lazy/blob/master/demo/index.svelte

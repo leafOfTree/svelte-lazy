@@ -8,15 +8,26 @@ on:
 
 jobs:
   test:
+    name: Browser tests
     runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    - uses: actions/setup-node@v5
+      with:
+        node-version: 22.x
+        cache: 'npm'
+    - run: npm ci
+    # Uses the Chrome installed on the runner
+    - run: npm test
+    - run: npm run build:demo
 
+  compile:
+    name: Compile with Svelte ${{ matrix.svelte }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         svelte: [3, 4, 5]
-
-    name: Svelte ${{ matrix.svelte }}
-
     steps:
     - uses: actions/checkout@v5
     - uses: actions/setup-node@v5
@@ -25,5 +36,4 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm i --no-save svelte@${{ matrix.svelte }}
-    - run: npm run build
-    - run: npm test
+    - run: npm run check:svelte
