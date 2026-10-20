@@ -21,7 +21,7 @@ For sapper server-side rendering which requires [using external components][6], 
 
 ## Usage
 
-```html
+```svelte
 <script>
   import Lazy from 'svelte-lazy';
 </script>
@@ -33,36 +33,36 @@ For sapper server-side rendering which requires [using external components][6], 
 
 ## Props
 
-- **height**: *Number|String*. Default: `0` (px).
-    - Height of the component before load. 
-    - **Set a proper value** to avoid scroll bounce. You can use the content height shown by the DevTools Inspector after loading.
+- **height**: _Number|String_. Default: `0` (px).
+  - Height of the component before load.
+  - **Set a proper value** to avoid scroll bounce. You can use the content height shown by the DevTools Inspector after loading.
 
-- **keep**: *Boolean*. Default: `false`.
+- **keep**: _Boolean_. Default: `false`.
   - By default elements get unloaded after leaving view, set to `true` to keep all loaded ones after first appearance.
 
-- **offset**: *Number*. Default: `150` (px). 
-    - Offset from the top of the component to the bottom of the viewport that triggers loading when in it.
+- **offset**: _Number_. Default: `150` (px).
+  - Offset from the top of the component to the bottom of the viewport that triggers loading when in it.
 
-- **placeholder**: *String|Component*. Default: `null`. 
-    - Placeholder before load.
+- **placeholder**: _String|Component_. Default: `null`.
+  - Placeholder before load.
 
-- **placeholderProps**: *Object*. Default `null`. 
-    - Props for when using a component as a placeholder.
+- **placeholderProps**: _Object_. Default `null`.
+  - Props for when using a component as a placeholder.
 
-- **id**: *String*. Default: `undefined`.
-    - Id for the container div. As the container div exists before load, links like `#id` can scroll to it and then load the content.
+- **id**: _String_. Default: `undefined`.
+  - Id for the container div. As the container div exists before load, links like `#id` can scroll to it and then load the content.
 
-- **class**: *String*. Default: `''`. 
-    - Additional class for the container div. It will be `svelte-lazy ${class}`.
+- **class**: _String_. Default: `''`.
+  - Additional class for the container div. It will be `svelte-lazy ${class}`.
 
-- **fadeOption**: *Object*. Default: `{ delay: 0, duration: 400 }`. 
-    - Option for the fade in transition. Set `null` to disable it.
+- **fadeOption**: _Object_. Default: `{ delay: 0, duration: 400 }`.
+  - Option for the fade in transition. Set `null` to disable it.
 
-- **onload**: *Function (node) => {}*. Default: `null`. 
-    - Function that is called when loaded.
+- **onload**: _Function (node) => {}_. Default: `null`.
+  - Function that is called when loaded.
 
-- **resetHeightDelay**: *Number*. Default: `0` (milliseconds). 
-    - The delay to reset the component height to `auto` after loaded. Might be useful to wait for remote resources like images.
+- **resetHeightDelay**: _Number_. Default: `0` (milliseconds).
+  - The delay to reset the component height to `auto` after loaded. Might be useful to wait for remote resources like images.
 
 ## Changelog
 
@@ -77,21 +77,23 @@ not loaded  -------------->
                                                 |
                                                 |
             show placeholder                    |     show content
-``` 
+```
 
 ## DOM structure
 
 Before load
+
 ```html
 <div id="${id}" class="svelte-lazy ${class}">
-    <div class="svelte-lazy-placeholder">...</div>
+  <div class="svelte-lazy-placeholder">...</div>
 </div>
 ```
 
 After load
+
 ```html
 <div id="${id}" class="svelte-lazy ${class}">
-    <div class="svelte-lazy-content">...</div>
+  <div class="svelte-lazy-content">...</div>
 </div>
 ```
 

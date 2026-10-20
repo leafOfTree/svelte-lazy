@@ -3,7 +3,7 @@
   import ScrollList from './ScrollList.svelte';
   import LongScrollList from './LongScrollList.svelte';
   import FilterList from './FilterList.svelte';
-  import ScrollListKeep from "./ScrollListKeep.svelte";
+  import ScrollListKeep from './ScrollListKeep.svelte';
 
   const items = [
     {
@@ -26,7 +26,7 @@
       value: 4,
       component: FilterList,
     },
-  ]
+  ];
 </script>
 
 <h1>Hello, Lazy!</h1>

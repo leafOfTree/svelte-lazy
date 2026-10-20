@@ -1,7 +1,7 @@
 import { SvelteComponent } from 'svelte';
 import { fade } from 'svelte/transition';
 
-type FadeParams = Parameters<typeof fade>[1]
+type FadeParams = Parameters<typeof fade>[1];
 
 declare class SvelteLazy extends SvelteComponent {
   $$prop_def: {

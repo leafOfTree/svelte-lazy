@@ -7,7 +7,7 @@ import { join } from 'node:path';
 import { compile, VERSION } from 'svelte/compiler';
 
 function svelteFiles(dir) {
-  return readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     const path = join(dir, entry.name);
     if (entry.isDirectory()) return svelteFiles(path);
     return path.endsWith('.svelte') ? [path] : [];

@@ -2,24 +2,24 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ['master']
   pull_request:
-    branches: [ "master" ]
+    branches: ['master']
 
 jobs:
   test:
     name: Browser tests
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
-    - uses: actions/setup-node@v5
-      with:
-        node-version: 22.x
-        cache: 'npm'
-    - run: npm ci
-    # Uses the Chrome installed on the runner
-    - run: npm test
-    - run: npm run build:demo
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22.x
+          cache: 'npm'
+      - run: npm ci
+      # Uses the Chrome installed on the runner
+      - run: npm test
+      - run: npm run build:demo
 
   compile:
     name: Compile with Svelte ${{ matrix.svelte }}
@@ -29,11 +29,11 @@ jobs:
       matrix:
         svelte: [3, 4, 5]
     steps:
-    - uses: actions/checkout@v5
-    - uses: actions/setup-node@v5
-      with:
-        node-version: 22.x
-        cache: 'npm'
-    - run: npm ci
-    - run: npm i --no-save svelte@${{ matrix.svelte }}
-    - run: npm run check:svelte
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22.x
+          cache: 'npm'
+      - run: npm ci
+      - run: npm i --no-save svelte@${{ matrix.svelte }}
+      - run: npm run check:svelte
