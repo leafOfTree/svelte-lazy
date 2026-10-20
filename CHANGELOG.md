@@ -1,13 +1,31 @@
 # Changelog
 
-## Unreleased
+## 1.4.0 (2026-10-20)
+
+Fixes
+
+- Fix loading in scroll containers: check the part of the window that scroll containers show. Content below a scroll container no longer loads on mount, content above it unloads, and scrolling another container no longer loads it
+- `fadeOption={null}` now turns off the fade, as documented. Before, it faded in for 400ms
+- Update the class when the `class` prop changes
+- Unloading before `resetHeightDelay` no longer sets the height to `auto`
+- Clear timers and image listeners on unload and destroy
+- Fix TypeScript types with Svelte 5, where props weren't checked at all. Types now use `SvelteComponentTyped`, which works with Svelte 3, 4 and 5, and export `LazyProps`
+
+Performance
 
 - Scroll faster with many items: don't write the height of content that is already unloaded on each scroll, and find scroll containers only once
-- Fix loading in scroll containers: check the part of the window that scroll containers show. Content below a scroll container no longer loads on mount, content above it unloads, and scrolling another container no longer loads it
-- Remove the prebuilt `index.js` and `index.mjs`. The package exports `src/index.svelte` by the `svelte` condition, so bundlers compile it with your Svelte version
+- With `keep`, stop listening to scroll once the content is loaded
+
+Package
+
+- Remove the prebuilt `index.js` and `index.mjs`. The package exports `src/index.svelte` by the `svelte` condition, so your bundler compiles it with your Svelte version. Vite, SvelteKit, rollup-plugin-svelte and svelte-loader support it
 - Add the `types` condition to `exports`
-- Test in the browser with Vitest, and compile with Svelte 3 and 4 in CI
 - Publish from GitHub Actions with npm provenance
+
+Development
+
+- Test in the browser with Vitest, and compile with Svelte 3 and 4 in CI
+- New examples site, demo GIF and Playground example
 
 ## 1.3.0 (2026-10-20)
 
