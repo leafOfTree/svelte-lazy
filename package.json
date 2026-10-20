@@ -21,7 +21,8 @@
     "check:svelte": "node scripts/check-svelte.js",
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write .",
-    "record:demo": "node scripts/record-demo.js"
+    "record:demo": "node scripts/record-demo.js",
+    "playground-link": "node scripts/playground-link.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
