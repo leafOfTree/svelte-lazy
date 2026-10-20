@@ -32,8 +32,9 @@ app.listen(port, () => {
 async function runBrowser() {
   const browser = await puppeteer.launch({ 
     headless: 'new',
-    // Chromium can't run as root with sandbox, e.g. in containers
-    args: process.getuid?.() === 0 ? ['--no-sandbox'] : [],
+    // Chromium can't use sandbox as root, e.g. in containers, or on
+    // Ubuntu 24.04 runners of GitHub Actions
+    args: process.getuid?.() === 0 || process.env.CI ? ['--no-sandbox'] : [],
   })
   const page = await browser.newPage()
   await page.setViewport({
