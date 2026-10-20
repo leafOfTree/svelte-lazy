@@ -12,7 +12,7 @@ const SETTLE = 400;
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function setup(props) {
-  const { container, unmount } = await render(Scroller, props);
+  const { container, unmount, rerender } = await render(Scroller, props);
   const scroller = container.querySelector('.scroller');
   /** @type {HTMLElement} */
   const lazy = container.querySelector('.svelte-lazy');
@@ -20,7 +20,7 @@ async function setup(props) {
   const scrollTo = (distance) => {
     scroller.scrollTop = (props.before ?? 0) - distance;
   };
-  return { lazy, scrollTo, unmount };
+  return { lazy, scrollTo, unmount, rerender };
 }
 
 /** @type {(lazy: HTMLElement) => HTMLElement | null} */
@@ -194,6 +194,45 @@ describe('unloading', () => {
   });
 });
 
+describe('props', () => {
+  test('updates the class', async () => {
+    const { lazy, rerender } = await setup({ before: FAR, class: 'one' });
+    await rerender({ before: FAR, class: 'two' });
+    expect(lazy.className).toBe('svelte-lazy two');
+  });
+
+  test('fades in by default', async () => {
+    const { lazy } = await setup({});
+    await expect.poll(() => content(lazy)).not.toBeNull();
+    expect(content(lazy).getAnimations().length).toBeGreaterThan(0);
+  });
+
+  test('does not fade in with fadeOption null', async () => {
+    const { lazy } = await setup({ fadeOption: null });
+    await expect.poll(() => content(lazy)).not.toBeNull();
+    expect(content(lazy).getAnimations()).toEqual([]);
+  });
+
+  test('stops checking after loading with keep', async () => {
+    const remove = vi.spyOn(document, 'removeEventListener');
+    const { lazy, scrollTo } = await setup({ before: FAR, keep: true });
+    scrollTo(100);
+    await expect.poll(() => content(lazy)).not.toBeNull();
+    expect(remove).toHaveBeenCalledWith('scroll', expect.any(Function), true);
+  });
+
+  test('keeps the height when unloaded before resetHeightDelay', async () => {
+    const { lazy, scrollTo } = await setup({ before: FAR, height: 200, resetHeightDelay: 600 });
+    scrollTo(100);
+    await expect.poll(() => content(lazy)).not.toBeNull();
+    await sleep(SETTLE);
+    scrollTo(FAR);
+    await expect.poll(() => content(lazy)).toBeNull();
+    await sleep(600);
+    expect(lazy.style.height).toBe('200px');
+  });
+});
+
 describe('images', () => {
   test('keeps the height when the image fails to load', async () => {
     const { lazy } = await setup({ height: 200, src: '/img/missing.png' });
@@ -215,6 +254,23 @@ describe('images', () => {
     await expect.poll(() => content(lazy).style.display, { timeout: 3000 }).toBe('');
     expect(placeholder(lazy)).toBeNull();
     expect(lazy.style.height).toBe('auto');
+  });
+
+  test('shows the image after unloading while it was loading', async () => {
+    const { lazy, scrollTo } = await setup({
+      before: FAR,
+      height: 200,
+      src: '/img/slow.png?unload',
+    });
+    scrollTo(100);
+    await expect.poll(() => content(lazy)?.style.display).toBe('none');
+    await sleep(SETTLE);
+    scrollTo(FAR);
+    await expect.poll(() => content(lazy)).toBeNull();
+    // The image is in the cache when it comes back
+    await sleep(1500);
+    scrollTo(100);
+    await expect.poll(() => content(lazy)?.style.display, { timeout: 3000 }).toBe('');
   });
 
   test('resets the height when the image is loaded', async () => {

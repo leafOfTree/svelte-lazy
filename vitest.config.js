@@ -18,9 +18,11 @@ function testImages() {
           res.setHeader('Content-Type', 'image/png');
           res.end(png);
         };
-        if (req.url === '/ok.png') {
+        // A query like ?1 makes a new image, not in the cache
+        const path = req.url.replace(/\?.*/, '');
+        if (path === '/ok.png') {
           send();
-        } else if (req.url === '/slow.png') {
+        } else if (path === '/slow.png') {
           setTimeout(send, 1000);
         } else {
           res.statusCode = 404;
