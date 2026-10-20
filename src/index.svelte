@@ -16,7 +16,7 @@
   let className = '';
   export { className as class };
 
-  const rootClass = 'svelte-lazy' + (className ? ' ' + className : '');
+  $: rootClass = 'svelte-lazy' + (className ? ' ' + className : '');
   const contentClass = 'svelte-lazy-content';
   const rootInitialHeight = getStyleHeight();
   let loaded = false;
@@ -24,19 +24,30 @@
   let contentShow = true;
   $: contentStyle = !contentShow ? 'display: none' : '';
 
+  // Set by load(): stops checking whether the node is in view
+  let stopChecking = () => {};
+  // Pending reset of the height, and listeners for the image loading
+  let resetTimer;
+  let imageListeners;
+
   function load(node) {
     setHeight(node);
     const handler = createHandler(node);
     addListeners(handler);
-    setTimeout(() => {
-      handler();
-    });
+    const firstCheck = setTimeout(handler);
     const observer = observeNode(node);
+    stopChecking = () => {
+      clearTimeout(firstCheck);
+      handler.cancel();
+      removeListeners(handler);
+      observer.disconnect();
+    };
 
     return {
       destroy: () => {
-        removeListeners(handler);
-        observer.unobserve(node);
+        stopChecking();
+        clearTimeout(resetTimer);
+        imageListeners?.abort();
       },
     };
   }
@@ -76,6 +87,10 @@
     if (!loaded) {
       return;
     }
+    clearTimeout(resetTimer);
+    // The content and its image are gone
+    imageListeners?.abort();
+    contentShow = true;
     setHeight(node);
     loaded = false;
   }
@@ -86,6 +101,10 @@
     }
 
     loaded = true;
+    // Kept content never unloads, so there is nothing more to check
+    if (keep) {
+      stopChecking();
+    }
     resetHeight(node);
     if (onload) {
       onload(node);
@@ -113,7 +132,7 @@
   }
 
   function resetHeight(node) {
-    setTimeout(() => {
+    resetTimer = setTimeout(() => {
       const isLoading = checkImgLoadingStatus(node);
       if (!isLoading) {
         node.style.height = 'auto';
@@ -130,6 +149,9 @@
 
     if (!img.complete) {
       contentShow = false;
+      // Removes both listeners once one of them runs
+      imageListeners = new AbortController();
+      const options = { capture: true, signal: imageListeners.signal };
 
       node.addEventListener(
         'load',
@@ -137,8 +159,9 @@
           // Use auto height if loading successfully
           contentShow = true;
           node.style.height = 'auto';
+          imageListeners.abort();
         },
-        { capture: true, once: true },
+        options,
       );
 
       node.addEventListener(
@@ -146,8 +169,9 @@
         () => {
           // Show content with fixed height if there is error
           contentShow = true;
+          imageListeners.abort();
         },
-        { capture: true, once: true },
+        options,
       );
 
       return true;
@@ -183,7 +207,7 @@
     return { top, bottom };
   }
 
-  // From underscore souce code
+  // From the underscore source code
   function throttle(func, wait, options) {
     let context, args, result;
     let timeout = null;
@@ -196,7 +220,7 @@
       if (!timeout) context = args = null;
     };
 
-    return function () {
+    const throttled = function () {
       const now = Date.now();
       if (!previous && options.leading === false) previous = now;
       const remaining = wait - (now - previous);
@@ -215,12 +239,19 @@
       }
       return result;
     };
+    throttled.cancel = function () {
+      clearTimeout(timeout);
+      timeout = null;
+      context = args = null;
+    };
+    return throttled;
   }
 </script>
 
 <div use:load {id} class={rootClass} style="height: {rootInitialHeight}">
   {#if loaded}
-    <div in:fade={fadeOption || {}} class={contentClass} style={contentStyle}>
+    <!-- No fadeOption: no fade, as fade() would use its default duration -->
+    <div in:fade={fadeOption || { duration: 0 }} class={contentClass} style={contentStyle}>
       <slot>Lazy load content</slot>
     </div>
     {#if !contentShow && placeholder}
