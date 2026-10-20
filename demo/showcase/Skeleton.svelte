@@ -1,4 +1,9 @@
-<div class="skeleton">
+<script>
+  // Rows of long lists are a dot and a line
+  let { row = false } = $props();
+</script>
+
+<div class="skeleton" class:row>
   <div class="block"></div>
   <div class="line"></div>
 </div>
@@ -31,5 +36,20 @@
     to {
       background-position: -200% 0;
     }
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .row .block {
+    width: 32px;
+    height: 32px;
+    flex: none;
+    border-radius: 50%;
+  }
+  .row .line {
+    margin: 0;
+    width: 40%;
   }
 </style>

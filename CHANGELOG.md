@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Scroll faster with many items: don't write the height of content that is already unloaded on each scroll, and find scroll containers only once
 - Fix loading in scroll containers: check the part of the window that scroll containers show. Content below a scroll container no longer loads on mount, content above it unloads, and scrolling another container no longer loads it
 - Remove the prebuilt `index.js` and `index.mjs`. The package exports `src/index.svelte` by the `svelte` condition, so bundlers compile it with your Svelte version
 - Add the `types` condition to `exports`
