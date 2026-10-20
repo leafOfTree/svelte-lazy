@@ -11,7 +11,7 @@
 
 <style>
   .comment {
-    height: 132px;
+    height: 160px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

@@ -6,7 +6,7 @@
 <style>
   .skeleton {
     height: 100%;
-    padding: 12px;
+    padding: 16px;
     box-sizing: border-box;
   }
   .block,
@@ -17,7 +17,7 @@
     animation: shimmer 1.2s infinite linear;
   }
   .block {
-    height: 132px;
+    height: 160px;
   }
   .line {
     height: 14px;

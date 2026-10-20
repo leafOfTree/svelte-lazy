@@ -1,15 +1,17 @@
 // Record demo/showcase.html into docs/demo.gif:
 //   npm run record:demo
-// Needs ffmpeg. Uses the installed Chrome, or the browser at CHROME_PATH.
-import { execFileSync } from 'node:child_process';
+// Needs ffmpeg and ImageMagick. Uses the installed Chrome, or the browser at
+// CHROME_PATH.
+import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createServer } from 'vite';
 import { chromium } from 'playwright';
 
-const WIDTH = 640;
-const HEIGHT = 440;
+const WIDTH = 720;
+const HEIGHT = 480;
+const RADIUS = 16;
 const OUTPUT = 'docs/demo.gif';
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -67,10 +69,10 @@ await page.evaluate(async () => {
     const from = feed.scrollTop;
     const start = performance.now();
     for (let t = 0; t < 1; t = (performance.now() - start) / 500) {
-      feed.scrollTop = from + 202 * ease(t);
+      feed.scrollTop = from + 244 * ease(t);
       await new Promise(requestAnimationFrame);
     }
-    feed.scrollTop = from + 202;
+    feed.scrollTop = from + 244;
     await wait(1000);
   }
 });
@@ -90,6 +92,9 @@ const list = frames
 const listFile = join(dir, 'frames.txt');
 writeFileSync(listFile, `${list}\nfile '${frames.at(-1).file}'\n`);
 
+const rounded = join(dir, 'rounded.gif');
+// ImageMagick 7 is `magick`, 6 is `convert`
+const magick = spawnSync('magick', ['-version']).status === 0 ? 'magick' : 'convert';
 execFileSync('ffmpeg', [
   '-y',
   '-loglevel',
@@ -101,10 +106,20 @@ execFileSync('ffmpeg', [
   '-i',
   listFile,
   '-vf',
-  'fps=12,split[a][b];[a]palettegen=max_colors=128:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle',
+  [
+    'fps=12',
+    // Round the corners: pixels outside a rounded rectangle are transparent
+    `format=rgba,geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='if(lte(hypot(X-clip(X,${RADIUS},W-1-${RADIUS}),Y-clip(Y,${RADIUS},H-1-${RADIUS})),${RADIUS}),255,0)'`,
+    'split[a][b]',
+    '[a]palettegen=max_colors=128:stats_mode=diff:reserve_transparent=1[p]',
+    '[b][p]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle:alpha_threshold=128',
+  ].join(','),
   '-loop',
   '0',
-  OUTPUT,
+  rounded,
 ]);
+// With transparent pixels, ffmpeg writes full frames. Keep only the
+// changes between frames
+execFileSync(magick, [rounded, '-layers', 'Optimize', OUTPUT]);
 rmSync(dir, { recursive: true });
 console.log(`${OUTPUT}: ${frames.length} frames`);
