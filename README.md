@@ -49,6 +49,9 @@ For sapper server-side rendering which requires [using external components][6], 
 - **placeholderProps**: *Object*. Default `null`. 
     - Props for when using a component as a placeholder.
 
+- **id**: *String*. Default: `undefined`.
+    - Id for the container div. As the container div exists before load, links like `#id` can scroll to it and then load the content.
+
 - **class**: *String*. Default: `''`. 
     - Additional class for the container div. It will be `svelte-lazy ${class}`.
 
@@ -63,14 +66,7 @@ For sapper server-side rendering which requires [using external components][6], 
 
 ## Changelog
 
-v1.2.2
-- Support svelte 3 & 4
-- Load/unload when enters/leaves view
-
-v0 -> v1.0
-
-- Adjust dom structure
-- Optimize image loading
+See [CHANGELOG.md](CHANGELOG.md).
 
 ## Life cycle
 
@@ -87,14 +83,14 @@ not loaded  -------------->
 
 Before load
 ```html
-<div class="svelte-lazy ${class}">
+<div id="${id}" class="svelte-lazy ${class}">
     <div class="svelte-lazy-placeholder">...</div>
 </div>
 ```
 
 After load
 ```html
-<div class="svelte-lazy ${class}">
+<div id="${id}" class="svelte-lazy ${class}">
     <div class="svelte-lazy-content">...</div>
 </div>
 ```
@@ -110,16 +106,19 @@ After load
 
     npm test
 
+It builds `test/auto` and runs the tests in Chromium by puppeteer. To test with another Svelte version, e.g. Svelte 5:
+
+    npm i --no-save svelte@5
+    npm test
+
 ## Publish
 
-For maintenance, bump the version in `package.json` then run `npm publish`.
+For maintenance, bump the version in `package.json`, add the changes to `CHANGELOG.md`, then run `npm publish`.
 
 ## Refs
 
 Based on [sveltejs/component-template: A base for building shareable Svelte components](https://github.com/sveltejs/component-template)
 
-[1]: https://travis-ci.com/leafOfTree/svelte-lazy.svg?branch=master
-[2]: https://travis-ci.com/leafOfTree/svelte-lazy
 [3]: https://img.shields.io/npm/v/svelte-lazy.svg
 [4]: https://www.npmjs.com/package/svelte-lazy
 [5]: https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1

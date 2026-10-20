@@ -17,6 +17,7 @@ async function test() {
   await testImg404()
   await testImgDelay()
   await testEmptyPlaceholder()
+  await testId()
 
   showResult()
 
@@ -155,6 +156,27 @@ async function test() {
     console.log('Test empty placeholder --------------------')
     const elem = document.querySelector('.empty-placeholder')
     assert(!!elem.querySelector('.svelte-lazy-placeholder'), false)
+  }
+
+  // Test id on the container, a link to it scrolls there and loads content
+  async function testId() {
+    console.log('Test id --------------------')
+    assert(document.querySelector('.basic').hasAttribute('id'), false)
+
+    const elem = document.getElementById('lazy-id')
+    assert(elem.classList.contains('with-id'), true)
+    assert(elem.textContent, 'Loading...')
+
+    const inView = () => elem.getBoundingClientRect().top
+      < container.getBoundingClientRect().bottom
+    assert(inView(), false)
+
+    location.hash = '#lazy-id'
+    await sleep(500)
+    assert(inView(), true)
+    assert(elem.style.height, 'auto')
+    assert(elem.textContent.trim(), 'Content with id')
+    assert(document.getElementById('lazy-id'), elem)
   }
 }
 

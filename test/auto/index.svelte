@@ -88,6 +88,17 @@
   >
     <img alt="" src="p3.jpg" />
   </Lazy>
+
+  <div class="spacer"></div>
+
+  <Lazy 
+    class="with-id"
+    id="lazy-id"
+    height={300}
+    placeholder={'Loading...'}
+  >
+    <div class="text-content">Content with id</div>
+  </Lazy>
 </div>
 
 <script>
@@ -122,6 +133,9 @@
   }
   .preload {
     min-height: 900px;
+  }
+  .spacer {
+    height: 900px;
   }
   .text-content {
     height: 300px;
