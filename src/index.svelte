@@ -42,9 +42,14 @@
   }
 
   function createHandler(node) {
+    // Found on the first check, as styles are read only once
+    let scrollContainers;
     const handler = throttle(() => {
+      if (!scrollContainers) {
+        scrollContainers = getScrollContainers(node);
+      }
       const { top, bottom } = node.getBoundingClientRect();
-      const visible = getVisibleArea(node);
+      const visible = getVisibleArea(scrollContainers);
 
       if (top <= visible.bottom + offset && bottom > visible.top) {
         loadNode(node);
@@ -66,6 +71,11 @@
   }
 
   function unload(node) {
+    // Writing the height of every unloaded node on each scroll would make the
+    // browser lay out the page again for each of them
+    if (!loaded) {
+      return;
+    }
     setHeight(node);
     loaded = false;
   }
@@ -151,16 +161,24 @@
     return false;
   }
 
-  // The part of the window not clipped by scroll containers of the node
-  function getVisibleArea(node) {
-    let top = 0;
-    let bottom = window.innerHeight;
+  function getScrollContainers(node) {
+    const containers = [];
     for (let el = node.parentElement; el && el !== document.body; el = el.parentElement) {
       if (/auto|scroll|overlay/.test(getComputedStyle(el).overflowY)) {
-        const rect = el.getBoundingClientRect();
-        top = Math.max(top, rect.top);
-        bottom = Math.min(bottom, rect.bottom);
+        containers.push(el);
       }
+    }
+    return containers;
+  }
+
+  // The part of the window not clipped by the scroll containers
+  function getVisibleArea(containers) {
+    let top = 0;
+    let bottom = window.innerHeight;
+    for (const el of containers) {
+      const rect = el.getBoundingClientRect();
+      top = Math.max(top, rect.top);
+      bottom = Math.min(bottom, rect.bottom);
     }
     return { top, bottom };
   }
