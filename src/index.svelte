@@ -1,4 +1,4 @@
-<div use:load class={rootClass} style="height: {rootInitialHeight}">
+<div use:load {id} class={rootClass} style="height: {rootInitialHeight}">
   {#if loaded}
     <div
       in:fade={fadeOption || {}}
@@ -29,6 +29,7 @@
   export let onload = null;
   export let placeholder = null;
   export let placeholderProps = null;
+  export let id = undefined;
   let className = '';
   export { className as class };
 

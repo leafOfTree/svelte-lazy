@@ -8,7 +8,9 @@ declare class SvelteLazy extends SvelteComponent {
     height?: number | string;
     keep?: boolean;
     offset?: number;
-    placeholder?: string | SvelteComponent;
+    placeholder?: string | typeof SvelteComponent | ((...args: any[]) => any);
+    placeholderProps?: Record<string, any>;
+    id?: string;
     class?: string;
     fadeOption?: FadeParams;
     onload?: (node: HTMLElement) => void;
