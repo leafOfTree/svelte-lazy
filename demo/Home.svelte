@@ -2,57 +2,77 @@
 <script>
   import Feed from './showcase/Feed.svelte';
   import { anyContentMore, keepContent, longList, filterContent } from './showcase/items.js';
+
+  const tabs = [
+    {
+      id: 'any',
+      label: 'Any content',
+      text: 'Each item shows a placeholder, and loads when it scrolls into view. When it leaves, it unloads and gets its height back. A broken image keeps the height too.',
+      props: { groups: anyContentMore },
+    },
+    {
+      id: 'keep',
+      label: 'Keep',
+      text: 'With keep, content loads only once: scroll down, then back up, and nothing loads again.',
+      props: { groups: keepContent, keep: true, hint: 'With keep, content loads only once' },
+    },
+    {
+      id: 'long',
+      label: 'Long list',
+      text: 'A thousand items, and only the ones in view are loaded.',
+      props: { groups: longList, height: 64, hint: 'Only the rows in view are loaded' },
+    },
+    {
+      id: 'filter',
+      label: 'Filter',
+      text: 'Filter the list: items that come into view load, the rest stay placeholders.',
+      props: { groups: filterContent, filter: true, hint: 'Type to filter the photos' },
+    },
+  ];
+
+  // The tab is in the URL hash, so a tab can be linked to
+  const fromHash = () => (tabs.find((tab) => `#${tab.id}` === location.hash) ?? tabs[0]).id;
+  let activeId = $state(fromHash());
+  const active = $derived(tabs.find((tab) => tab.id === activeId));
 </script>
+
+<svelte:window onhashchange={() => (activeId = fromHash())} />
 
 <div class="page">
   <header>
-    <img
-      class="logo"
-      alt=""
-      src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/master/svelte-lazy.svg"
-    />
-    <h1>svelte-lazy</h1>
+    <h1>
+      <img
+        class="logo"
+        alt=""
+        src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/master/svelte-lazy.svg"
+      />
+      svelte-lazy
+    </h1>
     <p>A Svelte component to lazy load any content: images, charts, tables or anything else.</p>
     <code class="install">npm i svelte-lazy</code>
-    <nav>
+    <nav class="links">
       <a href="https://github.com/leafOfTree/svelte-lazy">GitHub</a>
       <a href="https://www.npmjs.com/package/svelte-lazy">npm</a>
       <a href="https://github.com/leafOfTree/svelte-lazy/tree/master/demo">Source of this page</a>
     </nav>
   </header>
 
-  <section>
-    <h2>Any content</h2>
-    <p>
-      Each item shows a placeholder, and loads when it scrolls into view. When it leaves, it unloads
-      and gets its height back. A broken image keeps the height too.
-    </p>
-    <div class="frame"><Feed groups={anyContentMore} /></div>
-  </section>
+  <div class="tabs" role="tablist">
+    {#each tabs as tab (tab.id)}
+      <a
+        href="#{tab.id}"
+        role="tab"
+        aria-selected={tab.id === activeId}
+        class:active={tab.id === activeId}>{tab.label}</a
+      >
+    {/each}
+  </div>
+  <p class="text">{active.text}</p>
 
-  <section>
-    <h2>Load once with <code>keep</code></h2>
-    <p>Scroll down, then back up: loaded content stays, so nothing loads again.</p>
-    <div class="frame">
-      <Feed groups={keepContent} keep hint="With keep, content loads only once" />
-    </div>
-  </section>
-
-  <section>
-    <h2>Long list</h2>
-    <p>A thousand items, and only the ones in view are loaded.</p>
-    <div class="frame">
-      <Feed groups={longList} height={64} hint="Only the rows in view are loaded" />
-    </div>
-  </section>
-
-  <section>
-    <h2>Filter</h2>
-    <p>Filter the list: items that come into view load, the rest stay placeholders.</p>
-    <div class="frame">
-      <Feed groups={filterContent} filter hint="Type to filter the photos" />
-    </div>
-  </section>
+  <!-- A new feed for each tab, so its count starts again -->
+  {#key activeId}
+    <div class="frame" role="tabpanel"><Feed {...active.props} /></div>
+  {/key}
 </div>
 
 <style>
@@ -69,21 +89,25 @@
   .page {
     max-width: 640px;
     margin: 0 auto;
-    padding: 48px 16px;
+    padding: 24px 16px;
   }
   header {
     text-align: center;
-    margin-bottom: 24px;
-  }
-  .logo {
-    width: 56px;
+    margin-bottom: 20px;
   }
   h1 {
-    margin: 8px 0;
-    font-size: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 0 6px;
+    font-size: 32px;
+  }
+  .logo {
+    width: 40px;
   }
   header p {
-    margin: 0 0 20px;
+    margin: 0 0 14px;
     color: #59636e;
     font-size: 17px;
   }
@@ -95,12 +119,12 @@
     color: #fff;
     font-size: 15px;
   }
-  nav {
+  .links {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 8px 20px;
-    margin-top: 20px;
+    margin-top: 14px;
   }
   a {
     color: #7c5cff;
@@ -110,15 +134,33 @@
   a:hover {
     text-decoration: underline;
   }
-  section {
-    margin-top: 48px;
+  .tabs {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 12px;
+    background: #eaeef2;
   }
-  h2 {
-    margin: 0 0 6px;
-    font-size: 22px;
+  .tabs a {
+    flex: 1;
+    padding: 8px 4px;
+    border-radius: 8px;
+    color: #59636e;
+    text-align: center;
+    white-space: nowrap;
   }
-  section > p {
-    margin: 0 0 16px;
+  .tabs a:hover {
+    color: #1f2328;
+    text-decoration: none;
+  }
+  .tabs a.active {
+    background: #fff;
+    color: #1f2328;
+    box-shadow: 0 1px 3px rgb(31 35 40 / 0.12);
+  }
+  .text {
+    min-height: 3em;
+    margin: 12px 0;
     color: #59636e;
   }
   .frame {
