@@ -1,42 +1,27 @@
 <script>
   import Lazy from 'svelte-lazy';
+  import { SvelteSet } from 'svelte/reactivity';
 
-  const photos = [1069, 1080, 1015, 1074, 225, 1084];
-  let loaded = $state(0);
+  // Photos from Unsplash by way of Lorem Picsum
+  const photos = [1069, 1080, 1025, 1015, 1074, 225, 1084, 1036, 292, 433, 1011, 180];
+  // Ids of the photos loaded at least once
+  const loaded = new SvelteSet();
 </script>
 
-<header>Loaded: {loaded}</header>
-
 <h1>svelte-lazy</h1>
-<p>Scroll down: each card loads when it comes into view, and unloads when it leaves.</p>
+<p>Each photo loads when it scrolls into view. Scroll down to load more.</p>
 
 {#each photos as id (id)}
-  <Lazy height={240} placeholder="Loading..." onload={() => loaded++}>
+  <Lazy height={240} placeholder="Loading..." onload={() => loaded.add(id)}>
     <img alt="" src="https://picsum.photos/id/{id}/400/240" />
   </Lazy>
 {/each}
 
-<!-- keep: load only once -->
-<Lazy height={240} keep placeholder="Loading..." onload={() => loaded++}>
-  <div class="card">Any content, kept after it loads</div>
-</Lazy>
+<div class="badge">Loaded {loaded.size} / {photos.length}</div>
 
 <style>
-  header {
-    position: fixed;
-    top: 12px;
-    right: 12px;
-    z-index: 1;
-    padding: 6px 12px;
-    border-radius: 8px;
-    background: #7c5cff;
-    color: white;
-    font-weight: bold;
-  }
-  p {
-    margin-bottom: 120vh;
-  }
   :global(.svelte-lazy) {
+    max-width: 400px;
     margin: 16px 0;
   }
   :global(.svelte-lazy-placeholder) {
@@ -44,20 +29,24 @@
     display: grid;
     place-items: center;
     border-radius: 8px;
-    background: #f0f0f0;
-    color: #888;
+    background: rgb(127 127 127 / 0.15);
+    opacity: 0.7;
   }
-  img,
-  .card {
+  img {
     display: block;
-    width: 400px;
+    width: 100%;
     height: 240px;
+    object-fit: cover;
     border-radius: 8px;
   }
-  .card {
-    display: grid;
-    place-items: center;
-    background: #f4f1ff;
-    color: #7c5cff;
+  .badge {
+    position: fixed;
+    bottom: 12px;
+    left: 12px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: #7c5cff;
+    color: white;
+    font-weight: bold;
   }
 </style>
