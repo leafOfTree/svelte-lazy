@@ -7,7 +7,7 @@
 - Test in the browser with Vitest, and compile with Svelte 3 and 4 in CI
 - Publish from GitHub Actions with npm provenance
 
-## 1.3.0
+## 1.3.0 (2026-10-20)
 
 - Add `id` prop for the container div, so links like `#id` can scroll to it before the content is loaded ([#18](https://github.com/leafOfTree/svelte-lazy/issues/18))
 - Add `placeholderProps` and `id` to TypeScript types; allow component placeholders in types

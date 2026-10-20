@@ -1,21 +1,27 @@
 <img src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/master/svelte-lazy.svg" width="60" alt="icon" align="left"/>
 
-# svelte-lazy [![npm version][3]][4]
+# svelte-lazy
 
-A svelte component to lazyload any content.
+[![npm version](https://img.shields.io/npm/v/svelte-lazy.svg)](https://www.npmjs.com/package/svelte-lazy)
+[![CI](https://github.com/leafOfTree/svelte-lazy/actions/workflows/node.js.yml/badge.svg)](https://github.com/leafOfTree/svelte-lazy/actions/workflows/node.js.yml)
 
-- [Demo on svelte.dev/repl][5]
-- [Examples][7] and [their code][8]
+A Svelte component to lazy load any content: images, videos, components or anything else. It shows a placeholder until the content scrolls into view, and fades it in.
+
+Native `loading="lazy"` covers images and iframes. svelte-lazy also defers rendering any markup or component, keeps the layout stable while images load, and works in scroll containers.
 
 <p align="center">
-<img alt="demo image" src="https://raw.githubusercontent.com/leafOfTree/leafOfTree.github.io/HEAD/svelte-lazy.png" width="120" />
+  <img alt="Demo: cards show a placeholder, then load as they scroll into view" src="https://raw.githubusercontent.com/leafOfTree/svelte-lazy/master/docs/demo.gif" width="640" />
 </p>
 
-## Installation
+[Examples](https://leafoftree.github.io/svelte-lazy/) ([code](demo/index.svelte)) · [Playground](https://svelte.dev/playground/6d7714fa3cce4909af6c6d187271e0a1)
 
-    npm i svelte-lazy
+## Install
 
-It works with Svelte 3, 4 and 5.
+```sh
+npm i svelte-lazy
+```
+
+It works with Svelte 3, 4 and 5, and comes with TypeScript types.
 
 ## Usage
 
@@ -24,116 +30,102 @@ It works with Svelte 3, 4 and 5.
   import Lazy from 'svelte-lazy';
 </script>
 
-<Lazy height={300}>
-  <img alt="" src="https://picsum.photos/id/412/200/300" />
+<Lazy height={300} placeholder="Loading...">
+  <img alt="" src="https://picsum.photos/id/412/400/300" />
 </Lazy>
+```
+
+> [!IMPORTANT]
+> Set `height` to about the height of the content. Before loading, the container has this height. With the default `0`, all containers are empty and in view at once, so everything loads right away, and the page jumps when the content appears.
+
+By default, content is unloaded when it leaves the viewport and loaded again when it comes back. Set `keep` to load it only once.
+
+## Examples
+
+Load only once, with a component as the placeholder:
+
+```svelte
+<script>
+  import Lazy from 'svelte-lazy';
+  import Spinner from './Spinner.svelte';
+</script>
+
+<Lazy height={400} keep placeholder={Spinner} placeholderProps={{ size: 'large' }}>
+  <HeavyChart />
+</Lazy>
+```
+
+Start loading earlier, 500px before the content scrolls into view, and know when it loads:
+
+```svelte
+<Lazy height={300} offset={500} onload={(node) => console.log('loaded', node)}>
+  <video controls src="movie.mp4"></video>
+</Lazy>
+```
+
+Link to content that isn't loaded yet. The container has the `id` before loading, so `#comments` scrolls to it and loads it:
+
+```svelte
+<a href="#comments">Comments</a>
+
+<Lazy id="comments" height={600}>
+  <Comments />
+</Lazy>
+```
+
+Style the container, the placeholder and the content by their classes:
+
+```svelte
+<Lazy class="card" height={200}>...</Lazy>
+
+<style>
+  :global(.card .svelte-lazy-content) {
+    border-radius: 8px;
+  }
+</style>
 ```
 
 ## Props
 
-- **height**: _Number|String_. Default: `0` (px).
-  - Height of the component before load.
-  - **Set a proper value** to avoid scroll bounce. You can use the content height shown by the DevTools Inspector after loading.
+| Prop               | Type                  | Default                       | Description                                                                                                        |
+| ------------------ | --------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `height`           | `number \| string`    | `0`                           | Height of the container before loading, in px or any CSS length like `'50vh'`                                      |
+| `keep`             | `boolean`             | `false`                       | Keep the content after it leaves the viewport, instead of unloading it                                             |
+| `offset`           | `number`              | `150`                         | Load when the top of the container is within this many px below the bottom of the viewport or the scroll container |
+| `placeholder`      | `string \| Component` | `null`                        | Shown before loading, and while images in the content are loading                                                  |
+| `placeholderProps` | `object`              | `null`                        | Props for a component placeholder                                                                                  |
+| `id`               | `string`              | `undefined`                   | `id` of the container                                                                                              |
+| `class`            | `string`              | `''`                          | Class added to the container, after `svelte-lazy`                                                                  |
+| `fadeOption`       | `object \| null`      | `{ delay: 0, duration: 400 }` | Options of the [fade](https://svelte.dev/docs/svelte/svelte-transition#fade) transition. `null` to disable it      |
+| `onload`           | `(node) => void`      | `null`                        | Called with the container element when the content is loaded                                                       |
+| `resetHeightDelay` | `number`              | `0`                           | Delay in ms before the container height becomes `auto` after loading                                               |
 
-- **keep**: _Boolean_. Default: `false`.
-  - By default elements get unloaded after leaving view, set to `true` to keep all loaded ones after first appearance.
+## How it works
 
-- **offset**: _Number_. Default: `150` (px).
-  - Offset from the top of the component to the bottom of the viewport that triggers loading when in it.
+- The content loads when the container scrolls within `offset` of the bottom of the viewport, or of its scroll container. Unless `keep` is set, it unloads after leaving, and the container gets its `height` back.
+- If the content has an image, the placeholder stays until the image loads, then the container height becomes `auto`. If the image fails, the content shows with the fixed `height`.
+- With server-side rendering, the server renders the placeholder; the content loads in the browser.
 
-- **placeholder**: _String|Component_. Default: `null`.
-  - Placeholder before load.
+The DOM before loading:
 
-- **placeholderProps**: _Object_. Default `null`.
-  - Props for when using a component as a placeholder.
+```html
+<div id="{id}" class="svelte-lazy {class}">
+  <div class="svelte-lazy-placeholder">...</div>
+</div>
+```
 
-- **id**: _String_. Default: `undefined`.
-  - Id for the container div. As the container div exists before load, links like `#id` can scroll to it and then load the content.
+and after:
 
-- **class**: _String_. Default: `''`.
-  - Additional class for the container div. It will be `svelte-lazy ${class}`.
-
-- **fadeOption**: _Object_. Default: `{ delay: 0, duration: 400 }`.
-  - Option for the fade in transition. Set `null` to disable it.
-
-- **onload**: _Function (node) => {}_. Default: `null`.
-  - Function that is called when loaded.
-
-- **resetHeightDelay**: _Number_. Default: `0` (milliseconds).
-  - The delay to reset the component height to `auto` after loaded. Might be useful to wait for remote resources like images.
+```html
+<div id="{id}" class="svelte-lazy {class}">
+  <div class="svelte-lazy-content">...</div>
+</div>
+```
 
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md).
 
-## Life cycle
+## Contributing
 
-```
-            enter viewport  / no image                 -> loaded
-not loaded  -------------->
-                            \ with image -> load event -> loaded
-                                                |
-                                                |
-            show placeholder                    |     show content
-```
-
-## DOM structure
-
-Before load
-
-```html
-<div id="${id}" class="svelte-lazy ${class}">
-  <div class="svelte-lazy-placeholder">...</div>
-</div>
-```
-
-After load
-
-```html
-<div id="${id}" class="svelte-lazy ${class}">
-  <div class="svelte-lazy-content">...</div>
-</div>
-```
-
-## Development
-
-    git clone https://github.com/leafOfTree/svelte-lazy
-    cd svelte-lazy
-    npm i
-    npm run dev
-
-`npm run dev` serves the examples in `demo/` by Vite. `npm run build:demo` builds them to `demo/dist`, which is deployed to GitHub Pages.
-
-Before committing:
-
-    npm run lint      # ESLint and Prettier, `npm run format` to fix formatting
-    npm run check     # type check by svelte-check
-
-## Test
-
-    npm test
-
-Tests in `tests/` run in Chrome by [Vitest browser mode](https://vitest.dev/guide/browser/). They use the installed Chrome, so no browser is downloaded. To use another Chromium based browser, set its path:
-
-    CHROME_PATH=/path/to/chromium npm test
-
-Browser tests run with Svelte 5. To check that the component still compiles with Svelte 3 or 4:
-
-    npm i --no-save svelte@4
-    npm run check:svelte
-
-## Publish
-
-1. Bump the version in `package.json` and add the changes to `CHANGELOG.md`
-2. Commit, then push a tag of the version:
-
-       git tag v1.3.0
-       git push origin v1.3.0
-
-The [release workflow](.github/workflows/release.yml) checks, tests and publishes it to npm by [trusted publishing](https://docs.npmjs.com/trusted-publishers), with provenance.
-
-[3]: https://img.shields.io/npm/v/svelte-lazy.svg
-[4]: https://www.npmjs.com/package/svelte-lazy
-[5]: https://svelte.dev/repl/6d7714fa3cce4909af6c6d187271e0a1
-[7]: https://leafoftree.github.io/svelte-lazy/
-[8]: https://github.com/leafOfTree/svelte-lazy/blob/master/demo/index.svelte
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development, tests and releases.
