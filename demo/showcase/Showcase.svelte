@@ -3,50 +3,72 @@
   import Lazy from '../../src/index.svelte';
   import Skeleton from './Skeleton.svelte';
   import Chart from './Chart.svelte';
+  import Table from './Table.svelte';
+  import List from './List.svelte';
+  import Comment from './Comment.svelte';
 
-  // Photos and chart previews, in turn
-  const items = [
-    { name: 'Jellyfish', photo: 'jellyfish' },
-    { name: 'Visitors', chart: 'line' },
-    { name: 'Strawberries', photo: 'strawberries' },
-    { name: 'Traffic', chart: 'donut' },
-    { name: 'Fjord', photo: 'fjord' },
-    { name: 'Revenue', chart: 'kpi' },
-    { name: 'Pug', photo: 'pug' },
-    { name: 'Sales', chart: 'bars' },
-    { name: 'Walrus', photo: 'walrus' },
-  ].map((item, i) => ({ ...item, id: i + 1 }));
+  // <Lazy> takes any content: images, charts, tables, lists, text...
+  const groups = [
+    {
+      title: 'Images',
+      items: [
+        { name: 'Jellyfish', photo: 'jellyfish' },
+        { name: 'Strawberries', photo: 'strawberries' },
+        { name: 'Fjord', photo: 'fjord' },
+      ],
+    },
+    {
+      title: 'Charts',
+      items: [
+        { name: 'Visitors', component: Chart, props: { type: 'line' } },
+        { name: 'Traffic', component: Chart, props: { type: 'donut' } },
+        { name: 'Revenue', component: Chart, props: { type: 'kpi' } },
+      ],
+    },
+    {
+      title: 'Any content',
+      items: [
+        { name: 'Orders', component: Table },
+        { name: 'Team', component: List },
+        { name: 'Comment', component: Comment },
+      ],
+    },
+  ];
+  const total = groups.reduce((sum, group) => sum + group.items.length, 0);
 
   let events = $state([]);
-  const onload = (id) => () => {
-    events = [...events, id];
+  const onload = (name) => () => {
+    events = [...events, name];
   };
 </script>
 
 <main>
   <section class="feed">
-    {#each items as item (item.id)}
-      <Lazy height={190} offset={0} placeholder={Skeleton} onload={onload(item.id)}>
-        <article>
-          {#if item.chart}
-            <Chart type={item.chart} />
-          {:else}
-            <!-- Delayed by the recording server, so the placeholder shows -->
-            <img alt={item.name} src="slow/{item.photo}.jpg" />
-          {/if}
-          <p>{item.name} #{item.id}</p>
-        </article>
-      </Lazy>
+    {#each groups as group (group.title)}
+      <h2>{group.title}</h2>
+      {#each group.items as item (item.name)}
+        <Lazy height={190} offset={0} placeholder={Skeleton} onload={onload(item.name)}>
+          <article>
+            {#if item.photo}
+              <!-- Delayed by the recording server, so the placeholder shows -->
+              <img alt={item.name} src="slow/{item.photo}.jpg" />
+            {:else}
+              <item.component {...item.props} />
+            {/if}
+            <p>{item.name}</p>
+          </article>
+        </Lazy>
+      {/each}
     {/each}
   </section>
 
   <aside>
     <h1>svelte-lazy</h1>
     <p class="hint">Content loads when it scrolls into view</p>
-    <div class="count">{events.length} / {items.length} loaded</div>
+    <div class="count">{events.length} / {total} loaded</div>
     <ol>
-      {#each events as id, i (i)}
-        <li><code>onload</code> #{id}</li>
+      {#each events as name, i (i)}
+        <li><code>onload</code> {name}</li>
       {/each}
     </ol>
   </aside>
@@ -84,6 +106,14 @@
     border-radius: 10px;
     background: #fff;
     box-shadow: 0 0 0 1px #e6e8eb;
+  }
+  h2 {
+    margin: 16px 2px 0;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #59636e;
   }
   article {
     padding: 12px;
