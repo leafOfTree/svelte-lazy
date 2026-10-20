@@ -4,23 +4,18 @@
   import Skeleton from './Skeleton.svelte';
   import Chart from './Chart.svelte';
 
-  const names = [
-    'Jellyfish',
-    'Strawberries',
-    'Pug',
-    'Chart',
-    'Fjord',
-    'Lioness',
-    'Tea',
-    'Chart',
-    'Walrus',
-  ];
-  const items = names.map((name, i) => ({
-    id: i + 1,
-    name,
-    // Images are delayed by the recording server, so the placeholder shows
-    src: `slow/${name.toLowerCase()}.jpg`,
-  }));
+  // Photos and chart previews, in turn
+  const items = [
+    { name: 'Jellyfish', photo: 'jellyfish' },
+    { name: 'Visitors', chart: 'line' },
+    { name: 'Strawberries', photo: 'strawberries' },
+    { name: 'Traffic', chart: 'donut' },
+    { name: 'Fjord', photo: 'fjord' },
+    { name: 'Revenue', chart: 'kpi' },
+    { name: 'Pug', photo: 'pug' },
+    { name: 'Sales', chart: 'bars' },
+    { name: 'Walrus', photo: 'walrus' },
+  ].map((item, i) => ({ ...item, id: i + 1 }));
 
   let events = $state([]);
   const onload = (id) => () => {
@@ -33,10 +28,11 @@
     {#each items as item (item.id)}
       <Lazy height={190} offset={0} placeholder={Skeleton} onload={onload(item.id)}>
         <article>
-          {#if item.name === 'Chart'}
-            <Chart />
+          {#if item.chart}
+            <Chart type={item.chart} />
           {:else}
-            <img alt={item.name} src={item.src} />
+            <!-- Delayed by the recording server, so the placeholder shows -->
+            <img alt={item.name} src="slow/{item.photo}.jpg" />
           {/if}
           <p>{item.name} #{item.id}</p>
         </article>
