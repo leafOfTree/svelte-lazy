@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.0 (2026-10-21)
+## 2.0.0 (unreleased)
 
 Load and unload by `IntersectionObserver` instead of checking each `<Lazy>` on scroll ([#57](https://github.com/leafOfTree/svelte-lazy/issues/57))
 

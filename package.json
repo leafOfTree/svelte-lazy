@@ -9,7 +9,7 @@
   },
   "main": "index.js",
   "module": "index.mjs",
-  "version": "1.5.0",
+  "version": "1.4.1",
   "types": "index.d.ts",
   "repository": {
     "type": "git",
@@ -46,7 +46,7 @@
     "svelte-check": "^4.7.7",
     "svelte4": "npm:svelte@^4.2.20",
     "typescript": "^6.0.3",
-    "vite": "^8.3.4",
+    "vite": "^8.3.5",
     "vitest": "^5.0.5",
     "vitest-browser-svelte": "^3.1.0"
   },
