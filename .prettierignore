@@ -1,3 +1,5 @@
 demo/dist
 package-lock.json
 CHANGELOG.md
+index.js
+index.mjs

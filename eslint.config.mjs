@@ -3,7 +3,8 @@ import svelte from 'eslint-plugin-svelte';
 import globals from 'globals';
 
 export default [
-  { ignores: ['demo/dist/', '.vitest/'] },
+  // index.js and index.mjs are built by scripts/build.mjs
+  { ignores: ['demo/dist/', '.vitest/', 'index.js', 'index.mjs'] },
   js.configs.recommended,
   ...svelte.configs.recommended,
   {

@@ -21,3 +21,5 @@ export const props: Props = {
 export const wrongHeight: Props = { height: true };
 // @ts-expect-error onload gets an element
 export const wrongOnload: Props = { onload: (node: number) => node };
+// Other props are allowed, as before 1.4.0
+export const otherProps: Props = { style: 'color: red', 'data-id': 1 };

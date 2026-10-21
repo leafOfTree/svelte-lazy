@@ -1,4 +1,4 @@
-// The page recorded into docs/demo.gif by scripts/record-demo.js
+// The page recorded into docs/demo.gif by scripts/record-demo.mjs
 import { mount } from 'svelte';
 import Feed from './Feed.svelte';
 import { anyContent } from './items.js';

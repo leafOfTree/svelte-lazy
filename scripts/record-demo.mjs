@@ -33,7 +33,7 @@ function slowImages() {
 }
 
 const server = await createServer({
-  configFile: 'vite.config.js',
+  configFile: 'vite.config.mjs',
   plugins: [slowImages()],
   server: { port: 0 },
   logLevel: 'error',

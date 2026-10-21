@@ -22,6 +22,8 @@ export interface LazyProps {
   onload?: ((node: HTMLElement) => void) | null;
   /** Delay in ms before the container height becomes auto after loading */
   resetHeightDelay?: number;
+  /** Other props are allowed, as before 1.4.0, though they have no effect */
+  [prop: string]: any;
 }
 
 // SvelteComponentTyped works with the types of Svelte 3, 4 and 5

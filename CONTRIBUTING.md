@@ -18,6 +18,14 @@ npm run lint    # ESLint and Prettier, `npm run format` to fix formatting
 npm run check   # type check by svelte-check
 ```
 
+## Build
+
+```sh
+npm run build
+```
+
+builds `index.js` (UMD) and `index.mjs` for tools that don't compile `.svelte` files, by Svelte 4 with its runtime inside, as in earlier versions. `npm test` and `npm pack` (so `npm publish` too) build them first.
+
 ## Test
 
 ```sh

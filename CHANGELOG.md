@@ -1,6 +1,14 @@
 # Changelog
 
-## 1.4.0 (2026-10-20)
+## 1.4.1 (2026-10-21)
+
+Compatibility with 1.3.0 and earlier:
+
+- Bring back the prebuilt `index.js` (UMD) and `index.mjs` and their `main` and `module` fields, removed in 1.4.0. They are for tools that don't compile `.svelte` files from packages, like Jest 27 or a script tag. As before, they're compiled by Svelte 4 with its runtime inside. Bundlers that read the `svelte` condition, like Vite and SvelteKit, still use `src/index.svelte`
+- Remove `"type": "module"` from `package.json`, as before 1.4.0, so `index.js` loads as a script
+- TypeScript: allow other props, as before 1.4.0. The props above are still checked
+
+## 1.4.0 (2026-10-21)
 
 Fixes
 

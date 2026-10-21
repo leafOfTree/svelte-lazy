@@ -1,6 +1,6 @@
 <!-- A feed of <Lazy> items, with the count and a log of the loads. Used on
      the examples site, and recorded into docs/demo.gif by
-     scripts/record-demo.js -->
+     scripts/record-demo.mjs -->
 <script>
   import Lazy from '../../src/index.svelte';
   import Skeleton from './Skeleton.svelte';
