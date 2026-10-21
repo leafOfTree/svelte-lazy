@@ -2,6 +2,7 @@
 
 Photos from [Unsplash](https://unsplash.com/license) by way of [Lorem Picsum](https://picsum.photos), 400x300:
 
+- `valley.jpg`: [Christian Joudrey](https://unsplash.com/photos/mWRR1xj95hg)
 - `jellyfish.jpg`: [Marat Gilyadzinov](https://unsplash.com/photos/wpTWYBll4_w)
 - `strawberries.jpg`: [veeterzy](https://unsplash.com/photos/OJJIaFZOeX4)
 - `pug.jpg`: [Matthew Wiebe](https://unsplash.com/photos/U5rMrSI7Pn4)
