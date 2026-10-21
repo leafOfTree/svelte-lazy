@@ -29,7 +29,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        svelte: [3, 4, 5]
+        # The oldest Svelte in peerDependencies. The latest is tested above
+        svelte: ['5.0.0']
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -37,5 +38,7 @@ jobs:
           node-version: 22.x
           cache: 'npm'
       - run: npm ci
+      # Package by the latest Svelte, as when publishing
+      - run: npm run package
       - run: npm i --no-save svelte@${{ matrix.svelte }}
       - run: npm run check:svelte

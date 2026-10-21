@@ -1,7 +1,7 @@
 <!-- <Lazy> at the top of a 300px high scroll container, inside another one
      after a spacer of `before` px -->
 <script>
-  import Lazy from '../../src/index.svelte';
+  import Lazy from '../../src/Lazy.svelte';
 
   let { before = 0, ...lazyProps } = $props();
 </script>

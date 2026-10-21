@@ -4,5 +4,5 @@ README.html
 .idea
 demo/dist
 .vitest
-/index.js
-/index.mjs
+dist
+.svelte-kit

@@ -1,6 +1,6 @@
-// Compile the component with the installed Svelte version, to check that it
-// still works with older versions (CI installs Svelte 3 and 4).
-// Browser tests run with Svelte 5 only, as Vitest needs a recent
+// Compile the packaged component in dist/ with the installed Svelte version,
+// to check that it works with the oldest Svelte 5 too (CI installs 5.0.0).
+// Browser tests run with the latest Svelte only, as Vitest needs a recent
 // @sveltejs/vite-plugin-svelte.
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
@@ -15,7 +15,7 @@ function svelteFiles(dir) {
 }
 
 let failed = false;
-for (const file of svelteFiles('src')) {
+for (const file of svelteFiles('dist')) {
   try {
     const { warnings } = compile(readFileSync(file, 'utf8'), { filename: file });
     for (const warning of warnings) {

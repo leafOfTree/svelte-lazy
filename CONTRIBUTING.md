@@ -18,28 +18,22 @@ npm run lint    # ESLint and Prettier, `npm run format` to fix formatting
 npm run check   # type check by svelte-check
 ```
 
-## Build
+## Package
 
 ```sh
-npm run build
+npm run package
 ```
 
-builds `index.js` (UMD) and `index.mjs` for tools that don't compile `.svelte` files, by Svelte 4 with its runtime inside, as in earlier versions. `npm test` and `npm pack` (so `npm publish` too) build them first.
+packages `src/` to `dist/` by [`@sveltejs/package`](https://svelte.dev/docs/kit/packaging): the component without TypeScript, and its types. Then [publint](https://publint.dev/) checks `package.json`. `npm run check` and `npm pack` (so `npm publish` too) package it first.
 
 ## Compatibility
 
-Most users are on 1.2.x and get later 1.x versions by `^1.2.x` without choosing to, so 1.x keeps what 1.2.11 had (see 1.4.1 in the changelog):
+2.x needs Svelte 5, from 5.0.0 on:
 
-- `index.js` (UMD, global `Lazy`) and `index.mjs`, with the `main` and `module` fields, for tools that don't compile `.svelte` files from packages, like Jest 27 or a script tag. They're compiled by Svelte 4 with its runtime inside
-- No `"type": "module"` in `package.json`, so `index.js` loads as a script. Node scripts and configs in this repository are `.mjs`
-- `src/` compiles with Svelte 3, 4 and 5 (`npm run check:svelte`): no runes or snippets
-- TypeScript types allow other props
+- Use runes and snippets, but no features newer than 5.0.0, like `{@attach}` or class objects. `npm run check:svelte` compiles `dist/` with the installed Svelte; CI runs it with 5.0.0
+- Keep `use:` actions and the `svelte-lazy`, `svelte-lazy-placeholder` and `svelte-lazy-content` classes, which users style
 
-Before a release that changes the package, compare it with the latest 1.2.x: `npm pack`, then install the tarball where 1.2.11 works, like a Jest 27 test, a script tag and Vite with Svelte 3, 4 and 5.
-
-2.0 can drop these: Svelte 5 only with runes, no prebuilt files, with a migration note for tools that need to compile `.svelte` files.
-
-`npm audit` reports advisories for `svelte4`, the Svelte 4 that builds the prebuilt files. They are fixed in Svelte 5 only, and don't apply to the prebuilt files: most are about server-side rendering, which they don't include, and the DOM clobbering one needs spread attributes on a form, which the component doesn't render. Users don't see them, as svelte-lazy has no dependencies. Building by Svelte 5 instead would change the runtime in the prebuilt files, so it waits for 2.0, which drops them.
+1.x, for Svelte 3 and 4, is on the [`1.x` branch](https://github.com/leafOfTree/svelte-lazy/tree/1.x), with its compatibility notes in its CONTRIBUTING.md. Fix 1.x there.
 
 ## Test
 
@@ -53,10 +47,11 @@ Tests in `tests/` run in Chrome by [Vitest browser mode](https://vitest.dev/guid
 CHROME_PATH=/path/to/chromium npm test
 ```
 
-Browser tests run with Svelte 5. To check that the component still compiles with Svelte 3 or 4:
+Browser tests run with the latest Svelte. To check that the package compiles with the oldest Svelte 5:
 
 ```sh
-npm i --no-save svelte@4
+npm run package
+npm i --no-save svelte@5.0.0
 npm run check:svelte
 ```
 
@@ -82,8 +77,8 @@ npm run playground-link
 2. Commit, then push a tag of the version:
 
    ```sh
-   git tag v1.4.1
-   git push origin v1.4.1
+   git tag v2.0.0-next.0
+   git push origin v2.0.0-next.0
    ```
 
 The [release workflow](.github/workflows/release.yml) checks, tests and publishes it to npm by [trusted publishing](https://docs.npmjs.com/trusted-publishers), with provenance.
