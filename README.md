@@ -13,6 +13,9 @@ Native `loading="lazy"` covers images and iframes. svelte-lazy also defers rende
   <img alt="Demo: cards show a placeholder, then load as they scroll into view" src="https://raw.githubusercontent.com/leafOfTree/svelte-lazy/master/docs/demo.gif" width="640" />
 </p>
 
+> [!NOTE]
+> This is the README of 2.0, in prerelease: `npm i svelte-lazy@next`. It needs Svelte 5. For Svelte 3 or 4, use 1.x: `npm i svelte-lazy@1`, and see [its README](https://github.com/leafOfTree/svelte-lazy/tree/1.x#readme). To upgrade, see [Migrating from 1.x](#migrating-from-1x).
+
 [Live examples](https://leafoftree.github.io/svelte-lazy/) ([source](https://github.com/leafOfTree/svelte-lazy/tree/master/demo)) · [Try it in the Svelte Playground][playground]
 
 ## Install
@@ -21,7 +24,7 @@ Native `loading="lazy"` covers images and iframes. svelte-lazy also defers rende
 npm i svelte-lazy
 ```
 
-It works with Svelte 3, 4 and 5, and comes with TypeScript types.
+It needs Svelte 5, and comes with TypeScript types. For Svelte 3 or 4, use 1.x: `npm i svelte-lazy@1`.
 
 ## Usage
 
@@ -42,7 +45,7 @@ By default, content is unloaded when it leaves the viewport and loaded again whe
 
 ## Examples
 
-Load only once, with a component as the placeholder:
+Load only once, with a snippet as the placeholder:
 
 ```svelte
 <script>
@@ -50,7 +53,10 @@ Load only once, with a component as the placeholder:
   import Spinner from './Spinner.svelte';
 </script>
 
-<Lazy height={400} keep placeholder={Spinner} placeholderProps={{ size: 'large' }}>
+<Lazy height={400} keep>
+  {#snippet placeholder()}
+    <Spinner size="large" />
+  {/snippet}
   <HeavyChart />
 </Lazy>
 ```
@@ -73,6 +79,12 @@ Link to content that isn't loaded yet. The container has the `id` before loading
 </Lazy>
 ```
 
+Other attributes, like `style`, `data-*` and `aria-*`, go to the container:
+
+```svelte
+<Lazy height={300} data-id={photo.id} aria-label={photo.name}>...</Lazy>
+```
+
 Style the container, the placeholder and the content by their classes:
 
 ```svelte
@@ -87,22 +99,21 @@ Style the container, the placeholder and the content by their classes:
 
 ## Props
 
-| Prop               | Type                  | Default                       | Description                                                                                                        |
-| ------------------ | --------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `height`           | `number \| string`    | `0`                           | Height of the container before loading, in px or any CSS length like `'50vh'`                                      |
-| `keep`             | `boolean`             | `false`                       | Keep the content after it leaves the viewport, instead of unloading it                                             |
-| `offset`           | `number`              | `150`                         | Load when the top of the container is within this many px below the bottom of the viewport or the scroll container |
-| `placeholder`      | `string \| Component` | `null`                        | Shown before loading, and while images in the content are loading                                                  |
-| `placeholderProps` | `object`              | `null`                        | Props for a component placeholder                                                                                  |
-| `id`               | `string`              | `undefined`                   | `id` of the container                                                                                              |
-| `class`            | `string`              | `''`                          | Class added to the container, after `svelte-lazy`                                                                  |
-| `fadeOption`       | `object \| null`      | `{ delay: 0, duration: 400 }` | Options of the [fade](https://svelte.dev/docs/svelte/svelte-transition#fade) transition. `null` to disable it      |
-| `onload`           | `(node) => void`      | `null`                        | Called with the container element when the content is loaded                                                       |
-| `resetHeightDelay` | `number`              | `0`                           | Delay in ms before the container height becomes `auto` after loading                                               |
+| Prop               | Type                | Default                       | Description                                                                                                        |
+| ------------------ | ------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `height`           | `number \| string`  | `0`                           | Height of the container before loading, in px or any CSS length like `'50vh'`                                      |
+| `keep`             | `boolean`           | `false`                       | Keep the content after it leaves the viewport, instead of unloading it                                             |
+| `offset`           | `number`            | `150`                         | Load when the top of the container is within this many px below the bottom of the viewport or the scroll container |
+| `placeholder`      | `string \| Snippet` | `null`                        | Shown before loading, and while images in the content are loading                                                  |
+| `id`               | `string`            | `undefined`                   | `id` of the container                                                                                              |
+| `class`            | `string`            | `''`                          | Class added to the container, after `svelte-lazy`                                                                  |
+| `fadeOption`       | `object \| null`    | `{ delay: 0, duration: 400 }` | Options of the [fade](https://svelte.dev/docs/svelte/svelte-transition#fade) transition. `null` to disable it      |
+| `onload`           | `(node) => void`    | `null`                        | Called with the container element when the content is loaded                                                       |
+| `resetHeightDelay` | `number`            | `0`                           | Delay in ms before the container height becomes `auto` after loading                                               |
 
 ## How it works
 
-- The content loads when the container scrolls within `offset` of the bottom of the viewport, or of its scroll container. Unless `keep` is set, it unloads after leaving, and the container gets its `height` back.
+- The content loads when the container comes within `offset` of the bottom of the viewport, or of its scroll container, by scrolling or by a layout change. Unless `keep` is set, it unloads after leaving, and the container gets its `height` back. It's checked by [`IntersectionObserver`](https://developer.mozilla.org/docs/Web/API/IntersectionObserver), so nothing runs on scroll.
 - If the content has an image, the placeholder stays until the image loads, then the container height becomes `auto`. If the image fails, the content shows with the fixed `height`. Only the first image of the content is waited for: use `resetHeightDelay` to wait longer for others.
 - With server-side rendering, the server renders the placeholder; the content loads in the browser.
 - Only vertical scrolling is checked: in a horizontal scroll container, content loads by its vertical position.
@@ -122,6 +133,28 @@ and after:
   <div class="svelte-lazy-content">...</div>
 </div>
 ```
+
+## Migrating from 1.x
+
+- 2.0 needs Svelte 5. With Svelte 3 or 4, stay on 1.x
+- A component placeholder becomes a snippet, and `placeholderProps` is gone:
+
+  ```svelte
+  <!-- 1.x -->
+  <Lazy placeholder={Spinner} placeholderProps={{ size: 'large' }}>...</Lazy>
+
+  <!-- 2.0 -->
+  <Lazy>
+    {#snippet placeholder()}
+      <Spinner size="large" />
+    {/snippet}
+    ...
+  </Lazy>
+  ```
+
+- The package has no prebuilt `index.js` and `index.mjs`. Bundlers that compile `.svelte` files from packages, like Vite and SvelteKit, work as before. Tools that don't, like Jest 27 or a script tag, need to, or stay on 1.x
+
+See the [changelog](CHANGELOG.md) for the other changes.
 
 ## Changelog
 

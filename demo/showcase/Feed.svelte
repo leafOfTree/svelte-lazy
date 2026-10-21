@@ -2,7 +2,7 @@
      the examples site, and recorded into docs/demo.gif by
      scripts/record-demo.mjs -->
 <script>
-  import Lazy from '../../src/index.svelte';
+  import Lazy from '../../src/Lazy.svelte';
   import Skeleton from './Skeleton.svelte';
 
   let {
@@ -64,14 +64,10 @@
     {#each shown as group (group.title)}
       <h2>{group.title}</h2>
       {#each group.items as item (item.name)}
-        <Lazy
-          {height}
-          {keep}
-          offset={0}
-          placeholder={Skeleton}
-          placeholderProps={{ row: !!item.row }}
-          onload={onload(item.name)}
-        >
+        <Lazy {height} {keep} offset={0} onload={onload(item.name)}>
+          {#snippet placeholder()}
+            <Skeleton row={!!item.row} />
+          {/snippet}
           {#if item.row}
             <article class="row">
               <span class="avatar" style="background: {item.row}"></span>

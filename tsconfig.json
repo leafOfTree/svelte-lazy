@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "checkJs": true,
-    "strict": false,
+    "allowJs": true,
+    "checkJs": false,
+    "strict": true,
     "module": "esnext",
     "moduleResolution": "bundler",
     "target": "esnext",
+    "verbatimModuleSyntax": true,
     "noEmit": true,
     "skipLibCheck": true,
     "types": ["vite/client"]
   },
-  "include": ["src/**/*", "tests/**/*", "index.d.ts"]
+  "include": ["src/**/*", "tests/**/*"]
 }

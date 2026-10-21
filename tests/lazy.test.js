@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import Scroller from './fixtures/Scroller.svelte';
 import Nested from './fixtures/Nested.svelte';
-import Placeholder from './fixtures/Placeholder.svelte';
+import SnippetPlaceholder from './fixtures/SnippetPlaceholder.svelte';
 
 // <Lazy> is placed 2000px down a 300px high scroller, out of the viewport and
 // the default offset, so it loads only after scrolling
@@ -59,13 +59,31 @@ describe('before load', () => {
     expect(lazy.style.height).toBe('10rem');
   });
 
-  test('renders a component placeholder with placeholderProps', async () => {
+  test('renders a snippet placeholder', async () => {
+    const { container } = await render(SnippetPlaceholder, { height: 200 });
+    const lazy = container.querySelector('.svelte-lazy');
+    expect(placeholder(lazy).querySelector('.custom-placeholder').textContent).toBe(
+      'Loading images',
+    );
+    expect(content(lazy)).toBeNull();
+
+    lazy.scrollIntoView();
+    await expect.poll(() => content(lazy)?.textContent.trim()).toBe('Loaded content');
+    expect(placeholder(lazy)).toBeNull();
+  });
+
+  test('passes other attributes to the container', async () => {
     const { lazy } = await setup({
       before: FAR,
-      placeholder: Placeholder,
-      placeholderProps: { name: 'images' },
+      height: 200,
+      'data-id': 'photo',
+      'aria-label': 'Photo',
+      style: 'color: red',
     });
-    expect(lazy.querySelector('.custom-placeholder').textContent).toBe('Loading images');
+    expect(lazy.dataset.id).toBe('photo');
+    expect(lazy.getAttribute('aria-label')).toBe('Photo');
+    expect(lazy.style.color).toBe('red');
+    expect(lazy.style.height).toBe('200px');
   });
 
   test('renders no placeholder element without placeholder', async () => {
@@ -285,6 +303,15 @@ describe('unloading', () => {
 });
 
 describe('props', () => {
+  test('keeps the height when the style changes', async () => {
+    const { lazy, scrollTo, rerender } = await setup({ before: FAR, height: 200, style: '' });
+    scrollTo(100);
+    await expect.poll(() => lazy.style.height).toBe('auto');
+    await rerender({ before: FAR, height: 200, style: 'color: red' });
+    expect(lazy.style.color).toBe('red');
+    expect(lazy.style.height).toBe('auto');
+  });
+
   test('updates the class', async () => {
     const { lazy, rerender } = await setup({ before: FAR, class: 'one' });
     await rerender({ before: FAR, class: 'two' });

@@ -2,6 +2,20 @@
 
 ## 2.0.0 (unreleased)
 
+Svelte 5 only. For Svelte 3 or 4, stay on 1.x. See [Migrating from 1.x](README.md#migrating-from-1x) ([#58](https://github.com/leafOfTree/svelte-lazy/issues/58))
+
+Breaking changes
+
+- Needs Svelte 5: `peerDependencies` is `svelte: ^5.0.0`
+- `placeholder` is a string or a snippet. Component placeholders and `placeholderProps` are removed: put the component in a `{#snippet placeholder()}`
+- Remove the prebuilt `index.js` and `index.mjs`, and the `main` and `module` fields. Tools that don't compile `.svelte` files from packages, like Jest 27 or a script tag, need to, or stay on 1.x
+- Without content, `<Lazy>` shows nothing, instead of "Lazy load content"
+- Other props are attributes of the container div, and are type checked as attributes
+
+New
+
+- Other attributes, like `style`, `data-*` and `aria-*`, go to the container div
+
 Load and unload by `IntersectionObserver` instead of checking each `<Lazy>` on scroll ([#57](https://github.com/leafOfTree/svelte-lazy/issues/57))
 
 - Scroll faster with many items: nothing runs on scroll, the browser tells which ones come into view or leave
@@ -9,6 +23,11 @@ Load and unload by `IntersectionObserver` instead of checking each `<Lazy>` on s
 - No 200ms delay: content loads, and `onload` is called, as soon as it scrolls within `offset`
 - A new `offset` applies right away
 - In browsers without the `scrollMargin` option, like Safari before 26, content in scroll containers is still checked on scroll as before, so `offset` works there too
+
+Package
+
+- Written in TypeScript with runes and snippets, and packaged by `@sveltejs/package` to `dist/`, with types made from the source
+- Add `"type": "module"`
 
 ## 1.4.1 (2026-10-21)
 

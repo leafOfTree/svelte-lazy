@@ -1,7 +1,7 @@
 <!-- <Lazy> inside a 300px high scroll container, after a spacer of `before` px.
      `marginTop` moves the scroller down the page -->
 <script>
-  import Lazy from '../../src/index.svelte';
+  import Lazy from '../../src/Lazy.svelte';
 
   let { before = 0, marginTop = 0, src = null, ...lazyProps } = $props();
 </script>
