@@ -26,6 +26,19 @@ npm run build
 
 builds `index.js` (UMD) and `index.mjs` for tools that don't compile `.svelte` files, by Svelte 4 with its runtime inside, as in earlier versions. `npm test` and `npm pack` (so `npm publish` too) build them first.
 
+## Compatibility
+
+Most users are on 1.2.x and get later 1.x versions by `^1.2.x` without choosing to, so 1.x keeps what 1.2.11 had (see 1.4.1 in the changelog):
+
+- `index.js` (UMD, global `Lazy`) and `index.mjs`, with the `main` and `module` fields, for tools that don't compile `.svelte` files from packages, like Jest 27 or a script tag. They're compiled by Svelte 4 with its runtime inside
+- No `"type": "module"` in `package.json`, so `index.js` loads as a script. Node scripts and configs in this repository are `.mjs`
+- `src/` compiles with Svelte 3, 4 and 5 (`npm run check:svelte`): no runes or snippets
+- TypeScript types allow other props
+
+Before a release that changes the package, compare it with the latest 1.2.x: `npm pack`, then install the tarball where 1.2.11 works, like a Jest 27 test, a script tag and Vite with Svelte 3, 4 and 5.
+
+2.0 can drop these: Svelte 5 only with runes, no prebuilt files, with a migration note for tools that need to compile `.svelte` files.
+
 ## Test
 
 ```sh
@@ -67,8 +80,8 @@ npm run playground-link
 2. Commit, then push a tag of the version:
 
    ```sh
-   git tag v1.4.0
-   git push origin v1.4.0
+   git tag v1.4.1
+   git push origin v1.4.1
    ```
 
 The [release workflow](.github/workflows/release.yml) checks, tests and publishes it to npm by [trusted publishing](https://docs.npmjs.com/trusted-publishers), with provenance.
