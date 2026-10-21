@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.0 (unreleased)
+
+Load and unload by `IntersectionObserver` instead of checking each `<Lazy>` on scroll ([#57](https://github.com/leafOfTree/svelte-lazy/issues/57))
+
+- Scroll faster with many items: nothing runs on scroll, the browser tells which ones come into view or leave
+- Content now unloads when a layout change moves it out of view or hides it by `display: none`, like filtering or tabs, not only after scrolling
+- No 200ms delay: content loads, and `onload` is called, as soon as it scrolls within `offset`
+- A new `offset` applies right away
+- In browsers without the `scrollMargin` option, like Safari before 26, content in scroll containers is still checked on scroll as before, so `offset` works there too
+
 ## 1.4.1 (2026-10-21)
 
 Compatibility with 1.3.0 and earlier:

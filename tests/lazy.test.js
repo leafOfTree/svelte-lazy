@@ -1,12 +1,14 @@
-import { afterEach, describe, expect, test, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import Scroller from './fixtures/Scroller.svelte';
+import Nested from './fixtures/Nested.svelte';
 import Placeholder from './fixtures/Placeholder.svelte';
 
 // <Lazy> is placed 2000px down a 300px high scroller, out of the viewport and
 // the default offset, so it loads only after scrolling
 const FAR = 2000;
-// Longer than the 200ms throttle of the scroll handler
+// Longer than the 200ms throttle of the scroll handler, used by browsers
+// without the scrollMargin option of IntersectionObserver
 const SETTLE = 400;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -121,12 +123,35 @@ describe('loading', () => {
   });
 });
 
-describe('scroll containers', () => {
+// Browsers without scrollMargin, like Safari before 26, check on scroll
+function withoutScrollMargin() {
+  /** @type {any} */
+  const proto = IntersectionObserver.prototype;
+  const descriptor = Object.getOwnPropertyDescriptor(proto, 'scrollMargin');
+  beforeEach(() => {
+    delete proto.scrollMargin;
+  });
+  afterEach(() => {
+    Object.defineProperty(proto, 'scrollMargin', descriptor);
+  });
+}
+
+describe.each([
+  ['with scrollMargin', () => {}],
+  ['without scrollMargin', withoutScrollMargin],
+])('scroll containers %s', (_, setupBrowser) => {
+  setupBrowser();
+
   test('does not load below the scroll container on mount', async () => {
     // Below the 300px scroller and the offset, but within the window
     const { lazy } = await setup({ before: 400, offset: 50 });
     await sleep(SETTLE);
     expect(content(lazy)).toBeNull();
+  });
+
+  test('loads within offset below the scroll container', async () => {
+    const { lazy } = await setup({ before: 400, offset: 150 });
+    await expect.poll(() => content(lazy)).not.toBeNull();
   });
 
   test('unloads after scrolling above the scroll container', async () => {
@@ -156,6 +181,66 @@ describe('scroll containers', () => {
       other.remove();
     }
   });
+
+  test('loads by the vertical position in a horizontal scroll container', async () => {
+    const { container } = await render(Scroller, { before: 0 });
+    /** @type {HTMLElement} */
+    const lazy = container.querySelector('.svelte-lazy');
+    const row = document.createElement('div');
+    row.style.cssText = 'overflow-x: auto; white-space: nowrap';
+    row.innerHTML = '<div style="display: inline-block; width: 5000px"></div>';
+    lazy.style.display = 'inline-block';
+    lazy.before(row);
+    row.append(lazy);
+    await expect.poll(() => content(lazy)).not.toBeNull();
+  });
+
+  test('loads in nested scroll containers when both show it', async () => {
+    const { container } = await render(Nested, { before: FAR, height: 100, offset: 50 });
+    const outer = container.querySelector('.outer');
+    /** @type {HTMLElement} */
+    const lazy = container.querySelector('.svelte-lazy');
+    // In view of the inner scroller, which is out of view of the outer one
+    await sleep(SETTLE);
+    expect(content(lazy)).toBeNull();
+
+    // The inner scroller is 400px below the top of the outer one: out of the
+    // outer scroller and the offset
+    outer.scrollTop = FAR - 400;
+    await sleep(SETTLE);
+    expect(content(lazy)).toBeNull();
+
+    // 340px below: within the offset
+    outer.scrollTop = FAR - 340;
+    await expect.poll(() => content(lazy)).not.toBeNull();
+
+    outer.scrollTop = 0;
+    await expect.poll(() => content(lazy)).toBeNull();
+  });
+});
+
+describe('layout changes', () => {
+  test('loads when moved into view', async () => {
+    const { lazy, rerender } = await setup({ before: FAR, height: 200 });
+    await sleep(SETTLE);
+    expect(content(lazy)).toBeNull();
+    await rerender({ before: 0, height: 200 });
+    await expect.poll(() => content(lazy)).not.toBeNull();
+  });
+
+  test('unloads when moved out of view', async () => {
+    const { lazy, rerender } = await setup({ before: 0, height: 200 });
+    await expect.poll(() => content(lazy)).not.toBeNull();
+    await rerender({ before: FAR, height: 200 });
+    await expect.poll(() => content(lazy)).toBeNull();
+  });
+
+  test('unloads when hidden', async () => {
+    const { lazy } = await setup({ before: 0, height: 200 });
+    await expect.poll(() => content(lazy)).not.toBeNull();
+    lazy.parentElement.style.display = 'none';
+    await expect.poll(() => content(lazy)).toBeNull();
+  });
 });
 
 describe('unloading', () => {
@@ -184,13 +269,18 @@ describe('unloading', () => {
     expect(content(lazy)).not.toBeNull();
   });
 
-  test('removes listeners when destroyed', async () => {
-    const removeDocument = vi.spyOn(document, 'removeEventListener');
-    const removeWindow = vi.spyOn(window, 'removeEventListener');
-    const { unmount } = await setup({ before: FAR });
+  test('stops observing when destroyed', async () => {
+    const unobserve = vi.spyOn(IntersectionObserver.prototype, 'unobserve');
+    const { lazy, unmount } = await setup({ before: FAR });
     await unmount();
-    expect(removeDocument).toHaveBeenCalledWith('scroll', expect.any(Function), true);
-    expect(removeWindow).toHaveBeenCalledWith('resize', expect.any(Function));
+    expect(unobserve).toHaveBeenCalledWith(lazy);
+  });
+
+  test('does not listen to scroll', async () => {
+    const add = vi.spyOn(document, 'addEventListener');
+    await setup({ before: FAR });
+    await sleep(SETTLE);
+    expect(add).not.toHaveBeenCalledWith('scroll', expect.anything(), expect.anything());
   });
 });
 
@@ -214,11 +304,20 @@ describe('props', () => {
   });
 
   test('stops checking after loading with keep', async () => {
-    const remove = vi.spyOn(document, 'removeEventListener');
+    const unobserve = vi.spyOn(IntersectionObserver.prototype, 'unobserve');
     const { lazy, scrollTo } = await setup({ before: FAR, keep: true });
     scrollTo(100);
     await expect.poll(() => content(lazy)).not.toBeNull();
-    expect(remove).toHaveBeenCalledWith('scroll', expect.any(Function), true);
+    expect(unobserve).toHaveBeenCalledWith(lazy);
+  });
+
+  test('uses a new offset', async () => {
+    const { lazy, scrollTo, rerender } = await setup({ before: FAR, offset: 0 });
+    scrollTo(400);
+    await sleep(SETTLE);
+    expect(content(lazy)).toBeNull();
+    await rerender({ before: FAR, offset: 150 });
+    await expect.poll(() => content(lazy)).not.toBeNull();
   });
 
   test('keeps the height when unloaded before resetHeightDelay', async () => {
