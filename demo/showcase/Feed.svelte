@@ -4,7 +4,6 @@
 <script>
   import Lazy from '../../src/index.svelte';
   import Skeleton from './Skeleton.svelte';
-  import { SvelteSet } from 'svelte/reactivity';
 
   let {
     groups,
@@ -32,20 +31,36 @@
   );
   const total = groups.reduce((sum, group) => sum + group.items.length, 0);
 
-  // Content unloads when it leaves the view, and loads again when it comes
-  // back: count each item once, and log the latest loads
-  const loaded = new SvelteSet();
+  // The latest loads and unloads, newest first, and how many items are
+  // loaded now
   let events = $state([]);
+  let loadedNow = $state(0);
   let count = 0;
-  const onload = (name) => () => {
+  const log = (type, name) => {
     count += 1;
-    events = [...events, { n: count, name, again: loaded.has(name) }].slice(-10);
-    loaded.add(name);
+    events = [{ n: count, type, name }, ...events].slice(0, 8);
   };
+  const onload = (name) => () => log('load', name);
+
+  // <Lazy> has no unload callback: watch the content leave the feed
+  function watchUnloads(feed) {
+    const observer = new MutationObserver((records) => {
+      for (const record of records) {
+        for (const node of record.removedNodes) {
+          if (node.classList?.contains('svelte-lazy-content')) {
+            log('unload', node.querySelector('p')?.textContent);
+          }
+        }
+      }
+      loadedNow = feed.querySelectorAll('.svelte-lazy-content').length;
+    });
+    observer.observe(feed, { childList: true, subtree: true });
+    return { destroy: () => observer.disconnect() };
+  }
 </script>
 
 <main>
-  <section class="feed">
+  <section class="feed" use:watchUnloads>
     {#each shown as group (group.title)}
       <h2>{group.title}</h2>
       {#each group.items as item (item.name)}
@@ -87,16 +102,18 @@
     {#if filter}
       <input bind:value={query} placeholder="Filter by name" aria-label="Filter by name" />
     {/if}
-    <div class="count">{loaded.size} / {total} loaded</div>
-    <ol start={events[0]?.n}>
+    <div class="count">{loadedNow} / {total} loaded now</div>
+    <ul class="log">
       {#each events as event (event.n)}
-        <li>
-          <code>onload</code>
-          {event.name}
-          {#if event.again}<span class="again">again</span>{/if}
+        <li class={event.type}>
+          {#if event.type === 'load'}
+            <span class="mark">+</span> {event.name} <code>onload</code>
+          {:else}
+            <span class="mark">−</span> {event.name} unloaded
+          {/if}
         </li>
       {/each}
-    </ol>
+    </ul>
   </aside>
 </main>
 
@@ -146,7 +163,9 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    height: 100%;
+    /* As high as the placeholder: content of another height moves the items
+       below, so items at the edge of the view would load and unload again */
+    height: 64px;
     padding: 0 16px;
     box-sizing: border-box;
   }
@@ -195,18 +214,29 @@
     color: #7c5cff;
     margin-bottom: 8px;
   }
-  ol {
+  .log {
     margin: 0;
-    padding-left: 22px;
+    padding: 0;
+    list-style: none;
     font-size: 15px;
     line-height: 1.7;
   }
+  .log li:nth-child(n + 4) {
+    opacity: 0.6;
+  }
+  .mark {
+    display: inline-block;
+    width: 1em;
+    font-weight: 700;
+  }
+  .load .mark {
+    color: #1a7f37;
+  }
+  .unload {
+    color: #59636e;
+  }
   code {
     color: #0969da;
-  }
-  .again {
-    color: #59636e;
-    font-size: 13px;
   }
   /* Narrow screens: the log goes below the feed */
   @media (max-width: 600px) {

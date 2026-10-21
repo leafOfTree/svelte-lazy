@@ -8,7 +8,7 @@ const photo = (name) => ({ name, photo: name.toLowerCase() });
 
 // Any content, also recorded into docs/demo.gif
 export const anyContent = [
-  { title: 'Images', items: [photo('Jellyfish'), photo('Strawberries'), photo('Fjord')] },
+  { title: 'Images', items: [photo('Valley'), photo('Strawberries'), photo('Fjord')] },
   {
     title: 'Charts',
     items: [
@@ -62,7 +62,7 @@ export const filterContent = [
   {
     title: 'Photos',
     items: [
-      'Jellyfish',
+      'Valley',
       'Strawberries',
       'Pug',
       'Fjord',
@@ -74,6 +74,7 @@ export const filterContent = [
       'Bear',
       'Canoe',
       'Laptop',
+      'Jellyfish',
     ].map(photo),
   },
 ];
