@@ -21,7 +21,7 @@
     "build:demo": "vite build",
     "test": "npm run build && vitest run",
     "test:watch": "vitest",
-    "check": "svelte-check --tsconfig ./jsconfig.json",
+    "check": "npm run build && svelte-check --tsconfig ./jsconfig.json",
     "check:svelte": "node scripts/check-svelte.mjs",
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write .",
