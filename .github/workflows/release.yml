@@ -29,4 +29,19 @@ jobs:
       - run: npm run lint
       - run: npm run check
       - run: npm test
-      - run: npm publish
+      # Prereleases like 2.0.0-next.0 go to the next tag, and fixes of an
+      # older major version, like 1.5.1 after 2.0, to latest-1, so latest
+      # stays the newest version
+      - name: Publish
+        run: |
+          version=$(node -p "require('./package.json').version")
+          latest=$(npm view svelte-lazy version)
+          if [[ "$version" == *-* ]]; then
+            tag=next
+          elif [ "${version%%.*}" -lt "${latest%%.*}" ]; then
+            tag="latest-${version%%.*}"
+          else
+            tag=latest
+          fi
+          echo "Publishing $version with the $tag tag"
+          npm publish --tag "$tag"
