@@ -30,20 +30,18 @@
   let resetTimer;
   let imageListeners;
 
-  function load(node) {
+  function load(node, offset) {
     setHeight(node);
-    const handler = createHandler(node);
-    addListeners(handler);
-    const firstCheck = setTimeout(handler);
-    const observer = observeNode(node);
-    stopChecking = () => {
-      clearTimeout(firstCheck);
-      handler.cancel();
-      removeListeners(handler);
-      observer.disconnect();
-    };
+    let stop = check(node, offset);
+    stopChecking = () => stop();
 
     return {
+      update: (newOffset) => {
+        if (!loaded || !keep) {
+          stop();
+          stop = check(node, newOffset);
+        }
+      },
       destroy: () => {
         stopChecking();
         clearTimeout(resetTimer);
@@ -52,13 +50,34 @@
     };
   }
 
-  function createHandler(node) {
-    // Found on the first check, as styles are read only once
-    let scrollContainers;
-    const handler = throttle(() => {
-      if (!scrollContainers) {
-        scrollContainers = getScrollContainers(node);
+  // Loads the node when it's within offset below the part of the window that
+  // its scroll containers show, and unloads it after it leaves. Returns a
+  // function to stop
+  function check(node, offset) {
+    // Only vertical position is checked, as in 1.4 and before: content in a
+    // horizontal scroll container loads by its vertical position
+    const margin = `0px 100000px ${offset}px 100000px`;
+    const toggle = (entry) => {
+      if (entry.isIntersecting) {
+        loadNode(node);
+      } else if (!keep) {
+        unload(node);
       }
+    };
+    if ('scrollMargin' in IntersectionObserver.prototype) {
+      // scrollMargin grows each scroll container like rootMargin grows the
+      // window, so the offset applies to scroll containers too
+      return observe(node, { rootMargin: margin, scrollMargin: margin }, toggle);
+    }
+
+    // Without scrollMargin, the offset is lost in scroll containers, so check
+    // on scroll there
+    const scrollContainers = getScrollContainers(node);
+    if (!scrollContainers.length) {
+      return observe(node, { rootMargin: margin }, toggle);
+    }
+
+    const handler = throttle(() => {
       const { top, bottom } = node.getBoundingClientRect();
       const visible = getVisibleArea(scrollContainers);
 
@@ -68,17 +87,25 @@
         unload(node);
       }
     }, 200);
-    return handler;
+    addListeners(handler);
+    // Also check on mount and layout changes
+    const stopObserving = observe(node, {}, handler);
+    return () => {
+      handler.cancel();
+      removeListeners(handler);
+      stopObserving();
+    };
   }
 
-  function observeNode(node) {
+  // Returns a function to stop. It uses only observe() and unobserve(), as
+  // 1.2 did, for mocks in tests
+  function observe(node, options, callback) {
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        loadNode(node);
-      }
-    });
+      // The latest one, if there are a few
+      callback(entries[entries.length - 1]);
+    }, options);
     observer.observe(node);
-    return observer;
+    return () => observer.unobserve(node);
   }
 
   function unload(node) {
@@ -248,7 +275,7 @@
   }
 </script>
 
-<div use:load {id} class={rootClass} style="height: {rootInitialHeight}">
+<div use:load={offset} {id} class={rootClass} style="height: {rootInitialHeight}">
   {#if loaded}
     <!-- No fadeOption: no fade, as fade() would use its default duration -->
     <div in:fade={fadeOption || { duration: 0 }} class={contentClass} style={contentStyle}>

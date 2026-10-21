@@ -102,7 +102,7 @@ Style the container, the placeholder and the content by their classes:
 
 ## How it works
 
-- The content loads when the container scrolls within `offset` of the bottom of the viewport, or of its scroll container. Unless `keep` is set, it unloads after leaving, and the container gets its `height` back.
+- The content loads when the container comes within `offset` of the bottom of the viewport, or of its scroll container, by scrolling or by a layout change. Unless `keep` is set, it unloads after leaving, and the container gets its `height` back. It's checked by [`IntersectionObserver`](https://developer.mozilla.org/docs/Web/API/IntersectionObserver), so nothing runs on scroll.
 - If the content has an image, the placeholder stays until the image loads, then the container height becomes `auto`. If the image fails, the content shows with the fixed `height`. Only the first image of the content is waited for: use `resetHeightDelay` to wait longer for others.
 - With server-side rendering, the server renders the placeholder; the content loads in the browser.
 - Only vertical scrolling is checked: in a horizontal scroll container, content loads by its vertical position.

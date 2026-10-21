@@ -9,7 +9,7 @@
   },
   "main": "index.js",
   "module": "index.mjs",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "types": "index.d.ts",
   "repository": {
     "type": "git",
