@@ -1,0 +1,34 @@
+# Temporary: check the examples site in WebKit without scrollMargin
+name: WebKit check
+
+on:
+  push:
+    branches: ['webkit-check']
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22.x
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build:demo
+      # Playwright 1.49 has WebKit 18.2, like Safari 18, without scrollMargin
+      - name: Install Playwright 1.49
+        working-directory: .github/webkit-check
+        run: |
+          echo '{"type":"module","private":true}' > package.json
+          npm i playwright@1.49.1
+          npx playwright install --with-deps webkit chromium
+      - name: Check
+        working-directory: .github/webkit-check
+        run: node check.mjs ../../demo/dist
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshots
+          path: .github/webkit-check/*.png
