@@ -39,6 +39,8 @@ Before a release that changes the package, compare it with the latest 1.2.x: `np
 
 2.0 can drop these: Svelte 5 only with runes, no prebuilt files, with a migration note for tools that need to compile `.svelte` files.
 
+`npm audit` reports advisories for `svelte4`, the Svelte 4 that builds the prebuilt files. They are fixed in Svelte 5 only, and don't apply to the prebuilt files: most are about server-side rendering, which they don't include, and the DOM clobbering one needs spread attributes on a form, which the component doesn't render. Users don't see them, as svelte-lazy has no dependencies. Building by Svelte 5 instead would change the runtime in the prebuilt files, so it waits for 2.0, which drops them.
+
 ## Test
 
 ```sh
@@ -85,3 +87,9 @@ npm run playground-link
    ```
 
 The [release workflow](.github/workflows/release.yml) checks, tests and publishes it to npm by [trusted publishing](https://docs.npmjs.com/trusted-publishers), with provenance.
+
+It picks the npm tag by the version:
+
+- A prerelease like `2.0.0-next.0` goes to `next`, so only `npm i svelte-lazy@next` installs it
+- A version of an older major, like `1.5.1` after 2.0, goes to `latest-1`, from the `1.x` branch
+- Others go to `latest`
