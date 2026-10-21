@@ -152,9 +152,70 @@ and after:
   </Lazy>
   ```
 
-- The package has no prebuilt `index.js` and `index.mjs`. Bundlers that compile `.svelte` files from packages, like Vite and SvelteKit, work as before. Tools that don't, like Jest 27 or a script tag, need to, or stay on 1.x
+- The package has no prebuilt `index.js` and `index.mjs`. Bundlers that compile `.svelte` files from packages, like Vite and SvelteKit, work as before. Tools that don't, like Jest 27 or a script tag, need to, or stay on 1.x. For tests, see below
+- With TypeScript, other props are checked as attributes of the container div. `placeholderProps`, or a component as `placeholder`, is an error: change them as above
 
 See the [changelog](CHANGELOG.md) for the other changes.
+
+### Tests
+
+Tests in jsdom need two mocks, which a browser has:
+
+- `IntersectionObserver`, as with 1.x
+- `Element.prototype.animate`, for the fade, which Svelte 5 runs by Web Animations. Or set `fadeOption={null}`
+
+```js
+// setup.js
+Element.prototype.animate ??= function () {
+  const animation = { onfinish: null, cancel() {}, finish() {}, play() {}, pause() {} };
+  setTimeout(() => animation.onfinish?.());
+  return animation;
+};
+```
+
+<details>
+<summary>Vitest</summary>
+
+[Vitest](https://svelte.dev/docs/svelte/testing) compiles `.svelte` files from packages by `@sveltejs/vite-plugin-svelte`. In jsdom, use Svelte's browser code:
+
+```js
+// vitest.config.js
+import { defineConfig } from 'vitest/config';
+import { svelte } from '@sveltejs/vite-plugin-svelte';
+
+export default defineConfig({
+  plugins: [svelte()],
+  resolve: { conditions: ['browser'] },
+  test: { environment: 'jsdom', setupFiles: ['./setup.js'] },
+});
+```
+
+[Vitest browser mode](https://vitest.dev/guide/browser/) needs no mocks.
+
+</details>
+
+<details>
+<summary>Jest</summary>
+
+With Jest 29 and [svelte-jester](https://github.com/svelteness/svelte-jester) 5 in ESM mode, compile `.svelte` files from svelte-lazy, and from `@testing-library/svelte-core` if you use Testing Library:
+
+```js
+// jest.config.js
+export default {
+  testEnvironment: 'jsdom',
+  // svelte-lazy exports .svelte files by the svelte condition
+  testEnvironmentOptions: { customExportConditions: ['svelte', 'browser'] },
+  transform: { '^.+\\.svelte(\\.js)?$': 'svelte-jester' },
+  transformIgnorePatterns: ['/node_modules/(?!(svelte-lazy|@testing-library/svelte-core)/)'],
+  extensionsToTreatAsEsm: ['.svelte'],
+  moduleFileExtensions: ['js', 'svelte'],
+  setupFiles: ['./setup.js'],
+};
+```
+
+and run it by `NODE_OPTIONS=--experimental-vm-modules jest`.
+
+</details>
 
 ## Changelog
 

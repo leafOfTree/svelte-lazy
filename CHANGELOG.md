@@ -9,6 +9,7 @@ Breaking changes
 - Needs Svelte 5: `peerDependencies` is `svelte: ^5.0.0`
 - `placeholder` is a string or a snippet. Component placeholders and `placeholderProps` are removed: put the component in a `{#snippet placeholder()}`
 - Remove the prebuilt `index.js` and `index.mjs`, and the `main` and `module` fields. Tools that don't compile `.svelte` files from packages, like Jest 27 or a script tag, need to, or stay on 1.x
+- Tests in jsdom need a mock of `Element.prototype.animate`, as Svelte 5 runs the fade by Web Animations, or `fadeOption={null}`. See [Tests](README.md#tests)
 - Without content, `<Lazy>` shows nothing, instead of "Lazy load content"
 - Other props are attributes of the container div, and are type checked as attributes
 
