@@ -4,3 +4,5 @@ README.html
 .idea
 demo/dist
 .vitest
+/index.js
+/index.mjs

@@ -202,13 +202,13 @@ describe('props', () => {
   });
 
   test('fades in by default', async () => {
-    const { lazy } = await setup({});
+    const { lazy } = await setup({ height: 100 });
     await expect.poll(() => content(lazy)).not.toBeNull();
     expect(content(lazy).getAnimations().length).toBeGreaterThan(0);
   });
 
   test('does not fade in with fadeOption null', async () => {
-    const { lazy } = await setup({ fadeOption: null });
+    const { lazy } = await setup({ height: 100, fadeOption: null });
     await expect.poll(() => content(lazy)).not.toBeNull();
     expect(content(lazy).getAnimations()).toEqual([]);
   });
