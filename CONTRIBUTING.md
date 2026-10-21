@@ -87,3 +87,9 @@ npm run playground-link
    ```
 
 The [release workflow](.github/workflows/release.yml) checks, tests and publishes it to npm by [trusted publishing](https://docs.npmjs.com/trusted-publishers), with provenance.
+
+It picks the npm tag by the version:
+
+- A prerelease like `2.0.0-next.0` goes to `next`, so only `npm i svelte-lazy@next` installs it
+- A version of an older major, like `1.5.1` after 2.0, goes to `latest-1`, from the `1.x` branch
+- Others go to `latest`
